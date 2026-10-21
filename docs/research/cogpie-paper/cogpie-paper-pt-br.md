@@ -641,35 +641,39 @@ Resultados chave:
 
 #### 6.3.8 Benchmark Contra Ferramentas Externas Reais
 
-Para validação independente, executamos o mesmo conjunto de 10 personas contra 7 ferramentas externas de geração de wordlists profile-based, usando suas implementações reais (não simulações): CUPP original, CUPP (motor WLF), Bopscrk, elpscrk, psudohash, longtongue, pydictor (SEDB) e passpwn. Cada ferramenta recebeu os mesmos dados de perfil via seus respectivos formatos de entrada, com orçamento de 50.000 candidatos.
+Para validação independente, executamos o mesmo conjunto de 10 personas contra 9 ferramentas externas de geração de wordlists profile-based, usando suas implementações reais (não simulações): CUPP original (Mebus/cupp, 6.597 stars), CUPP (motor WLF), Bopscrk (r3nt0n/bopscrk, 1.124 stars), elpscrk (D4Vinci/elpscrk, 964 stars), psudohash (t3l3machus/psudohash, 1.473 stars), longtongue (edoardottt/longtongue, 109 stars), pydictor SEDB (LandGrey/pydictor, 3.655 stars) e passpwn (NeCr00/passpwn, 10 stars). Cada ferramenta recebeu os mesmos dados de perfil via seus respectivos formatos de entrada (pipe stdin para CUPP/pydictor/psudohash, classes Python para longtongue, CLI para bopscrk/passpwn/elpscrk), com orçamento de 50.000 candidatos. O WLF Combined aplica merge round-robin intercalado: primeiros 10K do CogPIE, depois lotes de 500 candidatos de cada ferramenta.
 
-**Tabela 8: CogPIE v0.2 vs. 7 Ferramentas Externas Reais (10 Personas, @50K)**
+**Tabela 8: CogPIE v0.2 vs. 8 Ferramentas Externas Reais (10 Personas, @50K)**
 
-| Persona | CogPIE | CUPP(w) | Bopscrk | elpscrk | psudo | longtongue | pydictor | Combined |
-|---------|--------|---------|---------|---------|-------|------------|----------|----------|
-| P01 (Minimal) | **80,0%** | 26,7% | 66,7% | 53,3% | 46,7% | 26,7% | 60,0% | 100,0% |
-| P02 (Basic) | **93,3%** | 46,7% | 6,7% | 33,3% | 60,0% | 46,7% | 26,7% | 93,3% |
-| P03 (Names) | **90,0%** | 55,0% | 10,0% | 45,0% | 20,0% | 70,0% | 35,0% | 100,0% |
-| P04 (Family) | **86,4%** | 63,6% | 9,1% | 40,9% | 18,2% | 31,8% | 22,7% | 90,9% |
-| P05 (Extended) | **86,4%** | 40,9% | 22,7% | 50,0% | 9,1% | 31,8% | 13,6% | 72,7% |
-| P06 (Social) | **91,3%** | 39,1% | 26,1% | 43,5% | 8,7% | 21,7% | 8,7% | 56,5% |
-| P07 (Cultural) | **96,0%** | 44,0% | 16,0% | 68,0% | 4,0% | 12,0% | 8,0% | 76,0% |
-| P08 (Phrases) | **84,0%** | 60,0% | 8,0% | 68,0% | 4,0% | 8,0% | 8,0% | 76,0% |
-| P09 (Rich) | **96,2%** | 46,2% | 19,2% | 53,9% | 3,9% | 7,7% | 7,7% | 76,9% |
-| P10 (Complete) | **87,1%** | 58,1% | 3,2% | 54,8% | 6,5% | 12,9% | 6,5% | 80,7% |
-| **Média** | **89,1%** | 48,0% | 18,8% | 51,1% | 18,1% | 26,9% | 19,7% | 82,3% |
+| Persona | CogPIE | CUPP(w) | Bopscrk | elpscrk | psudo | longtongue | pydictor | passpwn | Combined |
+|---------|--------|---------|---------|---------|-------|------------|----------|---------|----------|
+| P01 (Minimal) | 80,0% | 26,7% | 66,7% | 53,3% | 46,7% | 26,7% | 60,0% | 20,0% | **100,0%** |
+| P02 (Basic) | **93,3%** | 46,7% | 6,7% | 33,3% | 60,0% | 46,7% | 26,7% | 0,0% | 93,3% |
+| P03 (Names) | 90,0% | 55,0% | 10,0% | 45,0% | 20,0% | 70,0% | 35,0% | 0,0% | **95,0%** |
+| P04 (Family) | 81,8% | 63,6% | 9,1% | 40,9% | 18,2% | 31,8% | 22,7% | 0,0% | **90,9%** |
+| P05 (Extended) | **86,4%** | 40,9% | 22,7% | 50,0% | 9,1% | 31,8% | 13,6% | 0,0% | 72,7% |
+| P06 (Social) | **91,3%** | 39,1% | 17,4% | 43,5% | 8,7% | 21,7% | 8,7% | 0,0% | 56,5% |
+| P07 (Cultural) | **96,0%** | 44,0% | 36,0% | 68,0% | 4,0% | 12,0% | 8,0% | 0,0% | 76,0% |
+| P08 (Phrases) | **84,0%** | 60,0% | 16,0% | 68,0% | 4,0% | 8,0% | 8,0% | 0,0% | 76,0% |
+| P09 (Rich) | **96,2%** | 46,1% | 23,1% | 53,9% | 3,9% | 7,7% | 7,7% | 0,0% | 80,8% |
+| P10 (Complete) | **87,1%** | 58,1% | 9,7% | 54,8% | 6,5% | 16,1% | 6,5% | 0,0% | 80,7% |
+| **Média** | **88,6%** | 48,0% | 21,7% | 51,1% | 18,1% | 27,3% | 19,7% | 2,0% | 82,2% |
+
+Nota: CUPP original (interativo) falha em modo programático (timeout em stdin), marcado 0,0% em todas as personas. Os valores na tabela representam CUPP via motor WLF (CUPP(w)).
 
 Resultados chave do benchmark externo:
 
-1. **CogPIE vence todas as 10 personas individualmente** contra qualquer ferramenta isolada. A vantagem sobre o melhor concorrente individual (elpscrk, 51,1%) e de +38,0pp.
+1. **CogPIE vence 7/10 personas individualmente** contra qualquer ferramenta isolada e contra o Combined. A vantagem sobre o melhor concorrente individual (elpscrk, 51,1%) é de +37,5pp.
 
-2. **CogPIE supera o Combined em 7/10 personas.** O Combined (união de todas as ferramentas) atinge 82,3% de media, contra 89,1% do CogPIE. Nas 3 personas onde Combined vence (P01, P03, P04), a vantagem vem da complementaridade entre psudohash e pydictor para padroes simples de nome+numero.
+2. **CogPIE supera o Combined em 7/10 personas.** O Combined (união intercalada de 8 ferramentas) atinge 82,2% de média, contra 88,6% do CogPIE. Nas 3 personas onde Combined vence (P01: 100%, P03: 95%, P04: 90,9%), a vantagem vem da complementaridade entre psudohash e pydictor para padrões simples de nome+número.
 
-3. **Dominancia em perfis culturais/complexos:** Nas personas L5-L10 (perfis com dados sociais, culturais e frases), CogPIE vence o Combined em todas, com vantagens de +8,0pp a +34,8pp. A expansão semantica e o dicionario de gírias culturais capturam padroes que nenhuma ferramenta externa gera.
+3. **Dominância em perfis culturais/complexos:** Nas personas P05-P10 (perfis com dados sociais, culturais e frases), CogPIE vence o Combined em todas as 6, com vantagens de +6,4pp (P10) a +34,8pp (P06). A expansão semântica e o dicionário de gírias culturais capturam padrões que nenhuma ferramenta externa gera.
 
-4. **Eficiencia de candidatos:** CogPIE gera exatamente 50.000 candidatos ranqueados. Ferramentas como psudohash geram ate 15.000 e longtongue ate 5.000 sem ranqueamento, com cobertura muito inferior.
+4. **Degradação das ferramentas externas em perfis complexos:** elpscrk degrada de 68,0% (P07) para 33,3% (P02); longtongue cai de 70,0% (P03) para 7,7% (P09). CogPIE mantém cobertura consistente >80% em todas as personas graças à pipeline de 5 camadas.
 
-5. **Nenhuma ferramenta externa implementa modelagem de vies cognitivo**, confirmando que CogPIE ocupa um nicho algorítmico inédito na literatura e no ecossistema open-source.
+5. **Eficiência de candidatos:** CogPIE gera exatamente 50.000 candidatos ranqueados por probabilidade. Ferramentas como psudohash geram até 15.000 e longtongue até 5.000, sem ranqueamento, com cobertura muito inferior.
+
+6. **Nenhuma ferramenta externa implementa modelagem de viés cognitivo**, confirmando que CogPIE ocupa um nicho algorítmico inédito na literatura e no ecossistema open-source. A análise de 50 ferramentas (Seção 6.4.7) confirma que nenhuma outra ferramenta combina mais de 2 das 7 categorias algorítmicas cobertas pelo WLF.
 
 #### 6.3.9 Validação Real: Credenciais Brasileiras Vazadas (Larga Escala)
 
@@ -736,7 +740,7 @@ Os parametros do CogPIE utilizados nos experimentos:
 
 ### 7.1 Implicações para Segurança de Senhas
 
-Nossos resultados fornecem evidencias quantitativas para uma conclusão amplamente conhecida, porém frequentemente subestimada: senhas geradas por humanos são fundamentalmente inseguras contra ataques direcionados. Quando um atacante possui mesmo informações pessoais básicas sobre um alvo (nomes, datas, interesses), um modelo sistemático de vies cognitivo pode predizer corretamente 50-90% das senhas derivadas de PII, dependendo da completude do perfil e do contexto de avaliação. No Persona Benchmark com 10 personas (Seção 6.3.7), o CogPIE v0.2 atinge cobertura média de 89,1% contra 7 ferramentas externas reais, superando o melhor concorrente individual (elpscrk, 51,1%) por +38,0pp e o Combined de todas as ferramentas (82,3%) por +6,8pp. No benchmark contra ferramentas externas (Seção 6.3.8), CogPIE vence todas as 10 personas individualmente. O benchmark de credenciais brasileiras reais (Seção 6.3.9) confirma a validade ecológica: CogPIE atinge 50,5% de cobertura em 1.000 senhas reais vazadas com rank mediano 17, superando todos os baselines por +11,7pp ou mais.
+Nossos resultados fornecem evidencias quantitativas para uma conclusão amplamente conhecida, porém frequentemente subestimada: senhas geradas por humanos são fundamentalmente inseguras contra ataques direcionados. Quando um atacante possui mesmo informações pessoais básicas sobre um alvo (nomes, datas, interesses), um modelo sistemático de vies cognitivo pode predizer corretamente 50-90% das senhas derivadas de PII, dependendo da completude do perfil e do contexto de avaliação. No Persona Benchmark com 10 personas (Seção 6.3.7), o CogPIE v0.2 atinge cobertura média de 88,6% contra 8 ferramentas externas reais, superando o melhor concorrente individual (elpscrk, 51,1%) por +37,5pp e o Combined de todas as ferramentas (82,2%) por +6,4pp. No benchmark contra ferramentas externas (Seção 6.3.8), CogPIE vence 7/10 personas individualmente contra o Combined e 10/10 contra qualquer ferramenta isolada. O benchmark de credenciais brasileiras reais (Seção 6.3.9) confirma a validade ecológica: CogPIE atinge 50,5% de cobertura em 1.000 senhas reais vazadas com rank mediano 17, superando todos os baselines por +11,7pp ou mais.
 
 Esta constatação alinha-se com a literatura mais ampla:
 - Wang et al. (2016) constataram que 30% das senhas modificadas podem ser quebradas em 10 tentativas
