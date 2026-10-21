@@ -189,7 +189,7 @@ class CogPIEEngine:
         t2 = time.monotonic()
 
         raw_old_pws = list(profile.get("old_passwords", []))
-        priority_candidates = self._build_priority_band(banks, raw_old_pws)
+        priority_candidates = self._build_priority_band(banks, raw_old_pws, profile)
         priority_set = set(priority_candidates)
 
         remaining = [c for c in raw_candidates if c not in priority_set]
@@ -228,15 +228,22 @@ class CogPIEEngine:
     def _build_priority_band(
         banks: dict[str, set[str]],
         raw_old_passwords: list[str] | None = None,
+        raw_profile: dict[str, list[str]] | None = None,
     ) -> list[str]:
         """Build a priority band of high-probability direct concatenations.
 
         These are the candidates that CUPP-style tools generate: direct
         name+date, name+number, keyword+number combinations that match
         the simplest and most common password patterns.
+
+        Tokens are selected in priority order: raw profile inputs first
+        (unmodified by Layer 1 expansion), then nicknames and diminutives,
+        then leet variants. This ensures real keywords like 'flamengo' are
+        always in the band instead of being displaced by '3vangelica'.
         """
         seen: set[str] = set()
         priority: list[str] = []
+        raw = raw_profile or {}
 
         old_pw_originals: list[str] = []
         old_pw_mutations: list[str] = []
@@ -256,12 +263,46 @@ class CogPIEEngine:
                     seen.add(mut)
                     old_pw_mutations.append(mut)
 
-        core_names: list[str] = []
-        for t in sorted(banks.get("names", set()), key=len):
-            low = t.lower()
-            if 3 <= len(low) <= 15 and low.isalpha() and " " not in low:
-                core_names.append(low)
-        core_names = list(dict.fromkeys(core_names))[:20]
+        def _select_core(
+            bank_key: str,
+            raw_list: list[str],
+            max_items: int,
+            min_len: int = 2,
+            max_len: int = 15,
+            alpha_only: bool = True,
+        ) -> list[str]:
+            """Select core tokens: raw profile inputs first, then bank expansions."""
+            result: list[str] = []
+            seen_lows: set[str] = set()
+            for t in raw_list:
+                low = t.lower().strip()
+                ok = alpha_only and low.isalpha() or not alpha_only and low.isalnum()
+                if min_len <= len(low) <= max_len and ok and low not in seen_lows:
+                    seen_lows.add(low)
+                    result.append(low)
+            has_digit = set("0123456789")
+            has_alpha = set("abcdefghijklmnopqrstuvwxyz")
+            for t in sorted(banks.get(bank_key, set()), key=len, reverse=True):
+                low = t.lower()
+                ok = alpha_only and low.isalpha() or not alpha_only and low.isalnum()
+                if min_len <= len(low) <= max_len and ok and low not in seen_lows:
+                    chars = set(low)
+                    is_leet = bool(chars & has_digit) and bool(chars & has_alpha)
+                    if not is_leet:
+                        seen_lows.add(low)
+                        result.append(low)
+            return result[:max_items]
+
+        core_names = _select_core("names", raw.get("names", []), 25, min_len=2)
+        core_keywords = _select_core(
+            "keywords", raw.get("keywords", []), 15,
+            min_len=3, alpha_only=False,
+        )
+        core_pets = _select_core("pets", raw.get("pets", []), 5, min_len=2)
+        core_companies = _select_core(
+            "companies", raw.get("companies", []), 5,
+            min_len=3, alpha_only=False,
+        )
 
         core_dates: list[str] = []
         for t in sorted(banks.get("dates", set()), key=len):
@@ -269,21 +310,7 @@ class CogPIEEngine:
                 core_dates.append(t)
         core_dates = list(dict.fromkeys(core_dates))[:15]
 
-        core_keywords: list[str] = []
-        for t in sorted(banks.get("keywords", set()), key=len):
-            low = t.lower()
-            if 2 <= len(low) <= 12 and low.isalnum():
-                core_keywords.append(low)
-        core_keywords = list(dict.fromkeys(core_keywords))[:10]
-
-        core_pets: list[str] = []
-        for t in sorted(banks.get("pets", set()), key=len):
-            low = t.lower()
-            if 2 <= len(low) <= 10 and low.isalpha():
-                core_pets.append(low)
-        core_pets = list(dict.fromkeys(core_pets))[:5]
-
-        all_words = core_names + core_keywords + core_pets
+        all_words = core_names + core_keywords + core_pets + core_companies
         all_nums = core_dates + [str(n) for n in banks.get("numbers", set())]
 
         suffixes = ["", "!", "1", "123", "12", "@", "#", "!!", "1!"]
@@ -417,6 +444,40 @@ class CogPIEEngine:
                                 priority.append(c)
                     # I7: name@name join pattern
                     for join_ch in ["@", "+", "&"]:
+                        c = a + join_ch + b
+                        if c not in seen and 4 <= len(c) <= 30:
+                            seen.add(c)
+                            priority.append(c)
+                        c2 = b + join_ch + a
+                        if c2 not in seen and 4 <= len(c2) <= 30:
+                            seen.add(c2)
+                            priority.append(c2)
+
+        # keyword abbreviations (first 3 chars) for cross-combination
+        kw_abbrevs = list(dict.fromkeys(
+            kw[:3] for kw in core_keywords if len(kw) > 3
+        ))
+
+        # keyword@keyword, word+!+word, word+sep+abbreviation patterns
+        all_cross = core_keywords + core_pets + core_companies + kw_abbrevs
+        for i, w1 in enumerate(all_cross):
+            for w2 in all_cross[i + 1:]:
+                for case_fn in [str.lower, str.capitalize]:
+                    a, b = case_fn(w1), case_fn(w2)
+                    for join_ch in ["@", "!", "+", ""]:
+                        c = a + join_ch + b
+                        if c not in seen and 4 <= len(c) <= 30:
+                            seen.add(c)
+                            priority.append(c)
+                        c2 = b + join_ch + a
+                        if c2 not in seen and 4 <= len(c2) <= 30:
+                            seen.add(c2)
+                            priority.append(c2)
+        for w1 in all_cross:
+            for w2 in core_names[:10]:
+                for case_fn in [str.lower, str.capitalize]:
+                    a, b = case_fn(w1), case_fn(w2)
+                    for join_ch in ["!", "@", ""]:
                         c = a + join_ch + b
                         if c not in seen and 4 <= len(c) <= 30:
                             seen.add(c)

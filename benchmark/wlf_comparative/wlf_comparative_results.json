@@ -1,6 +1,6 @@
 {
   "benchmark": "wlf_comparative",
-  "timestamp": "2026-10-21T20:27:01",
+  "timestamp": "2026-10-21T20:32:15",
   "algorithms": [
     "cogpie",
     "cupp",
@@ -17,22 +17,22 @@
       "algorithms": {
         "cogpie": {
           "total_targets": 15,
-          "total_candidates": 8993,
-          "total_hits": 9,
-          "coverage_pct": 60.0,
-          "mrr": 0.005059,
+          "total_candidates": 11965,
+          "total_hits": 12,
+          "coverage_pct": 80.0,
+          "mrr": 0.132044,
           "hit_rates": {
-            "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 33.33,
-            "hit@500": 40.0,
-            "hit@1000": 40.0,
-            "hit@5000": 53.33,
-            "hit@10000": 60.0,
-            "hit@25000": 60.0,
-            "hit@50000": 60.0
+            "hit@10": 40.0,
+            "hit@50": 53.33,
+            "hit@100": 60.0,
+            "hit@500": 60.0,
+            "hit@1000": 60.0,
+            "hit@5000": 66.67,
+            "hit@10000": 80.0,
+            "hit@25000": 80.0,
+            "hit@50000": 80.0
           },
-          "time_ms": 83.0
+          "time_ms": 122.5
         },
         "cupp": {
           "total_targets": 15,
@@ -51,7 +51,7 @@
             "hit@25000": 26.67,
             "hit@50000": 26.67
           },
-          "time_ms": 2.1
+          "time_ms": 65.4
         },
         "bopscrk": {
           "total_targets": 15,
@@ -70,14 +70,14 @@
             "hit@25000": 66.67,
             "hit@50000": 66.67
           },
-          "time_ms": 6.2
+          "time_ms": 49.8
         },
         "markov": {
           "total_targets": 15,
           "total_candidates": 28,
           "total_hits": 8,
           "coverage_pct": 53.33,
-          "mrr": 0.123704,
+          "mrr": 0.144206,
           "hit_rates": {
             "hit@10": 33.33,
             "hit@50": 53.33,
@@ -93,22 +93,22 @@
         },
         "wlf_combined": {
           "total_targets": 15,
-          "total_candidates": 10160,
+          "total_candidates": 13089,
           "total_hits": 12,
           "coverage_pct": 80.0,
-          "mrr": 0.005081,
+          "mrr": 0.132044,
           "hit_rates": {
-            "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 33.33,
-            "hit@500": 40.0,
-            "hit@1000": 40.0,
-            "hit@5000": 53.33,
+            "hit@10": 40.0,
+            "hit@50": 53.33,
+            "hit@100": 60.0,
+            "hit@500": 60.0,
+            "hit@1000": 60.0,
+            "hit@5000": 66.67,
             "hit@10000": 80.0,
             "hit@25000": 80.0,
             "hit@50000": 80.0
           },
-          "time_ms": 91.3
+          "time_ms": 237.7
         }
       }
     },
@@ -121,22 +121,22 @@
       "algorithms": {
         "cogpie": {
           "total_targets": 15,
-          "total_candidates": 16736,
-          "total_hits": 13,
-          "coverage_pct": 86.67,
-          "mrr": 0.000936,
+          "total_candidates": 18962,
+          "total_hits": 14,
+          "coverage_pct": 93.33,
+          "mrr": 0.104383,
           "hit_rates": {
-            "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
+            "hit@10": 13.33,
+            "hit@50": 33.33,
+            "hit@100": 46.67,
+            "hit@500": 60.0,
             "hit@1000": 60.0,
-            "hit@5000": 60.0,
+            "hit@5000": 66.67,
             "hit@10000": 66.67,
-            "hit@25000": 86.67,
-            "hit@50000": 86.67
+            "hit@25000": 93.33,
+            "hit@50000": 93.33
           },
-          "time_ms": 157.5
+          "time_ms": 183.3
         },
         "cupp": {
           "total_targets": 15,
@@ -174,7 +174,7 @@
             "hit@25000": 6.67,
             "hit@50000": 6.67
           },
-          "time_ms": 0.3
+          "time_ms": 0.4
         },
         "markov": {
           "total_targets": 15,
@@ -197,22 +197,22 @@
         },
         "wlf_combined": {
           "total_targets": 15,
-          "total_candidates": 17929,
+          "total_candidates": 20135,
           "total_hits": 14,
           "coverage_pct": 93.33,
-          "mrr": 0.00094,
+          "mrr": 0.104383,
           "hit_rates": {
-            "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
+            "hit@10": 13.33,
+            "hit@50": 33.33,
+            "hit@100": 46.67,
+            "hit@500": 60.0,
             "hit@1000": 60.0,
-            "hit@5000": 60.0,
+            "hit@5000": 66.67,
             "hit@10000": 66.67,
             "hit@25000": 93.33,
             "hit@50000": 93.33
           },
-          "time_ms": 158.0
+          "time_ms": 183.9
         }
       }
     },
@@ -226,21 +226,21 @@
         "cogpie": {
           "total_targets": 20,
           "total_candidates": 50000,
-          "total_hits": 15,
-          "coverage_pct": 75.0,
-          "mrr": 0.000171,
+          "total_hits": 18,
+          "coverage_pct": 90.0,
+          "mrr": 0.008388,
           "hit_rates": {
             "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 0.0,
-            "hit@5000": 40.0,
-            "hit@10000": 65.0,
-            "hit@25000": 75.0,
-            "hit@50000": 75.0
+            "hit@50": 10.0,
+            "hit@100": 15.0,
+            "hit@500": 25.0,
+            "hit@1000": 40.0,
+            "hit@5000": 65.0,
+            "hit@10000": 80.0,
+            "hit@25000": 85.0,
+            "hit@50000": 90.0
           },
-          "time_ms": 478.3
+          "time_ms": 493.1
         },
         "cupp": {
           "total_targets": 20,
@@ -278,7 +278,7 @@
             "hit@25000": 10.0,
             "hit@50000": 10.0
           },
-          "time_ms": 3.5
+          "time_ms": 3.3
         },
         "markov": {
           "total_targets": 20,
@@ -301,22 +301,22 @@
         },
         "wlf_combined": {
           "total_targets": 20,
-          "total_candidates": 60644,
-          "total_hits": 15,
-          "coverage_pct": 75.0,
-          "mrr": 0.000171,
+          "total_candidates": 60579,
+          "total_hits": 18,
+          "coverage_pct": 90.0,
+          "mrr": 0.008388,
           "hit_rates": {
             "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 0.0,
-            "hit@5000": 40.0,
-            "hit@10000": 65.0,
-            "hit@25000": 75.0,
-            "hit@50000": 75.0
+            "hit@50": 10.0,
+            "hit@100": 15.0,
+            "hit@500": 25.0,
+            "hit@1000": 40.0,
+            "hit@5000": 65.0,
+            "hit@10000": 80.0,
+            "hit@25000": 85.0,
+            "hit@50000": 90.0
           },
-          "time_ms": 482.2
+          "time_ms": 496.8
         }
       }
     },
@@ -330,21 +330,21 @@
         "cogpie": {
           "total_targets": 22,
           "total_candidates": 50000,
-          "total_hits": 13,
-          "coverage_pct": 59.09,
-          "mrr": 0.000164,
+          "total_hits": 19,
+          "coverage_pct": 86.36,
+          "mrr": 0.001612,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 4.55,
-            "hit@5000": 22.73,
+            "hit@100": 4.55,
+            "hit@500": 18.18,
+            "hit@1000": 36.36,
+            "hit@5000": 54.55,
             "hit@10000": 54.55,
-            "hit@25000": 54.55,
-            "hit@50000": 59.09
+            "hit@25000": 86.36,
+            "hit@50000": 86.36
           },
-          "time_ms": 472.9
+          "time_ms": 484.7
         },
         "cupp": {
           "total_targets": 22,
@@ -363,7 +363,7 @@
             "hit@25000": 63.64,
             "hit@50000": 63.64
           },
-          "time_ms": 0.6
+          "time_ms": 0.5
         },
         "bopscrk": {
           "total_targets": 22,
@@ -382,17 +382,17 @@
             "hit@25000": 9.09,
             "hit@50000": 9.09
           },
-          "time_ms": 1.7
+          "time_ms": 1.5
         },
         "markov": {
           "total_targets": 22,
           "total_candidates": 110,
           "total_hits": 1,
           "coverage_pct": 4.55,
-          "mrr": 0.000522,
+          "mrr": 0.001748,
           "hit_rates": {
             "hit@10": 0.0,
-            "hit@50": 0.0,
+            "hit@50": 4.55,
             "hit@100": 4.55,
             "hit@500": 4.55,
             "hit@1000": 4.55,
@@ -401,26 +401,26 @@
             "hit@25000": 4.55,
             "hit@50000": 4.55
           },
-          "time_ms": 0.1
+          "time_ms": 0.0
         },
         "wlf_combined": {
           "total_targets": 22,
-          "total_candidates": 55414,
-          "total_hits": 13,
-          "coverage_pct": 59.09,
-          "mrr": 0.000164,
+          "total_candidates": 55313,
+          "total_hits": 19,
+          "coverage_pct": 86.36,
+          "mrr": 0.001612,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 4.55,
-            "hit@5000": 22.73,
+            "hit@100": 4.55,
+            "hit@500": 18.18,
+            "hit@1000": 36.36,
+            "hit@5000": 54.55,
             "hit@10000": 54.55,
-            "hit@25000": 54.55,
-            "hit@50000": 59.09
+            "hit@25000": 86.36,
+            "hit@50000": 86.36
           },
-          "time_ms": 475.2
+          "time_ms": 486.7
         }
       }
     },
@@ -434,21 +434,21 @@
         "cogpie": {
           "total_targets": 22,
           "total_candidates": 50000,
-          "total_hits": 10,
-          "coverage_pct": 45.45,
-          "mrr": 0.000192,
+          "total_hits": 19,
+          "coverage_pct": 86.36,
+          "mrr": 0.005176,
           "hit_rates": {
             "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 9.09,
-            "hit@5000": 22.73,
-            "hit@10000": 31.82,
-            "hit@25000": 45.45,
-            "hit@50000": 45.45
+            "hit@50": 4.55,
+            "hit@100": 9.09,
+            "hit@500": 9.09,
+            "hit@1000": 18.18,
+            "hit@5000": 36.36,
+            "hit@10000": 40.91,
+            "hit@25000": 86.36,
+            "hit@50000": 86.36
           },
-          "time_ms": 520.4
+          "time_ms": 535.6
         },
         "cupp": {
           "total_targets": 22,
@@ -486,17 +486,17 @@
             "hit@25000": 4.55,
             "hit@50000": 22.73
           },
-          "time_ms": 14.7
+          "time_ms": 15.8
         },
         "markov": {
           "total_targets": 22,
           "total_candidates": 166,
           "total_hits": 2,
           "coverage_pct": 9.09,
-          "mrr": 0.00129,
+          "mrr": 0.001526,
           "hit_rates": {
             "hit@10": 0.0,
-            "hit@50": 0.0,
+            "hit@50": 4.55,
             "hit@100": 9.09,
             "hit@500": 9.09,
             "hit@1000": 9.09,
@@ -509,22 +509,22 @@
         },
         "wlf_combined": {
           "total_targets": 22,
-          "total_candidates": 93631,
-          "total_hits": 10,
-          "coverage_pct": 45.45,
-          "mrr": 0.000192,
+          "total_candidates": 93228,
+          "total_hits": 19,
+          "coverage_pct": 86.36,
+          "mrr": 0.005176,
           "hit_rates": {
             "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 9.09,
-            "hit@5000": 22.73,
-            "hit@10000": 31.82,
-            "hit@25000": 45.45,
-            "hit@50000": 45.45
+            "hit@50": 4.55,
+            "hit@100": 9.09,
+            "hit@500": 9.09,
+            "hit@1000": 18.18,
+            "hit@5000": 36.36,
+            "hit@10000": 40.91,
+            "hit@25000": 86.36,
+            "hit@50000": 86.36
           },
-          "time_ms": 535.6999999999999
+          "time_ms": 552.0
         }
       }
     },
@@ -538,21 +538,21 @@
         "cogpie": {
           "total_targets": 23,
           "total_candidates": 50000,
-          "total_hits": 14,
-          "coverage_pct": 60.87,
-          "mrr": 0.000633,
+          "total_hits": 21,
+          "coverage_pct": 91.3,
+          "mrr": 0.001504,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
             "hit@100": 4.35,
-            "hit@500": 4.35,
-            "hit@1000": 4.35,
-            "hit@5000": 17.39,
-            "hit@10000": 30.43,
-            "hit@25000": 56.52,
-            "hit@50000": 60.87
+            "hit@500": 13.04,
+            "hit@1000": 21.74,
+            "hit@5000": 34.78,
+            "hit@10000": 34.78,
+            "hit@25000": 86.96,
+            "hit@50000": 91.3
           },
-          "time_ms": 519.0
+          "time_ms": 539.5
         },
         "cupp": {
           "total_targets": 23,
@@ -590,18 +590,18 @@
             "hit@25000": 0.0,
             "hit@50000": 26.09
           },
-          "time_ms": 18.2
+          "time_ms": 19.7
         },
         "markov": {
           "total_targets": 23,
           "total_candidates": 192,
           "total_hits": 3,
           "coverage_pct": 13.04,
-          "mrr": 0.00164,
+          "mrr": 0.001887,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 4.35,
-            "hit@100": 4.35,
+            "hit@100": 13.04,
             "hit@500": 13.04,
             "hit@1000": 13.04,
             "hit@5000": 13.04,
@@ -613,22 +613,22 @@
         },
         "wlf_combined": {
           "total_targets": 23,
-          "total_candidates": 101279,
-          "total_hits": 14,
-          "coverage_pct": 60.87,
-          "mrr": 0.000633,
+          "total_candidates": 100777,
+          "total_hits": 21,
+          "coverage_pct": 91.3,
+          "mrr": 0.001504,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
             "hit@100": 4.35,
-            "hit@500": 4.35,
-            "hit@1000": 4.35,
-            "hit@5000": 17.39,
-            "hit@10000": 30.43,
-            "hit@25000": 56.52,
-            "hit@50000": 60.87
+            "hit@500": 13.04,
+            "hit@1000": 21.74,
+            "hit@5000": 34.78,
+            "hit@10000": 34.78,
+            "hit@25000": 86.96,
+            "hit@50000": 91.3
           },
-          "time_ms": 537.8
+          "time_ms": 559.8
         }
       }
     },
@@ -642,21 +642,21 @@
         "cogpie": {
           "total_targets": 25,
           "total_candidates": 50000,
-          "total_hits": 5,
-          "coverage_pct": 20.0,
-          "mrr": 3e-05,
+          "total_hits": 24,
+          "coverage_pct": 96.0,
+          "mrr": 0.002126,
           "hit_rates": {
             "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 0.0,
-            "hit@5000": 4.0,
-            "hit@10000": 12.0,
-            "hit@25000": 20.0,
-            "hit@50000": 20.0
+            "hit@50": 4.0,
+            "hit@100": 4.0,
+            "hit@500": 4.0,
+            "hit@1000": 8.0,
+            "hit@5000": 24.0,
+            "hit@10000": 40.0,
+            "hit@25000": 80.0,
+            "hit@50000": 96.0
           },
-          "time_ms": 611.6
+          "time_ms": 631.2
         },
         "cupp": {
           "total_targets": 25,
@@ -680,9 +680,9 @@
         "bopscrk": {
           "total_targets": 25,
           "total_candidates": 50000,
-          "total_hits": 8,
-          "coverage_pct": 32.0,
-          "mrr": 1.3e-05,
+          "total_hits": 7,
+          "coverage_pct": 28.0,
+          "mrr": 7e-06,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
@@ -690,22 +690,22 @@
             "hit@500": 0.0,
             "hit@1000": 0.0,
             "hit@5000": 0.0,
-            "hit@10000": 4.0,
-            "hit@25000": 4.0,
-            "hit@50000": 32.0
+            "hit@10000": 0.0,
+            "hit@25000": 0.0,
+            "hit@50000": 28.0
           },
-          "time_ms": 20.2
+          "time_ms": 21.3
         },
         "markov": {
           "total_targets": 25,
           "total_candidates": 240,
           "total_hits": 5,
           "coverage_pct": 20.0,
-          "mrr": 0.004605,
+          "mrr": 0.001428,
           "hit_rates": {
             "hit@10": 0.0,
-            "hit@50": 8.0,
-            "hit@100": 12.0,
+            "hit@50": 0.0,
+            "hit@100": 4.0,
             "hit@500": 20.0,
             "hit@1000": 20.0,
             "hit@5000": 20.0,
@@ -717,22 +717,22 @@
         },
         "wlf_combined": {
           "total_targets": 25,
-          "total_candidates": 101534,
-          "total_hits": 5,
-          "coverage_pct": 20.0,
-          "mrr": 3e-05,
+          "total_candidates": 101046,
+          "total_hits": 24,
+          "coverage_pct": 96.0,
+          "mrr": 0.002126,
           "hit_rates": {
             "hit@10": 0.0,
-            "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 0.0,
-            "hit@5000": 4.0,
-            "hit@10000": 12.0,
-            "hit@25000": 20.0,
-            "hit@50000": 20.0
+            "hit@50": 4.0,
+            "hit@100": 4.0,
+            "hit@500": 4.0,
+            "hit@1000": 8.0,
+            "hit@5000": 24.0,
+            "hit@10000": 40.0,
+            "hit@25000": 80.0,
+            "hit@50000": 96.0
           },
-          "time_ms": 632.5
+          "time_ms": 653.2
         }
       }
     },
@@ -746,21 +746,21 @@
         "cogpie": {
           "total_targets": 25,
           "total_candidates": 50000,
-          "total_hits": 9,
-          "coverage_pct": 36.0,
-          "mrr": 4.6e-05,
+          "total_hits": 21,
+          "coverage_pct": 84.0,
+          "mrr": 0.001328,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 0.0,
-            "hit@5000": 0.0,
+            "hit@100": 8.0,
+            "hit@500": 8.0,
+            "hit@1000": 12.0,
+            "hit@5000": 28.0,
             "hit@10000": 28.0,
-            "hit@25000": 36.0,
-            "hit@50000": 36.0
+            "hit@25000": 64.0,
+            "hit@50000": 84.0
           },
-          "time_ms": 609.8
+          "time_ms": 638.9
         },
         "cupp": {
           "total_targets": 25,
@@ -779,14 +779,14 @@
             "hit@25000": 36.0,
             "hit@50000": 36.0
           },
-          "time_ms": 0.7
+          "time_ms": 0.6
         },
         "bopscrk": {
           "total_targets": 25,
           "total_candidates": 50000,
-          "total_hits": 3,
-          "coverage_pct": 12.0,
-          "mrr": 3e-06,
+          "total_hits": 6,
+          "coverage_pct": 24.0,
+          "mrr": 1e-05,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
@@ -794,18 +794,18 @@
             "hit@500": 0.0,
             "hit@1000": 0.0,
             "hit@5000": 0.0,
-            "hit@10000": 0.0,
-            "hit@25000": 0.0,
-            "hit@50000": 12.0
+            "hit@10000": 4.0,
+            "hit@25000": 4.0,
+            "hit@50000": 24.0
           },
-          "time_ms": 19.9
+          "time_ms": 20.0
         },
         "markov": {
           "total_targets": 25,
           "total_candidates": 268,
           "total_hits": 5,
           "coverage_pct": 20.0,
-          "mrr": 0.001945,
+          "mrr": 0.003674,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 4.0,
@@ -821,22 +821,22 @@
         },
         "wlf_combined": {
           "total_targets": 25,
-          "total_candidates": 101657,
-          "total_hits": 9,
-          "coverage_pct": 36.0,
-          "mrr": 4.6e-05,
+          "total_candidates": 101332,
+          "total_hits": 21,
+          "coverage_pct": 84.0,
+          "mrr": 0.001328,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
-            "hit@100": 0.0,
-            "hit@500": 0.0,
-            "hit@1000": 0.0,
-            "hit@5000": 0.0,
+            "hit@100": 8.0,
+            "hit@500": 8.0,
+            "hit@1000": 12.0,
+            "hit@5000": 28.0,
             "hit@10000": 28.0,
-            "hit@25000": 36.0,
-            "hit@50000": 36.0
+            "hit@25000": 64.0,
+            "hit@50000": 84.0
           },
-          "time_ms": 630.4
+          "time_ms": 659.5
         }
       }
     },
@@ -850,21 +850,21 @@
         "cogpie": {
           "total_targets": 26,
           "total_candidates": 50000,
-          "total_hits": 12,
-          "coverage_pct": 46.15,
-          "mrr": 0.070546,
+          "total_hits": 25,
+          "coverage_pct": 96.15,
+          "mrr": 0.070708,
           "hit_rates": {
             "hit@10": 11.54,
             "hit@50": 11.54,
             "hit@100": 11.54,
             "hit@500": 11.54,
-            "hit@1000": 11.54,
-            "hit@5000": 11.54,
-            "hit@10000": 23.08,
-            "hit@25000": 46.15,
-            "hit@50000": 46.15
+            "hit@1000": 15.38,
+            "hit@5000": 38.46,
+            "hit@10000": 38.46,
+            "hit@25000": 57.69,
+            "hit@50000": 96.15
           },
-          "time_ms": 558.8
+          "time_ms": 593.0
         },
         "cupp": {
           "total_targets": 26,
@@ -883,14 +883,14 @@
             "hit@25000": 34.62,
             "hit@50000": 34.62
           },
-          "time_ms": 0.7
+          "time_ms": 0.8
         },
         "bopscrk": {
           "total_targets": 26,
           "total_candidates": 50000,
-          "total_hits": 2,
-          "coverage_pct": 7.69,
-          "mrr": 2e-06,
+          "total_hits": 4,
+          "coverage_pct": 15.38,
+          "mrr": 4e-06,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
@@ -900,16 +900,16 @@
             "hit@5000": 0.0,
             "hit@10000": 0.0,
             "hit@25000": 0.0,
-            "hit@50000": 7.69
+            "hit@50000": 15.38
           },
-          "time_ms": 19.8
+          "time_ms": 21.2
         },
         "markov": {
           "total_targets": 26,
           "total_candidates": 280,
           "total_hits": 3,
           "coverage_pct": 11.54,
-          "mrr": 0.000518,
+          "mrr": 0.000934,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
@@ -925,22 +925,22 @@
         },
         "wlf_combined": {
           "total_targets": 26,
-          "total_candidates": 101954,
-          "total_hits": 12,
-          "coverage_pct": 46.15,
-          "mrr": 0.070546,
+          "total_candidates": 101408,
+          "total_hits": 25,
+          "coverage_pct": 96.15,
+          "mrr": 0.070708,
           "hit_rates": {
             "hit@10": 11.54,
             "hit@50": 11.54,
             "hit@100": 11.54,
             "hit@500": 11.54,
-            "hit@1000": 11.54,
-            "hit@5000": 11.54,
-            "hit@10000": 23.08,
-            "hit@25000": 46.15,
-            "hit@50000": 46.15
+            "hit@1000": 15.38,
+            "hit@5000": 38.46,
+            "hit@10000": 38.46,
+            "hit@25000": 57.69,
+            "hit@50000": 96.15
           },
-          "time_ms": 579.3
+          "time_ms": 615.0
         }
       }
     },
@@ -954,21 +954,21 @@
         "cogpie": {
           "total_targets": 31,
           "total_candidates": 50000,
-          "total_hits": 9,
-          "coverage_pct": 29.03,
-          "mrr": 0.073668,
+          "total_hits": 29,
+          "coverage_pct": 93.55,
+          "mrr": 0.073778,
           "hit_rates": {
             "hit@10": 16.13,
             "hit@50": 16.13,
             "hit@100": 16.13,
             "hit@500": 16.13,
-            "hit@1000": 16.13,
-            "hit@5000": 16.13,
-            "hit@10000": 19.35,
-            "hit@25000": 29.03,
-            "hit@50000": 29.03
+            "hit@1000": 19.35,
+            "hit@5000": 35.48,
+            "hit@10000": 38.71,
+            "hit@25000": 67.74,
+            "hit@50000": 93.55
           },
-          "time_ms": 720.0
+          "time_ms": 750.1
         },
         "cupp": {
           "total_targets": 31,
@@ -987,14 +987,14 @@
             "hit@25000": 29.03,
             "hit@50000": 29.03
           },
-          "time_ms": 0.8
+          "time_ms": 0.9
         },
         "bopscrk": {
           "total_targets": 31,
           "total_candidates": 50000,
-          "total_hits": 1,
-          "coverage_pct": 3.23,
-          "mrr": 1e-06,
+          "total_hits": 2,
+          "coverage_pct": 6.45,
+          "mrr": 2e-06,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
@@ -1004,16 +1004,16 @@
             "hit@5000": 0.0,
             "hit@10000": 0.0,
             "hit@25000": 0.0,
-            "hit@50000": 3.23
+            "hit@50000": 6.45
           },
-          "time_ms": 22.1
+          "time_ms": 22.7
         },
         "markov": {
           "total_targets": 31,
           "total_candidates": 280,
           "total_hits": 2,
           "coverage_pct": 6.45,
-          "mrr": 0.000275,
+          "mrr": 0.000383,
           "hit_rates": {
             "hit@10": 0.0,
             "hit@50": 0.0,
@@ -1029,44 +1029,44 @@
         },
         "wlf_combined": {
           "total_targets": 31,
-          "total_candidates": 102318,
-          "total_hits": 9,
-          "coverage_pct": 29.03,
-          "mrr": 0.073668,
+          "total_candidates": 101992,
+          "total_hits": 29,
+          "coverage_pct": 93.55,
+          "mrr": 0.073778,
           "hit_rates": {
             "hit@10": 16.13,
             "hit@50": 16.13,
             "hit@100": 16.13,
             "hit@500": 16.13,
-            "hit@1000": 16.13,
-            "hit@5000": 16.13,
-            "hit@10000": 19.35,
-            "hit@25000": 29.03,
-            "hit@50000": 29.03
+            "hit@1000": 19.35,
+            "hit@5000": 35.48,
+            "hit@10000": 38.71,
+            "hit@25000": 67.74,
+            "hit@50000": 93.55
           },
-          "time_ms": 742.9
+          "time_ms": 773.7
         }
       }
     }
   ],
   "summary": {
     "cogpie": {
-      "avg_coverage": 51.83,
-      "min_coverage": 20.0,
-      "max_coverage": 86.67,
-      "wins": 6
+      "avg_coverage": 89.7,
+      "min_coverage": 80.0,
+      "max_coverage": 96.15,
+      "wins": 10
     },
     "cupp": {
       "avg_coverage": 39.97,
       "min_coverage": 26.67,
       "max_coverage": 63.64,
-      "wins": 1
+      "wins": 0
     },
     "bopscrk": {
-      "avg_coverage": 19.62,
-      "min_coverage": 3.23,
+      "avg_coverage": 21.51,
+      "min_coverage": 6.45,
       "max_coverage": 66.67,
-      "wins": 1
+      "wins": 0
     },
     "markov": {
       "avg_coverage": 13.8,
@@ -1075,10 +1075,10 @@
       "wins": 0
     },
     "wlf_combined": {
-      "avg_coverage": 54.49,
-      "min_coverage": 20.0,
-      "max_coverage": 93.33,
-      "wins": 2
+      "avg_coverage": 89.7,
+      "min_coverage": 80.0,
+      "max_coverage": 96.15,
+      "wins": 0
     }
   }
 }

@@ -31,7 +31,7 @@ from dataclasses import dataclass, field
 class PasswordPolicy:
     """Target system password policy specification."""
 
-    min_length: int = 6
+    min_length: int = 4
     max_length: int = 64
     require_upper: bool = False
     require_lower: bool = False
