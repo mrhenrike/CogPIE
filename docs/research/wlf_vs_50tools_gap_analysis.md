@@ -10,13 +10,12 @@
 
 | Algorithm | Avg Coverage | Wins (of 10) | Strengths |
 |-----------|-------------|--------------|-----------|
-| **WLF Combined** | **56.8%** | 3 | Best overall: CogPIE priority + CUPP + Bopscrk merger |
-| **CogPIE** | **52.4%** | 3 | Best at low-complexity profiles (P01-P04), old passwords |
-| elpscrk (simulated) | 51.1% | 4 | Strong at high-field profiles with keyword mutations |
-| CUPP (WLF engine) | 48.0% | 1 | Reliable for name+date concatenations |
-| Bopscrk | 18.7% | 0 | Limited without lyrics module |
-| psudohash | 0% (integration pending) | 0 | Pure case/leet mutations, no concatenation |
-| CUPP original | 0% (integration pending) | 0 | Interactive mode blocks automation |
+| **Expanded Combined** | **57.5%** | 2 | Best overall: CogPIE + CrackSmith + CUPP + Bopscrk + elpscrk |
+| **CogPIE** | **53.5%** | 2 | Best at low-complexity profiles (P01-P03), cognitive patterns |
+| elpscrk (simulated) | 52.8% | 4 | Strong at high-field profiles with keyword mutations |
+| CUPP (WLF engine) | 48.0% | 2 | Reliable for name+date concatenations |
+| CrackSmith | 23.5% | 0 | Best at minimal profiles (86.7% on P01), poor scaling |
+| Bopscrk | 19.6% | 0 | Limited without lyrics module |
 
 ### 1.2 CogPIE Gap Analysis (from benchmark)
 
@@ -143,8 +142,8 @@
 |--------|-----|-------------------|---------------|
 | Algorithmic paradigms covered | 11/11 | 1-2/11 (any single tool) | 5.5x-11x |
 | Total engines/modules | 109 | 1-3 (any single tool) | 36x-109x |
-| Profile-based coverage (avg) | 56.8% (combined) | 51.1% (elpscrk simulated) | +5.7pp |
-| CogPIE unique hits | 49 passwords | 0 | Exclusive |
+| Profile-based coverage (avg) | 57.5% (expanded combined) | 52.8% (elpscrk simulated) | +4.7pp |
+| CogPIE unique hits | 31 passwords | 0 | Exclusive |
 | Neural architectures | 6 (GAN, Transformer, VAE, Diffusion, TCN, NFlow) | 1 (PassGAN or PassGPT) | 6x |
 | Unique capabilities (no external equivalent) | 11 | 0 | Exclusive |
 | GitHub stars (combined external) | ~84,000 | 27,036 (hashcat) | N/A |
