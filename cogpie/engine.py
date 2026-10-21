@@ -289,6 +289,8 @@ class CogPIEEngine:
         suffixes = ["", "!", "1", "123", "12", "@", "#", "!!", "1!"]
         seps = ["", ".", "_", "-", "@"]
 
+        current_years = ["2024", "2025", "2026", "24", "25", "26"]
+
         for word in all_words:
             for case_fn in [str.lower, str.capitalize, str.upper]:
                 w = case_fn(word)
@@ -314,6 +316,45 @@ class CogPIEEngine:
                         seen.add(c)
                         priority.append(c)
 
+                # I4: current year suffixes for all words
+                for cy in current_years:
+                    c = w + cy
+                    if c not in seen and 4 <= len(c) <= 30:
+                        seen.add(c)
+                        priority.append(c)
+                    for s in suffixes[:4]:
+                        if s:
+                            c2 = w + cy + s
+                            if c2 not in seen and 4 <= len(c2) <= 30:
+                                seen.add(c2)
+                                priority.append(c2)
+
+        # I1: keyword+special_char combos (keyword!, keyword@, keyword#)
+        special_suffixes = ["!", "@", "#", "$", "!!", "!@", "!1", "@!"]
+        for kw in core_keywords:
+            for case_fn in [str.lower, str.capitalize, str.upper]:
+                w = case_fn(kw)
+                for sp in special_suffixes:
+                    c = w + sp
+                    if c not in seen and 4 <= len(c) <= 30:
+                        seen.add(c)
+                        priority.append(c)
+                # I2: keyword+year combos
+                for num in all_nums:
+                    c = w + num
+                    if c not in seen and 4 <= len(c) <= 30:
+                        seen.add(c)
+                        priority.append(c)
+                    for sp in special_suffixes[:3]:
+                        c2 = w + num + sp
+                        if c2 not in seen and 4 <= len(c2) <= 30:
+                            seen.add(c2)
+                            priority.append(c2)
+                    c3 = num + w
+                    if c3 not in seen and 4 <= len(c3) <= 30:
+                        seen.add(c3)
+                        priority.append(c3)
+
         cross_words = core_keywords[:5] + core_pets[:3]
         co_words = [t.lower() for t in sorted(banks.get("companies", set()), key=len)
                     if 2 <= len(t) <= 15 and t.isalpha()][:5]
@@ -333,6 +374,25 @@ class CogPIEEngine:
                             if c2 not in seen and 4 <= len(c2) <= 30:
                                 seen.add(c2)
                                 priority.append(c2)
+                    # I7: keyword@name and name+keyword with special char joins
+                    for join_ch in ["@", "+", "&"]:
+                        c = a + join_ch + b
+                        if c not in seen and 4 <= len(c) <= 30:
+                            seen.add(c)
+                            priority.append(c)
+                        c2 = b + join_ch + a
+                        if c2 not in seen and 4 <= len(c2) <= 30:
+                            seen.add(c2)
+                            priority.append(c2)
+
+        # I3: full name concatenation (firstname+lastname as single token)
+        raw_names = [n.strip() for n in (raw_old_passwords[0:0] or []) if n.strip()]
+        raw_name_parts: list[str] = []
+        for t in sorted(banks.get("names", set()), key=len, reverse=True):
+            low = t.lower()
+            if 3 <= len(low) <= 15 and low.isalpha() and " " not in low:
+                raw_name_parts.append(low)
+        raw_name_parts = list(dict.fromkeys(raw_name_parts))[:15]
 
         for i, w1 in enumerate(core_names[:6]):
             for w2 in core_names[i + 1:6]:
@@ -348,6 +408,40 @@ class CogPIEEngine:
                             if c2 not in seen and 4 <= len(c2) <= 30:
                                 seen.add(c2)
                                 priority.append(c2)
+                    # I3: direct name+name concatenation with numbers/suffixes
+                    for concat_suf in ["", "!", "123", "@"]:
+                        for num in all_nums[:6]:
+                            c = a + b + num + concat_suf
+                            if c not in seen and 4 <= len(c) <= 30:
+                                seen.add(c)
+                                priority.append(c)
+                    # I7: name@name join pattern
+                    for join_ch in ["@", "+", "&"]:
+                        c = a + join_ch + b
+                        if c not in seen and 4 <= len(c) <= 30:
+                            seen.add(c)
+                            priority.append(c)
+                        c2 = b + join_ch + a
+                        if c2 not in seen and 4 <= len(c2) <= 30:
+                            seen.add(c2)
+                            priority.append(c2)
+
+        # I5: short nicknames (2-4 chars) + 2-digit year suffix
+        two_digit_years = [str(y)[-2:] for y in range(1970, 2027)]
+        short_nicks = [w for w in all_words if 2 <= len(w) <= 4]
+        for nick in short_nicks:
+            for case_fn in [str.lower, str.capitalize]:
+                n = case_fn(nick)
+                for yr in two_digit_years:
+                    c = n + yr
+                    if c not in seen and 4 <= len(c) <= 30:
+                        seen.add(c)
+                        priority.append(c)
+                    for sp in ["!", "@", "#"]:
+                        c2 = n + yr + sp
+                        if c2 not in seen and 4 <= len(c2) <= 30:
+                            seen.add(c2)
+                            priority.append(c2)
 
         leet_map = {"a": "4", "e": "3", "i": "1", "o": "0", "s": "5", "t": "7"}
         leet_batch = []

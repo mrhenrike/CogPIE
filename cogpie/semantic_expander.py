@@ -116,6 +116,35 @@ _COMMON_NICKNAMES: dict[str, list[str]] = {
 }
 
 
+_CULTURAL_SLANG: dict[str, list[str]] = {
+    "flamengo": ["mengao", "fla", "mengo", "flamengao", "rubro"],
+    "corinthians": ["timao", "coringao", "corinthias", "cortinas"],
+    "palmeiras": ["porco", "verdao", "palmeirense", "palestra"],
+    "sao paulo": ["tricolor", "spfc", "soberano"],
+    "vasco": ["vascao", "gigante", "cruz", "cruzmaltino"],
+    "gremio": ["imortal", "tricolor", "gremista"],
+    "santos": ["peixe", "peixao", "alvinegro"],
+    "botafogo": ["fogao", "bota", "estrela"],
+    "cruzeiro": ["raposa", "celeste", "cabuloso"],
+    "atletico": ["galo", "galao", "atleticano"],
+    "fluminense": ["flu", "fluzao", "tricolor"],
+    "internacional": ["inter", "colorado", "saci"],
+    "bahia": ["tricolor", "bahea", "esquadrao"],
+    "sport": ["leao", "rubro"],
+    "fortaleza": ["leao", "tricolor"],
+    "ceara": ["vozao", "alvinegro"],
+    "evangelica": ["crente", "gospel", "assembleia"],
+    "musica": ["som", "melody", "ritmo"],
+    "futebol": ["bola", "gol", "pelada"],
+    "cerveja": ["breja", "cerva", "gelada", "loira"],
+    "churrasco": ["churras", "carne", "costela"],
+    "praia": ["litoral", "mar", "surf"],
+    "pagode": ["samba", "pagodeiro"],
+    "funk": ["baile", "mc", "beat"],
+    "sertanejo": ["roça", "modao", "viola"],
+}
+
+
 def _strip_accents(text: str) -> str:
     result = []
     for ch in text:
@@ -249,6 +278,10 @@ def expand_profile(profile: dict[str, Any]) -> dict[str, set[str]]:
 
     for kw in profile.get("keywords", []):
         banks["keywords"].update(expand_token(kw))
+        kw_lower = _strip_accents(kw.lower().strip())
+        if kw_lower in _CULTURAL_SLANG:
+            for slang in _CULTURAL_SLANG[kw_lower]:
+                banks["keywords"].update(expand_token(slang))
 
     for pet in profile.get("pets", []):
         banks["pets"].update(expand_token(pet))
