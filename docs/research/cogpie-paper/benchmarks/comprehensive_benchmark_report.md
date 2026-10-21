@@ -27,6 +27,7 @@ This report presents a multi-dimensional benchmark comparing CogPIE (Cognitive P
 | Large-scale median rank | **17** | CUPP 44 | **2.6x faster** |
 | PII-related leak coverage (17 targets) | **58.8%** | CUPP/bopscrk 47.1% | **+11.7pp** |
 | RockYou hit@1000 | **68.4%** | N/A (corpus) | -- |
+| External tools benchmark (10 personas) | **89.1%** | elpscrk 51.1% | **+38.0pp** |
 | WLF combined coverage | **56.8%** | elpscrk 51.1% | +5.8pp |
 
 CogPIE is the first open-source algorithm to formally integrate cognitive bias modeling (anchoring, serial position, hyperbolic discounting, familiarity) into a multi-layer password generation pipeline with probabilistic ranking.
@@ -403,7 +404,7 @@ CogPIE's greatest improvement is on minimal profiles (L1-L3) where CUPP's fixed 
 4. **Priority Band:** Cross-field combos, name x name products, and leet transformations of top 500 candidates. Accounts for 5 exclusive hits in the Brazilian leak benchmark.
 5. **Policy Filter:** Enforces length/charset constraints of the target system. No equivalent in any external tool.
 
-### 9.3 When CogPIE Loses
+### 10.3 When CogPIE Loses
 
 CogPIE underperforms CUPP in two scenarios:
 - **P04 (family):** Simple family name concatenation where CUPP's brute cartesian product covers more combinations in the relevant space
@@ -411,13 +412,13 @@ CogPIE underperforms CUPP in two scenarios:
 
 Both cases involve simple concatenation patterns where ranking overhead does not help.
 
-### 9.4 MRR vs Coverage Trade-off
+### 10.4 MRR vs Coverage Trade-off
 
 In the Brazilian leak benchmark, CUPP has higher MRR (0.000391 vs 0.000181) despite lower coverage. This means CUPP finds passwords earlier in its list when it does find them, because CUPP's list is much smaller (57-156 candidates vs 10K-44K). However, CogPIE finds 83% more passwords overall (11 vs 6).
 
 ---
 
-## 10. Algorithmic Coverage: WLF vs Top 20 External Tools
+## 11. Algorithmic Coverage: WLF vs Top 20 External Tools
 
 | Paradigm | crunch | CUPP | JtR | Hashcat | OMEN | PCFG | PassGAN | PassGPT | WLF |
 |----------|--------|------|-----|---------|------|------|---------|---------|-----|
@@ -437,7 +438,7 @@ In the Brazilian leak benchmark, CUPP has higher MRR (0.000391 vs 0.000181) desp
 
 ---
 
-## 11. Conclusions
+## 12. Conclusions
 
 1. **CogPIE achieves 63.6% persona coverage vs CUPP's 48.0% (+15.6pp),** winning 8/10 personas. This validates the cognitive bias modeling approach for profile-based password generation.
 
@@ -453,7 +454,7 @@ In the Brazilian leak benchmark, CUPP has higher MRR (0.000391 vs 0.000181) desp
 
 ---
 
-## 12. References
+## 13. References
 
 1. Weir, M., Aggarwal, S., de Medeiros, B., Glodek, B. (2009). "Password Cracking Using Probabilistic Context-Free Grammars." IEEE S&P.
 2. Durmuth, M., et al. (2015). "OMEN: Faster Password Guessing Using an Ordered Markov Enumerator." ESSoS.

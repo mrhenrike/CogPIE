@@ -1,28 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CogPIE Comprehensive Benchmark Report</title><style>
-  @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap");
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: "Merriweather", Georgia, serif; font-size: 16px; line-height: 1.8; color: #1a1a2e; max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; background: #fafaf8; }
-  h1 { font-family: "Source Sans 3", sans-serif; font-size: 1.8rem; font-weight: 700; margin: 2rem 0 0.5rem; color: #0d1b2a; }
-  h2 { font-family: "Source Sans 3", sans-serif; font-size: 1.4rem; font-weight: 700; margin: 2rem 0 0.5rem; color: #1b263b; border-bottom: 2px solid #415a77; padding-bottom: 0.3rem; }
-  h3 { font-family: "Source Sans 3", sans-serif; font-size: 1.15rem; font-weight: 600; margin: 1.5rem 0 0.4rem; color: #1b263b; }
-  h4 { font-family: "Source Sans 3", sans-serif; font-size: 1.0rem; font-weight: 600; margin: 1.2rem 0 0.3rem; color: #1b263b; }
-  p { margin: 0.8rem 0; text-align: justify; }
-  strong { color: #0d1b2a; }
-  a { color: #415a77; }
-  hr { border: none; border-top: 1px solid #d0d0c8; margin: 2rem 0; }
-  blockquote { border-left: 4px solid #778da9; padding: 0.5rem 1rem; margin: 1rem 0; background: #f0f0ea; font-style: italic; }
-  code { background: #e0e0d8; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-  pre { background: #1b263b; color: #e0e1dd; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; }
-  pre code { background: none; padding: 0; color: inherit; }
-  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.88rem; }
-  th { background: #1b263b; color: #e0e1dd; padding: 0.6rem 0.8rem; text-align: left; font-family: "Source Sans 3", sans-serif; }
-  td { padding: 0.5rem 0.8rem; border-bottom: 1px solid #d0d0c8; }
-  tr:nth-child(even) { background: #f0f0ea; }
-  tr:hover { background: #e8e8e0; }
-  ul, ol { margin: 0.8rem 0 0.8rem 1.5rem; }
-  li { margin: 0.3rem 0; }
-  @media print { body { max-width: 100%; font-size: 11pt; } table { page-break-inside: avoid; } }
-</style></head><body><div style="max-width:900px;margin:0 auto"><h1 id="comprehensive-benchmark-report-cogpie-vs-state-of-the-art-wordlist-generation-tools">Comprehensive Benchmark Report: CogPIE vs. State-of-the-Art Wordlist Generation Tools</h1>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CogPIE Comprehensive Benchmark Report</title><style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: Georgia, serif; font-size: 16px; line-height: 1.8; color: #1a1a2e; max-width: 900px; margin: 0 auto; padding: 2rem; background: #fafaf8; } h1 { font-size: 1.8rem; font-weight: 700; margin: 2rem 0 0.5rem; } h2 { font-size: 1.4rem; margin: 2rem 0 0.5rem; border-bottom: 2px solid #415a77; padding-bottom: 0.3rem; } h3 { font-size: 1.15rem; margin: 1.5rem 0 0.4rem; } p { margin: 0.8rem 0; text-align: justify; } table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.88rem; } th { background: #1b263b; color: #e0e1dd; padding: 0.6rem; text-align: left; } td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #d0d0c8; } tr:nth-child(even) { background: #f0f0ea; } ul, ol { margin: 0.8rem 0 0.8rem 1.5rem; } li { margin: 0.3rem 0; } @media print { body { max-width: 100%; font-size: 11pt; } }</style></head><body><h1 id="comprehensive-benchmark-report-cogpie-vs-state-of-the-art-wordlist-generation-tools">Comprehensive Benchmark Report: CogPIE vs. State-of-the-Art Wordlist Generation Tools</h1>
 <p><strong>Author:</strong> Andre Henrique de Oliveira (@mrhenrike)
 <strong>Affiliation:</strong> Uniao Geek Security Research
 <strong>Date:</strong> 2026-10-21
@@ -83,6 +59,12 @@
 <td><strong>68.4%</strong></td>
 <td>N/A (corpus)</td>
 <td>&ndash;</td>
+</tr>
+<tr>
+<td>External tools benchmark (10 personas)</td>
+<td><strong>89.1%</strong></td>
+<td>elpscrk 51.1%</td>
+<td><strong>+38.0pp</strong></td>
 </tr>
 <tr>
 <td>WLF combined coverage</td>
@@ -1363,15 +1345,15 @@
 <li><strong>Priority Band:</strong> Cross-field combos, name x name products, and leet transformations of top 500 candidates. Accounts for 5 exclusive hits in the Brazilian leak benchmark.</li>
 <li><strong>Policy Filter:</strong> Enforces length/charset constraints of the target system. No equivalent in any external tool.</li>
 </ol>
-<h3 id="93-when-cogpie-loses">9.3 When CogPIE Loses</h3>
+<h3 id="103-when-cogpie-loses">10.3 When CogPIE Loses</h3>
 <p>CogPIE underperforms CUPP in two scenarios:
 - <strong>P04 (family):</strong> Simple family name concatenation where CUPP&rsquo;s brute cartesian product covers more combinations in the relevant space
 - <strong>P10 (complete):</strong> Very rich profile where CUPP&rsquo;s exhaustive enumeration of all field combinations benefits from the sheer number of fields</p>
 <p>Both cases involve simple concatenation patterns where ranking overhead does not help.</p>
-<h3 id="94-mrr-vs-coverage-trade-off">9.4 MRR vs Coverage Trade-off</h3>
+<h3 id="104-mrr-vs-coverage-trade-off">10.4 MRR vs Coverage Trade-off</h3>
 <p>In the Brazilian leak benchmark, CUPP has higher MRR (0.000391 vs 0.000181) despite lower coverage. This means CUPP finds passwords earlier in its list when it does find them, because CUPP&rsquo;s list is much smaller (57-156 candidates vs 10K-44K). However, CogPIE finds 83% more passwords overall (11 vs 6).</p>
 <hr>
-<h2 id="10-algorithmic-coverage-wlf-vs-top-20-external-tools">10. Algorithmic Coverage: WLF vs Top 20 External Tools</h2>
+<h2 id="11-algorithmic-coverage-wlf-vs-top-20-external-tools">11. Algorithmic Coverage: WLF vs Top 20 External Tools</h2>
 <table>
 <thead>
 <tr>
@@ -1524,7 +1506,7 @@
 </table>
 <p><strong>WordlistXPL-Forge is the only tool implementing all 11 identified algorithmic paradigms</strong> in a unified framework with adaptive routing and integrated benchmarking.</p>
 <hr>
-<h2 id="11-conclusions">11. Conclusions</h2>
+<h2 id="12-conclusions">12. Conclusions</h2>
 <ol>
 <li>
 <p><strong>CogPIE achieves 63.6% persona coverage vs CUPP&rsquo;s 48.0% (+15.6pp),</strong> winning 8/10 personas. This validates the cognitive bias modeling approach for profile-based password generation.</p>
@@ -1546,7 +1528,7 @@
 </li>
 </ol>
 <hr>
-<h2 id="12-references">12. References</h2>
+<h2 id="13-references">13. References</h2>
 <ol>
 <li>Weir, M., Aggarwal, S., de Medeiros, B., Glodek, B. (2009). &ldquo;Password Cracking Using Probabilistic Context-Free Grammars.&rdquo; IEEE S&amp;P.</li>
 <li>Durmuth, M., et al. (2015). &ldquo;OMEN: Faster Password Guessing Using an Ordered Markov Enumerator.&rdquo; ESSoS.</li>
@@ -1560,4 +1542,4 @@
 <li>SOPG (2024). &ldquo;Search-based Ordered Password Generation.&rdquo; arXiv:2403.09954.</li>
 </ol>
 <hr>
-<p><em>Report generated from CogPIE benchmark suite. Data sources: IntelX stealer logs (authorized access), RockYou corpus (public), synthetic personas (10 profiles, 164 ground truth passwords).</em></p></div></body></html>
+<p><em>Report generated from CogPIE benchmark suite. Data sources: IntelX stealer logs (authorized access), RockYou corpus (public), synthetic personas (10 profiles, 164 ground truth passwords).</em></p></body></html>
