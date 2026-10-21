@@ -193,7 +193,7 @@ def run_cupp_original(persona: dict, max_output: int = 50000) -> list[str]:
         result = subprocess.run(
             cmd,
             input="\n".join(stdin_lines) + "\n",
-            capture_output=True, text=True, timeout=60,
+            capture_output=True, text=True, timeout=15,
             cwd=str(cupp_dir),
         )
 

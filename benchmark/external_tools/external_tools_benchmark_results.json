@@ -1,6 +1,6 @@
 {
   "benchmark": "external_tools_vs_cogpie",
-  "timestamp": "2026-10-21T20:40:53",
+  "timestamp": "2026-10-21T20:48:15",
   "algorithms": [
     "cogpie",
     "cupp_original",
@@ -22,14 +22,14 @@
       "algorithms": {
         "cogpie": {
           "total_targets": 15,
-          "total_candidates": 11933,
+          "total_candidates": 11965,
           "total_hits": 12,
           "coverage_pct": 80.0,
           "hit_rates": {
             "hit@100": 60.0,
             "hit@500": 60.0,
             "hit@1000": 60.0,
-            "hit@5000": 66.67,
+            "hit@5000": 73.33,
             "hit@10000": 80.0,
             "hit@25000": 80.0,
             "hit@50000": 80.0
@@ -53,7 +53,7 @@
             "joao#1",
             "Joao@2024"
           ],
-          "time_ms": 108.7
+          "time_ms": 107.4
         },
         "cupp_original": {
           "total_targets": 15,
@@ -87,7 +87,7 @@
             "Joao@2024",
             "joao321"
           ],
-          "time_ms": 168.4
+          "time_ms": 15003.9
         },
         "cupp_wlf": {
           "total_targets": 15,
@@ -122,7 +122,7 @@
             "Joao@2024",
             "joao321"
           ],
-          "time_ms": 22.7
+          "time_ms": 28.0
         },
         "bopscrk": {
           "total_targets": 15,
@@ -157,7 +157,7 @@
             "Joao@2024",
             "joao321"
           ],
-          "time_ms": 5.8
+          "time_ms": 1.2
         },
         "elpscrk": {
           "total_targets": 15,
@@ -192,7 +192,7 @@
             "Joao@2024",
             "joao321"
           ],
-          "time_ms": 0.9
+          "time_ms": 0.2
         },
         "psudohash": {
           "total_targets": 15,
@@ -201,10 +201,10 @@
           "coverage_pct": 46.67,
           "hit_rates": {
             "hit@100": 0.0,
-            "hit@500": 6.67,
-            "hit@1000": 6.67,
-            "hit@5000": 6.67,
-            "hit@10000": 20.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 13.33,
             "hit@25000": 46.67,
             "hit@50000": 46.67
           },
@@ -227,7 +227,7 @@
             "Joao@2024",
             "joao321"
           ],
-          "time_ms": 106.8
+          "time_ms": 97.0
         },
         "longtongue": {
           "total_targets": 15,
@@ -262,7 +262,7 @@
             "joao1",
             "joao321"
           ],
-          "time_ms": 124.4
+          "time_ms": 111.5
         },
         "pydictor_sedb": {
           "total_targets": 15,
@@ -297,7 +297,7 @@
             "joao12",
             "Joao@2024"
           ],
-          "time_ms": 141.9
+          "time_ms": 150.1
         },
         "passpwn": {
           "total_targets": 15,
@@ -332,7 +332,7 @@
             "joao!",
             "joao321"
           ],
-          "time_ms": 47.3
+          "time_ms": 47.7
         },
         "wlf_combined": {
           "total_targets": 15,
@@ -343,7 +343,7 @@
             "hit@100": 60.0,
             "hit@500": 60.0,
             "hit@1000": 60.0,
-            "hit@5000": 66.67,
+            "hit@5000": 73.33,
             "hit@10000": 80.0,
             "hit@25000": 100.0,
             "hit@50000": 100.0
@@ -366,7 +366,7 @@
             "joao321"
           ],
           "misses": [],
-          "time_ms": 726.9
+          "time_ms": 15547.0
         }
       }
     },
@@ -386,7 +386,7 @@
             "hit@500": 60.0,
             "hit@1000": 60.0,
             "hit@5000": 66.67,
-            "hit@10000": 73.33,
+            "hit@10000": 66.67,
             "hit@25000": 93.33,
             "hit@50000": 93.33
           },
@@ -409,7 +409,7 @@
           "misses": [
             "maria199!"
           ],
-          "time_ms": 174.7
+          "time_ms": 175.9
         },
         "cupp_original": {
           "total_targets": 15,
@@ -443,7 +443,7 @@
             "Maria@95",
             "maria!1995"
           ],
-          "time_ms": 73.5
+          "time_ms": 15004.9
         },
         "cupp_wlf": {
           "total_targets": 15,
@@ -478,7 +478,7 @@
             "Maria@95",
             "maria!1995"
           ],
-          "time_ms": 0.2
+          "time_ms": 0.4
         },
         "bopscrk": {
           "total_targets": 15,
@@ -513,7 +513,7 @@
             "Maria@95",
             "maria!1995"
           ],
-          "time_ms": 0.4
+          "time_ms": 0.6
         },
         "elpscrk": {
           "total_targets": 15,
@@ -548,7 +548,7 @@
             "Maria@95",
             "maria!1995"
           ],
-          "time_ms": 0.4
+          "time_ms": 0.7
         },
         "psudohash": {
           "total_targets": 15,
@@ -556,9 +556,9 @@
           "total_hits": 9,
           "coverage_pct": 60.0,
           "hit_rates": {
-            "hit@100": 0.0,
+            "hit@100": 6.67,
             "hit@500": 6.67,
-            "hit@1000": 26.67,
+            "hit@1000": 6.67,
             "hit@5000": 60.0,
             "hit@10000": 60.0,
             "hit@25000": 60.0,
@@ -583,7 +583,7 @@
             "maria19",
             "maria!1995"
           ],
-          "time_ms": 317.2
+          "time_ms": 290.2
         },
         "longtongue": {
           "total_targets": 15,
@@ -595,7 +595,7 @@
             "hit@500": 0.0,
             "hit@1000": 0.0,
             "hit@5000": 26.67,
-            "hit@10000": 26.67,
+            "hit@10000": 46.67,
             "hit@25000": 46.67,
             "hit@50000": 46.67
           },
@@ -618,7 +618,7 @@
             "mar1a95",
             "maria19"
           ],
-          "time_ms": 236.7
+          "time_ms": 234.8
         },
         "pydictor_sedb": {
           "total_targets": 15,
@@ -653,7 +653,7 @@
             "Maria@95",
             "maria!1995"
           ],
-          "time_ms": 126.6
+          "time_ms": 125.9
         },
         "passpwn": {
           "total_targets": 15,
@@ -687,7 +687,7 @@
             "Maria@95",
             "maria!1995"
           ],
-          "time_ms": 45.4
+          "time_ms": 41.4
         },
         "wlf_combined": {
           "total_targets": 15,
@@ -699,7 +699,7 @@
             "hit@500": 60.0,
             "hit@1000": 60.0,
             "hit@5000": 66.67,
-            "hit@10000": 73.33,
+            "hit@10000": 66.67,
             "hit@25000": 93.33,
             "hit@50000": 93.33
           },
@@ -722,7 +722,7 @@
           "misses": [
             "maria199!"
           ],
-          "time_ms": 975.1
+          "time_ms": 15874.8
         }
       }
     },
@@ -770,7 +770,7 @@
             "carlos#15",
             "kadukadu"
           ],
-          "time_ms": 468.6
+          "time_ms": 480.7
         },
         "cupp_original": {
           "total_targets": 20,
@@ -809,7 +809,7 @@
             "silvacarlos",
             "k4du1988"
           ],
-          "time_ms": 78.5
+          "time_ms": 15004.8
         },
         "cupp_wlf": {
           "total_targets": 20,
@@ -849,7 +849,7 @@
             "kadu150388",
             "k4du1988"
           ],
-          "time_ms": 0.4
+          "time_ms": 0.6
         },
         "bopscrk": {
           "total_targets": 20,
@@ -889,7 +889,7 @@
             "kadu150388",
             "k4du1988"
           ],
-          "time_ms": 3.7
+          "time_ms": 5.7
         },
         "elpscrk": {
           "total_targets": 20,
@@ -897,7 +897,7 @@
           "total_hits": 9,
           "coverage_pct": 45.0,
           "hit_rates": {
-            "hit@100": 20.0,
+            "hit@100": 30.0,
             "hit@500": 45.0,
             "hit@1000": 45.0,
             "hit@5000": 45.0,
@@ -929,7 +929,7 @@
             "Carlos@88",
             "kadu150388"
           ],
-          "time_ms": 0.2
+          "time_ms": 0.6
         },
         "psudohash": {
           "total_targets": 20,
@@ -969,7 +969,7 @@
             "silvacarlos",
             "k4du1988"
           ],
-          "time_ms": 755.4
+          "time_ms": 645.2
         },
         "longtongue": {
           "total_targets": 20,
@@ -980,9 +980,9 @@
             "hit@100": 0.0,
             "hit@500": 0.0,
             "hit@1000": 0.0,
-            "hit@5000": 10.0,
-            "hit@10000": 10.0,
-            "hit@25000": 45.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 20.0,
             "hit@50000": 70.0
           },
           "hits": [
@@ -1009,7 +1009,7 @@
             "kadu150388",
             "k4du1988"
           ],
-          "time_ms": 1066.3
+          "time_ms": 1092.4
         },
         "pydictor_sedb": {
           "total_targets": 20,
@@ -1049,7 +1049,7 @@
             "silvacarlos",
             "k4du1988"
           ],
-          "time_ms": 149.2
+          "time_ms": 158.1
         },
         "passpwn": {
           "total_targets": 20,
@@ -1088,21 +1088,21 @@
             "silvacarlos",
             "k4du1988"
           ],
-          "time_ms": 38.3
+          "time_ms": 39.1
         },
         "wlf_combined": {
           "total_targets": 20,
           "total_candidates": 50000,
-          "total_hits": 20,
-          "coverage_pct": 100.0,
+          "total_hits": 19,
+          "coverage_pct": 95.0,
           "hit_rates": {
             "hit@100": 15.0,
             "hit@500": 25.0,
             "hit@1000": 40.0,
             "hit@5000": 65.0,
             "hit@10000": 80.0,
-            "hit@25000": 100.0,
-            "hit@50000": 100.0
+            "hit@25000": 95.0,
+            "hit@50000": 95.0
           },
           "hits": [
             "carlos1988",
@@ -1117,7 +1117,6 @@
             "carlos0315",
             "Kadu88!",
             "c4rlos88",
-            "carlos#15",
             "silva15",
             "kadukadu",
             "carlossilva88",
@@ -1126,8 +1125,10 @@
             "silvacarlos",
             "k4du1988"
           ],
-          "misses": [],
-          "time_ms": 2560.6
+          "misses": [
+            "carlos#15"
+          ],
+          "time_ms": 17427.2
         }
       }
     },
@@ -1140,8 +1141,8 @@
         "cogpie": {
           "total_targets": 22,
           "total_candidates": 50000,
-          "total_hits": 19,
-          "coverage_pct": 86.36,
+          "total_hits": 18,
+          "coverage_pct": 81.82,
           "hit_rates": {
             "hit@100": 4.55,
             "hit@500": 18.18,
@@ -1149,7 +1150,7 @@
             "hit@5000": 54.55,
             "hit@10000": 54.55,
             "hit@25000": 81.82,
-            "hit@50000": 86.36
+            "hit@50000": 81.82
           },
           "hits": [
             "pedro1990",
@@ -1166,7 +1167,6 @@
             "pedrolucas",
             "pedrinho1990",
             "ana@pedro",
-            "lucas10",
             "Pedro@90",
             "p3dr0",
             "lucas2018!",
@@ -1174,10 +1174,11 @@
           ],
           "misses": [
             "ana!1992",
+            "lucas10",
             "anaPedro",
             "pedro#ana92"
           ],
-          "time_ms": 476.9
+          "time_ms": 466.2
         },
         "cupp_original": {
           "total_targets": 22,
@@ -1218,7 +1219,7 @@
             "lucas2018!",
             "pedrinho22"
           ],
-          "time_ms": 74.5
+          "time_ms": 15004.7
         },
         "cupp_wlf": {
           "total_targets": 22,
@@ -1260,7 +1261,7 @@
             "pedro#ana92",
             "lucas2018!"
           ],
-          "time_ms": 0.6
+          "time_ms": 0.8
         },
         "bopscrk": {
           "total_targets": 22,
@@ -1302,7 +1303,7 @@
             "lucas2018!",
             "pedrinho22"
           ],
-          "time_ms": 1.7
+          "time_ms": 2.5
         },
         "elpscrk": {
           "total_targets": 22,
@@ -1310,7 +1311,7 @@
           "total_hits": 9,
           "coverage_pct": 40.91,
           "hit_rates": {
-            "hit@100": 36.36,
+            "hit@100": 31.82,
             "hit@500": 40.91,
             "hit@1000": 40.91,
             "hit@5000": 40.91,
@@ -1344,7 +1345,7 @@
             "lucas2018!",
             "pedrinho22"
           ],
-          "time_ms": 0.2
+          "time_ms": 0.9
         },
         "psudohash": {
           "total_targets": 22,
@@ -1352,8 +1353,8 @@
           "total_hits": 4,
           "coverage_pct": 18.18,
           "hit_rates": {
-            "hit@100": 13.64,
-            "hit@500": 13.64,
+            "hit@100": 4.55,
+            "hit@500": 18.18,
             "hit@1000": 18.18,
             "hit@5000": 18.18,
             "hit@10000": 18.18,
@@ -1386,7 +1387,7 @@
             "lucas2018!",
             "pedrinho22"
           ],
-          "time_ms": 1196.2
+          "time_ms": 1114.7
         },
         "longtongue": {
           "total_targets": 22,
@@ -1398,7 +1399,7 @@
             "hit@500": 0.0,
             "hit@1000": 0.0,
             "hit@5000": 4.55,
-            "hit@10000": 4.55,
+            "hit@10000": 9.09,
             "hit@25000": 31.82,
             "hit@50000": 31.82
           },
@@ -1428,7 +1429,7 @@
             "pedro#ana92",
             "lucas2018!"
           ],
-          "time_ms": 644.9
+          "time_ms": 599.0
         },
         "pydictor_sedb": {
           "total_targets": 22,
@@ -1470,7 +1471,7 @@
             "lucas2018!",
             "pedrinho22"
           ],
-          "time_ms": 194.2
+          "time_ms": 129.8
         },
         "passpwn": {
           "total_targets": 22,
@@ -1511,7 +1512,7 @@
             "lucas2018!",
             "pedrinho22"
           ],
-          "time_ms": 41.8
+          "time_ms": 38.7
         },
         "wlf_combined": {
           "total_targets": 22,
@@ -1553,7 +1554,7 @@
             "ana!1992",
             "pedro#ana92"
           ],
-          "time_ms": 2631.0
+          "time_ms": 17357.3
         }
       }
     },
@@ -1603,7 +1604,7 @@
             "f3rnand4",
             "fercosta87"
           ],
-          "time_ms": 509.3
+          "time_ms": 496.5
         },
         "cupp_original": {
           "total_targets": 22,
@@ -1644,7 +1645,7 @@
             "marketing2024",
             "fernanda10"
           ],
-          "time_ms": 87.3
+          "time_ms": 15005.3
         },
         "cupp_wlf": {
           "total_targets": 22,
@@ -1686,7 +1687,7 @@
             "fercosta87",
             "marketing2024"
           ],
-          "time_ms": 0.6
+          "time_ms": 1.0
         },
         "bopscrk": {
           "total_targets": 22,
@@ -1728,7 +1729,7 @@
             "fercosta87",
             "fernanda10"
           ],
-          "time_ms": 16.0
+          "time_ms": 17.9
         },
         "elpscrk": {
           "total_targets": 22,
@@ -1736,7 +1737,7 @@
           "total_hits": 11,
           "coverage_pct": 50.0,
           "hit_rates": {
-            "hit@100": 22.73,
+            "hit@100": 13.64,
             "hit@500": 50.0,
             "hit@1000": 50.0,
             "hit@5000": 50.0,
@@ -1770,7 +1771,7 @@
             "marketing2024",
             "fernanda10"
           ],
-          "time_ms": 0.4
+          "time_ms": 1.0
         },
         "psudohash": {
           "total_targets": 22,
@@ -1781,7 +1782,7 @@
             "hit@100": 0.0,
             "hit@500": 4.55,
             "hit@1000": 4.55,
-            "hit@5000": 4.55,
+            "hit@5000": 9.09,
             "hit@10000": 9.09,
             "hit@25000": 9.09,
             "hit@50000": 9.09
@@ -1812,7 +1813,7 @@
             "marketing2024",
             "fernanda10"
           ],
-          "time_ms": 2132.4
+          "time_ms": 2063.0
         },
         "longtongue": {
           "total_targets": 22,
@@ -1854,7 +1855,7 @@
             "thor@globo",
             "marketing2024"
           ],
-          "time_ms": 1567.5
+          "time_ms": 1533.8
         },
         "pydictor_sedb": {
           "total_targets": 22,
@@ -1896,7 +1897,7 @@
             "marketing2024",
             "fernanda10"
           ],
-          "time_ms": 219.5
+          "time_ms": 165.4
         },
         "passpwn": {
           "total_targets": 22,
@@ -1937,7 +1938,7 @@
             "marketing2024",
             "fernanda10"
           ],
-          "time_ms": 43.6
+          "time_ms": 38.5
         },
         "wlf_combined": {
           "total_targets": 22,
@@ -1979,7 +1980,7 @@
             "thor@globo",
             "fercosta87"
           ],
-          "time_ms": 4576.6
+          "time_ms": 19322.4
         }
       }
     },
@@ -2000,7 +2001,7 @@
             "hit@1000": 21.74,
             "hit@5000": 34.78,
             "hit@10000": 34.78,
-            "hit@25000": 86.96,
+            "hit@25000": 82.61,
             "hit@50000": 91.3
           },
           "hits": [
@@ -2030,7 +2031,7 @@
             "b.santos93",
             "987654bruno"
           ],
-          "time_ms": 504.8
+          "time_ms": 513.1
         },
         "cupp_original": {
           "total_targets": 23,
@@ -2072,7 +2073,7 @@
             "bru280893",
             "987654bruno"
           ],
-          "time_ms": 72.2
+          "time_ms": 15005.1
         },
         "cupp_wlf": {
           "total_targets": 23,
@@ -2115,13 +2116,13 @@
             "bru280893",
             "987654bruno"
           ],
-          "time_ms": 0.6
+          "time_ms": 1.0
         },
         "bopscrk": {
           "total_targets": 23,
           "total_candidates": 50000,
-          "total_hits": 6,
-          "coverage_pct": 26.09,
+          "total_hits": 4,
+          "coverage_pct": 17.39,
           "hit_rates": {
             "hit@100": 0.0,
             "hit@500": 0.0,
@@ -2129,19 +2130,18 @@
             "hit@5000": 0.0,
             "hit@10000": 0.0,
             "hit@25000": 0.0,
-            "hit@50000": 26.09
+            "hit@50000": 17.39
           },
           "hits": [
-            "nubank2024",
             "python123",
             "developer!",
             "brunosantos",
-            "python2024",
-            "nubank!"
+            "python2024"
           ],
           "misses": [
             "bruno1993",
             "bru93",
+            "nubank2024",
             "mel1993",
             "camila@bruno",
             "santos93",
@@ -2155,10 +2155,11 @@
             "b.santos93",
             "camila93",
             "mel@bruno",
+            "nubank!",
             "bru280893",
             "987654bruno"
           ],
-          "time_ms": 19.6
+          "time_ms": 21.8
         },
         "elpscrk": {
           "total_targets": 23,
@@ -2166,7 +2167,7 @@
           "total_hits": 10,
           "coverage_pct": 43.48,
           "hit_rates": {
-            "hit@100": 0.0,
+            "hit@100": 8.7,
             "hit@500": 43.48,
             "hit@1000": 43.48,
             "hit@5000": 43.48,
@@ -2201,7 +2202,7 @@
             "bru280893",
             "987654bruno"
           ],
-          "time_ms": 0.4
+          "time_ms": 1.1
         },
         "psudohash": {
           "total_targets": 23,
@@ -2210,7 +2211,7 @@
           "coverage_pct": 8.7,
           "hit_rates": {
             "hit@100": 0.0,
-            "hit@500": 4.35,
+            "hit@500": 8.7,
             "hit@1000": 8.7,
             "hit@5000": 8.7,
             "hit@10000": 8.7,
@@ -2244,7 +2245,7 @@
             "bru280893",
             "987654bruno"
           ],
-          "time_ms": 1718.4
+          "time_ms": 1644.7
         },
         "longtongue": {
           "total_targets": 23,
@@ -2255,8 +2256,8 @@
             "hit@100": 0.0,
             "hit@500": 0.0,
             "hit@1000": 0.0,
-            "hit@5000": 0.0,
-            "hit@10000": 0.0,
+            "hit@5000": 4.35,
+            "hit@10000": 4.35,
             "hit@25000": 4.35,
             "hit@50000": 21.74
           },
@@ -2287,7 +2288,7 @@
             "bru280893",
             "987654bruno"
           ],
-          "time_ms": 1541.2
+          "time_ms": 1526.1
         },
         "pydictor_sedb": {
           "total_targets": 23,
@@ -2330,7 +2331,7 @@
             "bru280893",
             "987654bruno"
           ],
-          "time_ms": 250.7
+          "time_ms": 172.8
         },
         "passpwn": {
           "total_targets": 23,
@@ -2372,7 +2373,7 @@
             "bru280893",
             "987654bruno"
           ],
-          "time_ms": 42.3
+          "time_ms": 36.6
         },
         "wlf_combined": {
           "total_targets": 23,
@@ -2415,7 +2416,7 @@
             "python2024",
             "987654bruno"
           ],
-          "time_ms": 4150.2
+          "time_ms": 18922.3
         }
       }
     },
@@ -2468,7 +2469,7 @@
           "misses": [
             "Juliana@fla"
           ],
-          "time_ms": 582.7
+          "time_ms": 597.6
         },
         "cupp_original": {
           "total_targets": 25,
@@ -2512,7 +2513,7 @@
             "Juliana@fla",
             "rio2024"
           ],
-          "time_ms": 72.1
+          "time_ms": 15005.1
         },
         "cupp_wlf": {
           "total_targets": 25,
@@ -2557,13 +2558,13 @@
             "Juliana@fla",
             "rio2024"
           ],
-          "time_ms": 0.8
+          "time_ms": 1.2
         },
         "bopscrk": {
           "total_targets": 25,
           "total_candidates": 50000,
-          "total_hits": 4,
-          "coverage_pct": 16.0,
+          "total_hits": 9,
+          "coverage_pct": 36.0,
           "hit_rates": {
             "hit@100": 0.0,
             "hit@500": 0.0,
@@ -2571,19 +2572,23 @@
             "hit@5000": 0.0,
             "hit@10000": 4.0,
             "hit@25000": 4.0,
-            "hit@50000": 16.0
+            "hit@50000": 36.0
           },
           "hits": [
+            "petrobras2024",
             "Flamengo!",
             "julianario",
+            "petrobras!",
+            "flamengo123",
+            "evangelica!",
             "julianaoliveira",
-            "juflamengo"
+            "juflamengo",
+            "rio2024"
           ],
           "misses": [
             "juliana1991",
             "ju91",
             "flamengo91",
-            "petrobras2024",
             "nina91",
             "marcos@ju",
             "samba1991",
@@ -2591,18 +2596,14 @@
             "Ju@1991",
             "nina!ju",
             "mengao91",
-            "petrobras!",
             "rio91",
-            "flamengo123",
             "ju140691",
-            "evangelica!",
             "samba@rio",
             "marcos1991",
             "nina2024",
-            "Juliana@fla",
-            "rio2024"
+            "Juliana@fla"
           ],
-          "time_ms": 19.7
+          "time_ms": 21.4
         },
         "elpscrk": {
           "total_targets": 25,
@@ -2610,7 +2611,7 @@
           "total_hits": 17,
           "coverage_pct": 68.0,
           "hit_rates": {
-            "hit@100": 12.0,
+            "hit@100": 0.0,
             "hit@500": 48.0,
             "hit@1000": 68.0,
             "hit@5000": 68.0,
@@ -2647,7 +2648,7 @@
             "samba@rio",
             "Juliana@fla"
           ],
-          "time_ms": 0.6
+          "time_ms": 1.1
         },
         "psudohash": {
           "total_targets": 25,
@@ -2658,7 +2659,7 @@
             "hit@100": 0.0,
             "hit@500": 0.0,
             "hit@1000": 0.0,
-            "hit@5000": 4.0,
+            "hit@5000": 0.0,
             "hit@10000": 4.0,
             "hit@25000": 4.0,
             "hit@50000": 4.0
@@ -2692,7 +2693,7 @@
             "Juliana@fla",
             "rio2024"
           ],
-          "time_ms": 6170.8
+          "time_ms": 6109.3
         },
         "longtongue": {
           "total_targets": 25,
@@ -2703,9 +2704,9 @@
             "hit@100": 0.0,
             "hit@500": 0.0,
             "hit@1000": 0.0,
-            "hit@5000": 0.0,
-            "hit@10000": 0.0,
-            "hit@25000": 8.0,
+            "hit@5000": 4.0,
+            "hit@10000": 4.0,
+            "hit@25000": 12.0,
             "hit@50000": 12.0
           },
           "hits": [
@@ -2737,7 +2738,7 @@
             "Juliana@fla",
             "rio2024"
           ],
-          "time_ms": 4651.7
+          "time_ms": 4860.5
         },
         "pydictor_sedb": {
           "total_targets": 25,
@@ -2782,7 +2783,7 @@
             "Juliana@fla",
             "rio2024"
           ],
-          "time_ms": 238.8
+          "time_ms": 170.7
         },
         "passpwn": {
           "total_targets": 25,
@@ -2826,7 +2827,7 @@
             "Juliana@fla",
             "rio2024"
           ],
-          "time_ms": 41.1
+          "time_ms": 47.5
         },
         "wlf_combined": {
           "total_targets": 25,
@@ -2871,7 +2872,7 @@
             "samba@rio",
             "Juliana@fla"
           ],
-          "time_ms": 11778.3
+          "time_ms": 26814.4
         }
       }
     },
@@ -2887,7 +2888,7 @@
           "total_hits": 21,
           "coverage_pct": 84.0,
           "hit_rates": {
-            "hit@100": 4.0,
+            "hit@100": 8.0,
             "hit@500": 8.0,
             "hit@1000": 12.0,
             "hit@5000": 28.0,
@@ -2924,7 +2925,7 @@
             "lucas#1225",
             "bobinho"
           ],
-          "time_ms": 602.2
+          "time_ms": 584.2
         },
         "cupp_original": {
           "total_targets": 25,
@@ -2968,7 +2969,7 @@
             "Cerveja2024",
             "bobinho"
           ],
-          "time_ms": 75.5
+          "time_ms": 15004.6
         },
         "cupp_wlf": {
           "total_targets": 25,
@@ -3013,31 +3014,32 @@
             "Cerveja2024",
             "bobinho"
           ],
-          "time_ms": 0.8
+          "time_ms": 1.2
         },
         "bopscrk": {
           "total_targets": 25,
           "total_candidates": 50000,
-          "total_hits": 2,
-          "coverage_pct": 8.0,
+          "total_hits": 4,
+          "coverage_pct": 16.0,
           "hit_rates": {
             "hit@100": 0.0,
             "hit@500": 0.0,
             "hit@1000": 0.0,
             "hit@5000": 0.0,
-            "hit@10000": 0.0,
-            "hit@25000": 0.0,
-            "hit@50000": 8.0
+            "hit@10000": 4.0,
+            "hit@25000": 4.0,
+            "hit@50000": 16.0
           },
           "hits": [
-            "lukinha!",
-            "bobferreira"
+            "guitarra!",
+            "bobferreira",
+            "corinthians!",
+            "Cerveja2024"
           ],
           "misses": [
             "lucas1989",
             "lukinha89",
             "corinthians89",
-            "guitarra!",
             "bob1989",
             "beatriz@lucas",
             "itau2024",
@@ -3046,19 +3048,18 @@
             "Ferreira89",
             "lucas0203",
             "timao89",
+            "lukinha!",
             "sp1989",
             "lucas@itau",
             "guitarra1989",
             "beatriz89",
-            "corinthians!",
             "rockbeer",
             "lucas#1225",
             "itau89",
             "lukinha0203",
-            "Cerveja2024",
             "bobinho"
           ],
-          "time_ms": 20.3
+          "time_ms": 20.7
         },
         "elpscrk": {
           "total_targets": 25,
@@ -3066,8 +3067,8 @@
           "total_hits": 17,
           "coverage_pct": 68.0,
           "hit_rates": {
-            "hit@100": 12.0,
-            "hit@500": 48.0,
+            "hit@100": 8.0,
+            "hit@500": 44.0,
             "hit@1000": 68.0,
             "hit@5000": 68.0,
             "hit@10000": 68.0,
@@ -3103,7 +3104,7 @@
             "lukinha0203",
             "bobinho"
           ],
-          "time_ms": 0.5
+          "time_ms": 1.0
         },
         "psudohash": {
           "total_targets": 25,
@@ -3113,7 +3114,7 @@
           "hit_rates": {
             "hit@100": 0.0,
             "hit@500": 0.0,
-            "hit@1000": 0.0,
+            "hit@1000": 4.0,
             "hit@5000": 4.0,
             "hit@10000": 4.0,
             "hit@25000": 4.0,
@@ -3148,7 +3149,7 @@
             "Cerveja2024",
             "bobinho"
           ],
-          "time_ms": 4549.2
+          "time_ms": 4520.6
         },
         "longtongue": {
           "total_targets": 25,
@@ -3159,20 +3160,19 @@
             "hit@100": 0.0,
             "hit@500": 0.0,
             "hit@1000": 0.0,
-            "hit@5000": 0.0,
-            "hit@10000": 0.0,
+            "hit@5000": 4.0,
+            "hit@10000": 4.0,
             "hit@25000": 4.0,
             "hit@50000": 8.0
           },
           "hits": [
-            "lukinha!",
+            "guitarra!",
             "corinthians!"
           ],
           "misses": [
             "lucas1989",
             "lukinha89",
             "corinthians89",
-            "guitarra!",
             "bob1989",
             "beatriz@lucas",
             "itau2024",
@@ -3181,6 +3181,7 @@
             "Ferreira89",
             "lucas0203",
             "timao89",
+            "lukinha!",
             "bobferreira",
             "sp1989",
             "lucas@itau",
@@ -3193,7 +3194,7 @@
             "Cerveja2024",
             "bobinho"
           ],
-          "time_ms": 5992.3
+          "time_ms": 6050.4
         },
         "pydictor_sedb": {
           "total_targets": 25,
@@ -3238,7 +3239,7 @@
             "Cerveja2024",
             "bobinho"
           ],
-          "time_ms": 239.7
+          "time_ms": 172.5
         },
         "passpwn": {
           "total_targets": 25,
@@ -3282,7 +3283,7 @@
             "Cerveja2024",
             "bobinho"
           ],
-          "time_ms": 39.6
+          "time_ms": 36.6
         },
         "wlf_combined": {
           "total_targets": 25,
@@ -3290,7 +3291,7 @@
           "total_hits": 19,
           "coverage_pct": 76.0,
           "hit_rates": {
-            "hit@100": 4.0,
+            "hit@100": 8.0,
             "hit@500": 8.0,
             "hit@1000": 12.0,
             "hit@5000": 28.0,
@@ -3327,7 +3328,7 @@
             "lucas#1225",
             "bobinho"
           ],
-          "time_ms": 11520.1
+          "time_ms": 26391.8
         }
       }
     },
@@ -3381,13 +3382,13 @@
           "misses": [
             "d3d31985"
           ],
-          "time_ms": 550.5
+          "time_ms": 555.6
         },
         "cupp_original": {
           "total_targets": 26,
-          "total_candidates": 45211,
-          "total_hits": 12,
-          "coverage_pct": 46.15,
+          "total_candidates": 0,
+          "total_hits": 0,
+          "coverage_pct": 0.0,
           "hit_rates": {
             "hit@100": 0.0,
             "hit@500": 0.0,
@@ -3395,39 +3396,38 @@
             "hit@5000": 0.0,
             "hit@10000": 0.0,
             "hit@25000": 0.0,
-            "hit@50000": 46.15
+            "hit@50000": 0.0
           },
-          "hits": [
-            "andre1985",
-            "henrique85",
-            "patricia88",
-            "sophia2016",
-            "linux!",
-            "dede170985",
-            "metal1985",
-            "curitiba85",
-            "sophia16",
-            "safelabs!",
-            "dede85",
-            "d3d31985"
-          ],
+          "hits": [],
           "misses": [
             "dede1985!",
             "Andre@123",
             "zeus1985",
+            "andre1985",
+            "henrique85",
             "hacker123",
             "safelabs2024",
+            "patricia88",
+            "sophia2016",
+            "linux!",
             "zeus@dede",
+            "dede170985",
+            "metal1985",
+            "curitiba85",
             "patricia@andre",
+            "sophia16",
+            "safelabs!",
             "andrehenrique",
             "Zeus@1985",
             "dede!hacker",
             "seguranca123",
+            "dede85",
             "andre@safelabs",
             "patriciasophia",
-            "zeus2024"
+            "zeus2024",
+            "d3d31985"
           ],
-          "time_ms": 92.7
+          "time_ms": 15005.8
         },
         "cupp_wlf": {
           "total_targets": 26,
@@ -3473,13 +3473,13 @@
             "zeus2024",
             "d3d31985"
           ],
-          "time_ms": 0.8
+          "time_ms": 1.4
         },
         "bopscrk": {
           "total_targets": 26,
           "total_candidates": 50000,
-          "total_hits": 5,
-          "coverage_pct": 19.23,
+          "total_hits": 6,
+          "coverage_pct": 23.08,
           "hit_rates": {
             "hit@100": 0.0,
             "hit@500": 0.0,
@@ -3487,11 +3487,12 @@
             "hit@5000": 0.0,
             "hit@10000": 0.0,
             "hit@25000": 0.0,
-            "hit@50000": 19.23
+            "hit@50000": 23.08
           },
           "hits": [
             "hacker123",
             "safelabs2024",
+            "linux!",
             "safelabs!",
             "andrehenrique",
             "seguranca123"
@@ -3504,7 +3505,6 @@
             "henrique85",
             "patricia88",
             "sophia2016",
-            "linux!",
             "zeus@dede",
             "dede170985",
             "metal1985",
@@ -3519,7 +3519,7 @@
             "zeus2024",
             "d3d31985"
           ],
-          "time_ms": 19.0
+          "time_ms": 27.2
         },
         "elpscrk": {
           "total_targets": 26,
@@ -3527,8 +3527,8 @@
           "total_hits": 14,
           "coverage_pct": 53.85,
           "hit_rates": {
-            "hit@100": 7.69,
-            "hit@500": 38.46,
+            "hit@100": 11.54,
+            "hit@500": 50.0,
             "hit@1000": 53.85,
             "hit@5000": 53.85,
             "hit@10000": 53.85,
@@ -3565,7 +3565,7 @@
             "andre@safelabs",
             "patriciasophia"
           ],
-          "time_ms": 1.3
+          "time_ms": 1.0
         },
         "psudohash": {
           "total_targets": 26,
@@ -3574,7 +3574,7 @@
           "coverage_pct": 3.85,
           "hit_rates": {
             "hit@100": 0.0,
-            "hit@500": 3.85,
+            "hit@500": 0.0,
             "hit@1000": 3.85,
             "hit@5000": 3.85,
             "hit@10000": 3.85,
@@ -3611,7 +3611,7 @@
             "zeus2024",
             "d3d31985"
           ],
-          "time_ms": 7244.7
+          "time_ms": 7032.5
         },
         "longtongue": {
           "total_targets": 26,
@@ -3622,9 +3622,9 @@
             "hit@100": 0.0,
             "hit@500": 0.0,
             "hit@1000": 0.0,
-            "hit@5000": 0.0,
-            "hit@10000": 0.0,
-            "hit@25000": 0.0,
+            "hit@5000": 3.85,
+            "hit@10000": 3.85,
+            "hit@25000": 3.85,
             "hit@50000": 7.69
           },
           "hits": [
@@ -3657,7 +3657,7 @@
             "zeus2024",
             "d3d31985"
           ],
-          "time_ms": 5931.3
+          "time_ms": 6073.0
         },
         "pydictor_sedb": {
           "total_targets": 26,
@@ -3703,7 +3703,7 @@
             "zeus2024",
             "d3d31985"
           ],
-          "time_ms": 221.0
+          "time_ms": 189.6
         },
         "passpwn": {
           "total_targets": 26,
@@ -3748,21 +3748,21 @@
             "zeus2024",
             "d3d31985"
           ],
-          "time_ms": 48.5
+          "time_ms": 46.4
         },
         "wlf_combined": {
           "total_targets": 26,
           "total_candidates": 50000,
-          "total_hits": 20,
-          "coverage_pct": 76.92,
+          "total_hits": 21,
+          "coverage_pct": 80.77,
           "hit_rates": {
             "hit@100": 11.54,
             "hit@500": 11.54,
             "hit@1000": 15.38,
             "hit@5000": 38.46,
             "hit@10000": 38.46,
-            "hit@25000": 76.92,
-            "hit@50000": 76.92
+            "hit@25000": 80.77,
+            "hit@50000": 80.77
           },
           "hits": [
             "dede1985!",
@@ -3781,6 +3781,7 @@
             "sophia16",
             "safelabs!",
             "andrehenrique",
+            "Zeus@1985",
             "seguranca123",
             "dede85",
             "zeus2024",
@@ -3789,12 +3790,11 @@
           "misses": [
             "zeus@dede",
             "patricia@andre",
-            "Zeus@1985",
             "dede!hacker",
             "andre@safelabs",
             "patriciasophia"
           ],
-          "time_ms": 14109.8
+          "time_ms": 28932.5
         }
       }
     },
@@ -3813,7 +3813,7 @@
             "hit@100": 16.13,
             "hit@500": 16.13,
             "hit@1000": 16.13,
-            "hit@5000": 29.03,
+            "hit@5000": 32.26,
             "hit@10000": 32.26,
             "hit@25000": 61.29,
             "hit@50000": 87.1
@@ -3828,7 +3828,6 @@
             "rodrigues92",
             "biel92",
             "palmeiras!",
-            "enzo2019",
             "mandinha94",
             "odebrecht2024",
             "churrasco!",
@@ -3837,6 +3836,7 @@
             "averdao92",
             "saopaulo92",
             "engenheiro1992",
+            "gabi0411",
             "cerveja123",
             "universal!",
             "gabrielrodrigues",
@@ -3848,18 +3848,18 @@
             "mandinhagabi"
           ],
           "misses": [
-            "gabi0411",
+            "enzo2019",
             "enzo@gabi",
             "g4br13l92",
             "Biel@1992"
           ],
-          "time_ms": 727.7
+          "time_ms": 707.9
         },
         "cupp_original": {
           "total_targets": 31,
-          "total_candidates": 50000,
-          "total_hits": 11,
-          "coverage_pct": 35.48,
+          "total_candidates": 0,
+          "total_hits": 0,
+          "coverage_pct": 0.0,
           "hit_rates": {
             "hit@100": 0.0,
             "hit@500": 0.0,
@@ -3867,44 +3867,43 @@
             "hit@5000": 0.0,
             "hit@10000": 0.0,
             "hit@25000": 0.0,
-            "hit@50000": 35.48
+            "hit@50000": 0.0
           },
-          "hits": [
-            "amanda1994",
-            "gabriel1992",
-            "biel92",
-            "enzo2019",
-            "mandinha94",
-            "churrasco!",
-            "averdao92",
-            "gabi0411",
-            "forca92",
-            "construcao!",
-            "odebrecht92"
-          ],
+          "hits": [],
           "misses": [
             "gabi1992!",
             "Palmeiras@92",
             "pipoca2019",
+            "amanda1994",
             "Gabi@ode",
+            "gabriel1992",
             "rodrigues92",
+            "biel92",
             "palmeiras!",
+            "enzo2019",
+            "mandinha94",
             "odebrecht2024",
+            "churrasco!",
             "gabriel@amanda",
             "pipoca!",
+            "averdao92",
             "saopaulo92",
             "engenheiro1992",
+            "gabi0411",
             "cerveja123",
             "enzo@gabi",
             "universal!",
             "gabrielrodrigues",
             "amanda@gabi",
+            "forca92",
             "g4br13l92",
             "Biel@1992",
             "pipocaenzo",
+            "construcao!",
+            "odebrecht92",
             "mandinhagabi"
           ],
-          "time_ms": 124.0
+          "time_ms": 15005.0
         },
         "cupp_wlf": {
           "total_targets": 31,
@@ -3955,13 +3954,13 @@
             "pipocaenzo",
             "mandinhagabi"
           ],
-          "time_ms": 0.9
+          "time_ms": 1.8
         },
         "bopscrk": {
           "total_targets": 31,
           "total_candidates": 50000,
-          "total_hits": 1,
-          "coverage_pct": 3.23,
+          "total_hits": 3,
+          "coverage_pct": 9.68,
           "hit_rates": {
             "hit@100": 0.0,
             "hit@500": 0.0,
@@ -3969,9 +3968,11 @@
             "hit@5000": 0.0,
             "hit@10000": 0.0,
             "hit@25000": 0.0,
-            "hit@50000": 3.23
+            "hit@50000": 9.68
           },
           "hits": [
+            "odebrecht2024",
+            "cerveja123",
             "gabrielrodrigues"
           ],
           "misses": [
@@ -3986,7 +3987,6 @@
             "palmeiras!",
             "enzo2019",
             "mandinha94",
-            "odebrecht2024",
             "churrasco!",
             "gabriel@amanda",
             "pipoca!",
@@ -3994,7 +3994,6 @@
             "saopaulo92",
             "engenheiro1992",
             "gabi0411",
-            "cerveja123",
             "enzo@gabi",
             "universal!",
             "amanda@gabi",
@@ -4006,7 +4005,7 @@
             "odebrecht92",
             "mandinhagabi"
           ],
-          "time_ms": 21.2
+          "time_ms": 24.8
         },
         "elpscrk": {
           "total_targets": 31,
@@ -4014,8 +4013,8 @@
           "total_hits": 17,
           "coverage_pct": 54.84,
           "hit_rates": {
-            "hit@100": 3.23,
-            "hit@500": 25.81,
+            "hit@100": 6.45,
+            "hit@500": 19.35,
             "hit@1000": 54.84,
             "hit@5000": 54.84,
             "hit@10000": 54.84,
@@ -4057,7 +4056,7 @@
             "pipocaenzo",
             "mandinhagabi"
           ],
-          "time_ms": 0.7
+          "time_ms": 1.4
         },
         "psudohash": {
           "total_targets": 31,
@@ -4069,7 +4068,7 @@
             "hit@500": 0.0,
             "hit@1000": 0.0,
             "hit@5000": 0.0,
-            "hit@10000": 0.0,
+            "hit@10000": 3.23,
             "hit@25000": 6.45,
             "hit@50000": 6.45
           },
@@ -4108,26 +4107,27 @@
             "odebrecht92",
             "mandinhagabi"
           ],
-          "time_ms": 12456.3
+          "time_ms": 12640.8
         },
         "longtongue": {
           "total_targets": 31,
           "total_candidates": 50000,
-          "total_hits": 4,
-          "coverage_pct": 12.9,
+          "total_hits": 5,
+          "coverage_pct": 16.13,
           "hit_rates": {
             "hit@100": 0.0,
             "hit@500": 0.0,
             "hit@1000": 0.0,
-            "hit@5000": 0.0,
-            "hit@10000": 3.23,
+            "hit@5000": 3.23,
+            "hit@10000": 9.68,
             "hit@25000": 9.68,
-            "hit@50000": 12.9
+            "hit@50000": 16.13
           },
           "hits": [
             "Palmeiras@92",
             "palmeiras!",
-            "churrasco!",
+            "pipoca!",
+            "universal!",
             "construcao!"
           ],
           "misses": [
@@ -4141,15 +4141,14 @@
             "enzo2019",
             "mandinha94",
             "odebrecht2024",
+            "churrasco!",
             "gabriel@amanda",
-            "pipoca!",
             "averdao92",
             "saopaulo92",
             "engenheiro1992",
             "gabi0411",
             "cerveja123",
             "enzo@gabi",
-            "universal!",
             "gabrielrodrigues",
             "amanda@gabi",
             "forca92",
@@ -4159,7 +4158,7 @@
             "odebrecht92",
             "mandinhagabi"
           ],
-          "time_ms": 10286.3
+          "time_ms": 10047.8
         },
         "pydictor_sedb": {
           "total_targets": 31,
@@ -4210,7 +4209,7 @@
             "odebrecht92",
             "mandinhagabi"
           ],
-          "time_ms": 243.9
+          "time_ms": 178.7
         },
         "passpwn": {
           "total_targets": 31,
@@ -4260,7 +4259,7 @@
             "odebrecht92",
             "mandinhagabi"
           ],
-          "time_ms": 47.0
+          "time_ms": 38.7
         },
         "wlf_combined": {
           "total_targets": 31,
@@ -4271,9 +4270,9 @@
             "hit@100": 16.13,
             "hit@500": 16.13,
             "hit@1000": 16.13,
-            "hit@5000": 29.03,
+            "hit@5000": 32.26,
             "hit@10000": 32.26,
-            "hit@25000": 80.65,
+            "hit@25000": 77.42,
             "hit@50000": 80.65
           },
           "hits": [
@@ -4311,22 +4310,22 @@
             "pipocaenzo",
             "mandinhagabi"
           ],
-          "time_ms": 23908.0
+          "time_ms": 38646.9
         }
       }
     }
   ],
   "summary": {
     "cogpie": {
-      "avg_coverage": 89.06,
+      "avg_coverage": 88.61,
       "min_coverage": 80.0,
       "max_coverage": 96.15,
       "wins": 7
     },
     "cupp_original": {
-      "avg_coverage": 8.16,
+      "avg_coverage": 0.0,
       "min_coverage": 0.0,
-      "max_coverage": 46.15,
+      "max_coverage": 0.0,
       "wins": 0
     },
     "cupp_wlf": {
@@ -4336,8 +4335,8 @@
       "wins": 0
     },
     "bopscrk": {
-      "avg_coverage": 18.77,
-      "min_coverage": 3.23,
+      "avg_coverage": 21.73,
+      "min_coverage": 6.67,
       "max_coverage": 66.67,
       "wins": 0
     },
@@ -4354,7 +4353,7 @@
       "wins": 0
     },
     "longtongue": {
-      "avg_coverage": 26.93,
+      "avg_coverage": 27.25,
       "min_coverage": 7.69,
       "max_coverage": 70.0,
       "wins": 0
@@ -4372,7 +4371,7 @@
       "wins": 0
     },
     "wlf_combined": {
-      "avg_coverage": 82.31,
+      "avg_coverage": 82.19,
       "min_coverage": 56.52,
       "max_coverage": 100.0,
       "wins": 3
@@ -4506,14 +4505,14 @@
         "pedrolucas"
       ],
       "only_external": [
-        "anaPedro"
+        "anaPedro",
+        "lucas10"
       ],
       "both": [
         "Pedro1990",
         "Pedro@90",
         "ana1992",
         "anapedro",
-        "lucas10",
         "lucas18",
         "lucas2018",
         "p3dr0",
@@ -4532,7 +4531,8 @@
       "per_tool_unique": {
         "cupp_original": [],
         "cupp_wlf": [
-          "anaPedro"
+          "anaPedro",
+          "lucas10"
         ],
         "bopscrk": [],
         "elpscrk": [
@@ -4729,6 +4729,7 @@
       "only_cogpie": [
         "andre@safelabs",
         "dede!hacker",
+        "dede170985",
         "dede1985!",
         "patricia@andre",
         "patriciasophia",
@@ -4743,7 +4744,6 @@
         "andre1985",
         "andrehenrique",
         "curitiba85",
-        "dede170985",
         "dede85",
         "hacker123",
         "henrique85",
@@ -4760,9 +4760,7 @@
       ],
       "missed_by_all": [],
       "per_tool_unique": {
-        "cupp_original": [
-          "d3d31985"
-        ],
+        "cupp_original": [],
         "cupp_wlf": [],
         "bopscrk": [],
         "elpscrk": [
@@ -4784,8 +4782,8 @@
         "pipocaenzo"
       ],
       "only_external": [
-        "g4br13l92",
-        "gabi0411"
+        "enzo2019",
+        "g4br13l92"
       ],
       "both": [
         "Palmeiras@92",
@@ -4796,8 +4794,8 @@
         "churrasco!",
         "construcao!",
         "engenheiro1992",
-        "enzo2019",
         "forca92",
+        "gabi0411",
         "gabriel1992",
         "gabrielrodrigues",
         "mandinha94",
@@ -4815,10 +4813,10 @@
         "enzo@gabi"
       ],
       "per_tool_unique": {
-        "cupp_original": [
-          "gabi0411"
+        "cupp_original": [],
+        "cupp_wlf": [
+          "enzo2019"
         ],
-        "cupp_wlf": [],
         "bopscrk": [],
         "elpscrk": [
           "g4br13l92"
@@ -4827,9 +4825,7 @@
           "g4br13l92"
         ],
         "longtongue": [],
-        "pydictor_sedb": [
-          "gabi0411"
-        ],
+        "pydictor_sedb": [],
         "passpwn": []
       }
     }
