@@ -1,0 +1,33 @@
+{
+  "corpus": "./corpus/rockyou/processed_corpus.txt",
+  "train_size": 479854,
+  "test_size": 500,
+  "train_time_seconds": 3.23,
+  "eval_time_seconds": 128.09,
+  "budget_tiers": [
+    10,
+    100,
+    1000,
+    10000,
+    100000
+  ],
+  "hit_rates": {
+    "hit@10": 0.8,
+    "hit@100": 8.0,
+    "hit@1000": 68.4,
+    "hit@10000": 69.8,
+    "hit@100000": 69.8
+  },
+  "hits_raw": {
+    "hit@10": 4,
+    "hit@100": 40,
+    "hit@1000": 342,
+    "hit@10000": 349,
+    "hit@100000": 349
+  },
+  "engine_params": {
+    "alpha": 0.4,
+    "beta": 0.2,
+    "markov_order": 3
+  }
+}

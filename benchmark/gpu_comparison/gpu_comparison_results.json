@@ -1,0 +1,146 @@
+{
+  "corpus": "./corpus/rockyou_full/processed_corpus.txt",
+  "train_size": 1000000,
+  "test_size": 500,
+  "budget_tiers": [
+    10,
+    100,
+    1000,
+    10000
+  ],
+  "gpu": "cuda",
+  "algorithms": [
+    {
+      "algorithm": "CogPIE",
+      "evaluated": 500,
+      "total_hits": 240,
+      "coverage_pct": 48.0,
+      "mrr": 0.001114,
+      "median_rank": 756,
+      "total_time_seconds": 318.7,
+      "avg_time_per_target_ms": 637.4,
+      "hit_rates": {
+        "hit@10": 0.0,
+        "hit@100": 1.4,
+        "hit@1000": 28.8,
+        "hit@10000": 48.0
+      },
+      "hits_raw": {
+        "hit@10": 0,
+        "hit@100": 7,
+        "hit@1000": 144,
+        "hit@10000": 240
+      }
+    },
+    {
+      "algorithm": "Markov-3",
+      "evaluated": 500,
+      "total_hits": 16,
+      "coverage_pct": 3.2,
+      "mrr": 0.00077,
+      "median_rank": 64,
+      "total_time_seconds": 428.45,
+      "avg_time_per_target_ms": 856.89,
+      "hit_rates": {
+        "hit@10": 0.2,
+        "hit@100": 1.8,
+        "hit@1000": 2.6,
+        "hit@10000": 3.2
+      },
+      "hits_raw": {
+        "hit@10": 1,
+        "hit@100": 9,
+        "hit@1000": 13,
+        "hit@10000": 16
+      }
+    },
+    {
+      "algorithm": "Frequency",
+      "evaluated": 500,
+      "total_hits": 0,
+      "coverage_pct": 0.0,
+      "mrr": 0.0,
+      "median_rank": null,
+      "total_time_seconds": 0.04,
+      "avg_time_per_target_ms": 0.08,
+      "hit_rates": {
+        "hit@10": 0.0,
+        "hit@100": 0.0,
+        "hit@1000": 0.0,
+        "hit@10000": 0.0
+      },
+      "hits_raw": {
+        "hit@10": 0,
+        "hit@100": 0,
+        "hit@1000": 0,
+        "hit@10000": 0
+      }
+    },
+    {
+      "algorithm": "Levenshtein",
+      "evaluated": 500,
+      "total_hits": 0,
+      "coverage_pct": 0.0,
+      "mrr": 0.0,
+      "median_rank": null,
+      "total_time_seconds": 91.06,
+      "avg_time_per_target_ms": 182.12,
+      "hit_rates": {
+        "hit@10": 0.0,
+        "hit@100": 0.0,
+        "hit@1000": 0.0,
+        "hit@10000": 0.0
+      },
+      "hits_raw": {
+        "hit@10": 0,
+        "hit@100": 0,
+        "hit@1000": 0,
+        "hit@10000": 0
+      }
+    },
+    {
+      "algorithm": "CUPP-style",
+      "evaluated": 500,
+      "total_hits": 230,
+      "coverage_pct": 46.0,
+      "mrr": 0.027271,
+      "median_rank": 41,
+      "total_time_seconds": 0.0,
+      "avg_time_per_target_ms": 0.01,
+      "hit_rates": {
+        "hit@10": 6.2,
+        "hit@100": 43.8,
+        "hit@1000": 46.0,
+        "hit@10000": 46.0
+      },
+      "hits_raw": {
+        "hit@10": 31,
+        "hit@100": 219,
+        "hit@1000": 230,
+        "hit@10000": 230
+      }
+    },
+    {
+      "algorithm": "Random",
+      "evaluated": 500,
+      "total_hits": 0,
+      "coverage_pct": 0.0,
+      "mrr": 0.0,
+      "median_rank": null,
+      "total_time_seconds": 0.68,
+      "avg_time_per_target_ms": 1.36,
+      "hit_rates": {
+        "hit@10": 0.0,
+        "hit@100": 0.0,
+        "hit@1000": 0.0,
+        "hit@10000": 0.0
+      },
+      "hits_raw": {
+        "hit@10": 0,
+        "hit@100": 0,
+        "hit@1000": 0,
+        "hit@10000": 0
+      }
+    }
+  ]
+}

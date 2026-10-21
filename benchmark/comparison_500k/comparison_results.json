@@ -1,0 +1,121 @@
+{
+  "corpus": "./corpus/rockyou/processed_corpus.txt",
+  "train_size": 499564,
+  "test_size": 200,
+  "budget_tiers": [
+    10,
+    100,
+    1000,
+    10000
+  ],
+  "algorithms": [
+    {
+      "algorithm": "CogPIE",
+      "evaluated": 200,
+      "total_time_seconds": 48.27,
+      "avg_time_per_target_ms": 241.35,
+      "hit_rates": {
+        "hit@10": 1.0,
+        "hit@100": 5.0,
+        "hit@1000": 67.5,
+        "hit@10000": 69.0
+      },
+      "hits_raw": {
+        "hit@10": 2,
+        "hit@100": 10,
+        "hit@1000": 135,
+        "hit@10000": 138
+      }
+    },
+    {
+      "algorithm": "Markov-3",
+      "evaluated": 200,
+      "total_time_seconds": 198.26,
+      "avg_time_per_target_ms": 991.31,
+      "hit_rates": {
+        "hit@10": 2.5,
+        "hit@100": 9.5,
+        "hit@1000": 28.5,
+        "hit@10000": 28.5
+      },
+      "hits_raw": {
+        "hit@10": 5,
+        "hit@100": 19,
+        "hit@1000": 57,
+        "hit@10000": 57
+      }
+    },
+    {
+      "algorithm": "Frequency",
+      "evaluated": 200,
+      "total_time_seconds": 0.01,
+      "avg_time_per_target_ms": 0.03,
+      "hit_rates": {
+        "hit@10": 0.0,
+        "hit@100": 0.0,
+        "hit@1000": 0.0,
+        "hit@10000": 0.0
+      },
+      "hits_raw": {
+        "hit@10": 0,
+        "hit@100": 0,
+        "hit@1000": 0,
+        "hit@10000": 0
+      }
+    },
+    {
+      "algorithm": "Levenshtein",
+      "evaluated": 200,
+      "total_time_seconds": 63.1,
+      "avg_time_per_target_ms": 315.5,
+      "hit_rates": {
+        "hit@10": 0.0,
+        "hit@100": 0.0,
+        "hit@1000": 0.0,
+        "hit@10000": 0.0
+      },
+      "hits_raw": {
+        "hit@10": 0,
+        "hit@100": 0,
+        "hit@1000": 0,
+        "hit@10000": 0
+      }
+    },
+    {
+      "algorithm": "CUPP-style",
+      "evaluated": 200,
+      "total_time_seconds": 0.0,
+      "avg_time_per_target_ms": 0.01,
+      "hit_rates": {
+        "hit@10": 7.5,
+        "hit@100": 42.0,
+        "hit@1000": 43.5,
+        "hit@10000": 43.5
+      },
+      "hits_raw": {
+        "hit@10": 15,
+        "hit@100": 84,
+        "hit@1000": 87,
+        "hit@10000": 87
+      }
+    },
+    {
+      "algorithm": "Random",
+      "evaluated": 200,
+      "total_time_seconds": 0.23,
+      "avg_time_per_target_ms": 1.17,
+      "hit_rates": {
+        "hit@10": 0.0,
+        "hit@100": 0.0,
+        "hit@1000": 0.0,
+        "hit@10000": 0.0
+      },
+      "hits_raw": {
+        "hit@10": 0,
+        "hit@100": 0,
+        "hit@1000": 0,
+        "hit@10000": 0
+      }
+    }
+  ]
+}

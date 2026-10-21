@@ -1,0 +1,35 @@
+{
+  "corpus": "./corpus/rockyou_full/processed_corpus.txt",
+  "pairs_source": "auto-extracted",
+  "train_size": 1000000,
+  "test_size": 2000,
+  "gpu": "cpu",
+  "budget_tiers": [
+    10,
+    100,
+    1000,
+    10000,
+    100000
+  ],
+  "hit_rates": {
+    "hit@10": 24.05,
+    "hit@100": 59.3,
+    "hit@1000": 75.95,
+    "hit@10000": 75.95,
+    "hit@100000": 75.95
+  },
+  "hits_raw": {
+    "hit@10": 481,
+    "hit@100": 1186,
+    "hit@1000": 1519,
+    "hit@10000": 1519,
+    "hit@100000": 1519
+  },
+  "coverage_pct": 75.95,
+  "mrr": 0.13661,
+  "median_rank": 35,
+  "total_time_seconds": 998.8,
+  "avg_gen_ms": 499.37,
+  "avg_match_ms": 0.03,
+  "throughput_targets_per_sec": 2.0
+}
