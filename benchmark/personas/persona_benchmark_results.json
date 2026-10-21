@@ -1,0 +1,1282 @@
+{
+  "meta": {
+    "train_count": 1000000,
+    "train_time_seconds": 5.19,
+    "device": "cuda",
+    "n_personas": 10,
+    "timestamp": "2026-10-21T19:53:56"
+  },
+  "personas": [
+    {
+      "id": "P01_minimal",
+      "level": 1,
+      "level_name": "Minimal",
+      "fields_filled": [
+        "first_name"
+      ],
+      "n_fields": 1,
+      "n_ground_truth": 15,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 15,
+          "total_candidates": 7620,
+          "total_hits": 9,
+          "coverage_pct": 60.0,
+          "mrr": 0.014516,
+          "median_rank": 556,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 26.67,
+            "hit@100": 26.67,
+            "hit@500": 26.67,
+            "hit@1000": 40.0,
+            "hit@5000": 60.0,
+            "hit@10000": 60.0,
+            "hit@25000": 60.0,
+            "hit@50000": 60.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 4,
+            "hit@100": 4,
+            "hit@500": 4,
+            "hit@1000": 6,
+            "hit@5000": 9,
+            "hit@10000": 9,
+            "hit@25000": 9,
+            "hit@50000": 9
+          },
+          "generation_time_ms": 386.3
+        },
+        "cupp": {
+          "total_targets": 15,
+          "total_candidates": 445,
+          "total_hits": 4,
+          "coverage_pct": 26.67,
+          "mrr": 0.037299,
+          "median_rank": 16,
+          "hit_rates": {
+            "hit@10": 13.33,
+            "hit@50": 26.67,
+            "hit@100": 26.67,
+            "hit@500": 26.67,
+            "hit@1000": 26.67,
+            "hit@5000": 26.67,
+            "hit@10000": 26.67,
+            "hit@25000": 26.67,
+            "hit@50000": 26.67
+          },
+          "hits_raw": {
+            "hit@10": 2,
+            "hit@50": 4,
+            "hit@100": 4,
+            "hit@500": 4,
+            "hit@1000": 4,
+            "hit@5000": 4,
+            "hit@10000": 4,
+            "hit@25000": 4,
+            "hit@50000": 4
+          },
+          "generation_time_ms": 11.9
+        },
+        "markov": {
+          "total_targets": 15,
+          "total_candidates": 18,
+          "total_hits": 8,
+          "coverage_pct": 53.33,
+          "mrr": 0.073598,
+          "median_rank": 9,
+          "hit_rates": {
+            "hit@10": 40.0,
+            "hit@50": 53.33,
+            "hit@100": 53.33,
+            "hit@500": 53.33,
+            "hit@1000": 53.33,
+            "hit@5000": 53.33,
+            "hit@10000": 53.33,
+            "hit@25000": 53.33,
+            "hit@50000": 53.33
+          },
+          "hits_raw": {
+            "hit@10": 6,
+            "hit@50": 8,
+            "hit@100": 8,
+            "hit@500": 8,
+            "hit@1000": 8,
+            "hit@5000": 8,
+            "hit@10000": 8,
+            "hit@25000": 8,
+            "hit@50000": 8
+          },
+          "generation_time_ms": 0.0
+        }
+      }
+    },
+    {
+      "id": "P02_basic",
+      "level": 2,
+      "level_name": "Basic",
+      "fields_filled": [
+        "first_name",
+        "birth_year"
+      ],
+      "n_fields": 2,
+      "n_ground_truth": 15,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 15,
+          "total_candidates": 15110,
+          "total_hits": 13,
+          "coverage_pct": 86.67,
+          "mrr": 0.001437,
+          "median_rank": 470,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 53.33,
+            "hit@1000": 60.0,
+            "hit@5000": 66.67,
+            "hit@10000": 86.67,
+            "hit@25000": 86.67,
+            "hit@50000": 86.67
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 8,
+            "hit@1000": 9,
+            "hit@5000": 10,
+            "hit@10000": 13,
+            "hit@25000": 13,
+            "hit@50000": 13
+          },
+          "generation_time_ms": 824.4
+        },
+        "cupp": {
+          "total_targets": 15,
+          "total_candidates": 457,
+          "total_hits": 7,
+          "coverage_pct": 46.67,
+          "mrr": 0.002944,
+          "median_rank": 333,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 6.67,
+            "hit@100": 6.67,
+            "hit@500": 46.67,
+            "hit@1000": 46.67,
+            "hit@5000": 46.67,
+            "hit@10000": 46.67,
+            "hit@25000": 46.67,
+            "hit@50000": 46.67
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 1,
+            "hit@100": 1,
+            "hit@500": 7,
+            "hit@1000": 7,
+            "hit@5000": 7,
+            "hit@10000": 7,
+            "hit@25000": 7,
+            "hit@50000": 7
+          },
+          "generation_time_ms": 1.2
+        },
+        "markov": {
+          "total_targets": 15,
+          "total_candidates": 18,
+          "total_hits": 0,
+          "coverage_pct": 0.0,
+          "mrr": 0.0,
+          "median_rank": null,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 0.0,
+            "hit@50000": 0.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 0,
+            "hit@1000": 0,
+            "hit@5000": 0,
+            "hit@10000": 0,
+            "hit@25000": 0,
+            "hit@50000": 0
+          },
+          "generation_time_ms": 0.0
+        }
+      }
+    },
+    {
+      "id": "P03_names",
+      "level": 3,
+      "level_name": "Names",
+      "fields_filled": [
+        "first_name",
+        "last_name",
+        "nickname",
+        "birth_date"
+      ],
+      "n_fields": 4,
+      "n_ground_truth": 20,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 20,
+          "total_candidates": 50000,
+          "total_hits": 15,
+          "coverage_pct": 75.0,
+          "mrr": 0.000193,
+          "median_rank": 3656,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 60.0,
+            "hit@10000": 65.0,
+            "hit@25000": 75.0,
+            "hit@50000": 75.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 0,
+            "hit@1000": 0,
+            "hit@5000": 12,
+            "hit@10000": 13,
+            "hit@25000": 15,
+            "hit@50000": 15
+          },
+          "generation_time_ms": 4617.7
+        },
+        "cupp": {
+          "total_targets": 20,
+          "total_candidates": 1202,
+          "total_hits": 11,
+          "coverage_pct": 55.0,
+          "mrr": 0.001141,
+          "median_rank": 990,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 5.0,
+            "hit@500": 15.0,
+            "hit@1000": 35.0,
+            "hit@5000": 55.0,
+            "hit@10000": 55.0,
+            "hit@25000": 55.0,
+            "hit@50000": 55.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 1,
+            "hit@500": 3,
+            "hit@1000": 7,
+            "hit@5000": 11,
+            "hit@10000": 11,
+            "hit@25000": 11,
+            "hit@50000": 11
+          },
+          "generation_time_ms": 0.8
+        },
+        "markov": {
+          "total_targets": 20,
+          "total_candidates": 54,
+          "total_hits": 0,
+          "coverage_pct": 0.0,
+          "mrr": 0.0,
+          "median_rank": null,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 0.0,
+            "hit@50000": 0.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 0,
+            "hit@1000": 0,
+            "hit@5000": 0,
+            "hit@10000": 0,
+            "hit@25000": 0,
+            "hit@50000": 0
+          },
+          "generation_time_ms": 0.0
+        }
+      }
+    },
+    {
+      "id": "P04_family",
+      "level": 4,
+      "level_name": "Family",
+      "fields_filled": [
+        "first_name",
+        "nickname",
+        "birth_date",
+        "partner_name",
+        "partner_birth",
+        "child_name",
+        "child_birth"
+      ],
+      "n_fields": 7,
+      "n_ground_truth": 22,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 22,
+          "total_candidates": 49186,
+          "total_hits": 13,
+          "coverage_pct": 59.09,
+          "mrr": 0.000191,
+          "median_rank": 4724,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 4.55,
+            "hit@5000": 36.36,
+            "hit@10000": 59.09,
+            "hit@25000": 59.09,
+            "hit@50000": 59.09
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 0,
+            "hit@1000": 1,
+            "hit@5000": 8,
+            "hit@10000": 13,
+            "hit@25000": 13,
+            "hit@50000": 13
+          },
+          "generation_time_ms": 5023.2
+        },
+        "cupp": {
+          "total_targets": 22,
+          "total_candidates": 1607,
+          "total_hits": 14,
+          "coverage_pct": 63.64,
+          "mrr": 0.001632,
+          "median_rank": 1335,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 4.55,
+            "hit@100": 4.55,
+            "hit@500": 9.09,
+            "hit@1000": 13.64,
+            "hit@5000": 63.64,
+            "hit@10000": 63.64,
+            "hit@25000": 63.64,
+            "hit@50000": 63.64
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 1,
+            "hit@100": 1,
+            "hit@500": 2,
+            "hit@1000": 3,
+            "hit@5000": 14,
+            "hit@10000": 14,
+            "hit@25000": 14,
+            "hit@50000": 14
+          },
+          "generation_time_ms": 0.7
+        },
+        "markov": {
+          "total_targets": 22,
+          "total_candidates": 70,
+          "total_hits": 1,
+          "coverage_pct": 4.55,
+          "mrr": 0.00071,
+          "median_rank": 64,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 4.55,
+            "hit@500": 4.55,
+            "hit@1000": 4.55,
+            "hit@5000": 4.55,
+            "hit@10000": 4.55,
+            "hit@25000": 4.55,
+            "hit@50000": 4.55
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 1,
+            "hit@500": 1,
+            "hit@1000": 1,
+            "hit@5000": 1,
+            "hit@10000": 1,
+            "hit@25000": 1,
+            "hit@50000": 1
+          },
+          "generation_time_ms": 0.0
+        }
+      }
+    },
+    {
+      "id": "P05_extended",
+      "level": 5,
+      "level_name": "Extended",
+      "fields_filled": [
+        "first_name",
+        "last_name",
+        "nickname",
+        "birth_date",
+        "partner_name",
+        "pet_name",
+        "company"
+      ],
+      "n_fields": 7,
+      "n_ground_truth": 22,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 22,
+          "total_candidates": 50000,
+          "total_hits": 12,
+          "coverage_pct": 54.55,
+          "mrr": 0.000145,
+          "median_rank": 5284,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 22.73,
+            "hit@10000": 31.82,
+            "hit@25000": 45.45,
+            "hit@50000": 54.55
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 0,
+            "hit@1000": 0,
+            "hit@5000": 5,
+            "hit@10000": 7,
+            "hit@25000": 10,
+            "hit@50000": 12
+          },
+          "generation_time_ms": 20283.1
+        },
+        "cupp": {
+          "total_targets": 22,
+          "total_candidates": 2171,
+          "total_hits": 9,
+          "coverage_pct": 40.91,
+          "mrr": 0.000553,
+          "median_rank": 1750,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 4.55,
+            "hit@1000": 13.64,
+            "hit@5000": 40.91,
+            "hit@10000": 40.91,
+            "hit@25000": 40.91,
+            "hit@50000": 40.91
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 1,
+            "hit@1000": 3,
+            "hit@5000": 9,
+            "hit@10000": 9,
+            "hit@25000": 9,
+            "hit@50000": 9
+          },
+          "generation_time_ms": 1.5
+        },
+        "markov": {
+          "total_targets": 22,
+          "total_candidates": 124,
+          "total_hits": 3,
+          "coverage_pct": 13.64,
+          "mrr": 0.003714,
+          "median_rank": 76,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 4.55,
+            "hit@100": 13.64,
+            "hit@500": 13.64,
+            "hit@1000": 13.64,
+            "hit@5000": 13.64,
+            "hit@10000": 13.64,
+            "hit@25000": 13.64,
+            "hit@50000": 13.64
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 1,
+            "hit@100": 3,
+            "hit@500": 3,
+            "hit@1000": 3,
+            "hit@5000": 3,
+            "hit@10000": 3,
+            "hit@25000": 3,
+            "hit@50000": 3
+          },
+          "generation_time_ms": 0.0
+        }
+      }
+    },
+    {
+      "id": "P06_social",
+      "level": 6,
+      "level_name": "Social",
+      "fields_filled": [
+        "first_name",
+        "last_name",
+        "nickname",
+        "birth_date",
+        "partner_name",
+        "pet_name",
+        "company",
+        "phones",
+        "social_handles"
+      ],
+      "n_fields": 9,
+      "n_ground_truth": 23,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 23,
+          "total_candidates": 50000,
+          "total_hits": 14,
+          "coverage_pct": 60.87,
+          "mrr": 0.000638,
+          "median_rank": 8491,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 4.35,
+            "hit@500": 4.35,
+            "hit@1000": 4.35,
+            "hit@5000": 26.09,
+            "hit@10000": 30.43,
+            "hit@25000": 47.83,
+            "hit@50000": 60.87
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 1,
+            "hit@500": 1,
+            "hit@1000": 1,
+            "hit@5000": 6,
+            "hit@10000": 7,
+            "hit@25000": 11,
+            "hit@50000": 14
+          },
+          "generation_time_ms": 15198.8
+        },
+        "cupp": {
+          "total_targets": 23,
+          "total_candidates": 2162,
+          "total_hits": 9,
+          "coverage_pct": 39.13,
+          "mrr": 0.000599,
+          "median_rank": 1753,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 4.35,
+            "hit@1000": 13.04,
+            "hit@5000": 39.13,
+            "hit@10000": 39.13,
+            "hit@25000": 39.13,
+            "hit@50000": 39.13
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 1,
+            "hit@1000": 3,
+            "hit@5000": 9,
+            "hit@10000": 9,
+            "hit@25000": 9,
+            "hit@50000": 9
+          },
+          "generation_time_ms": 0.8
+        },
+        "markov": {
+          "total_targets": 23,
+          "total_candidates": 140,
+          "total_hits": 5,
+          "coverage_pct": 21.74,
+          "mrr": 0.003983,
+          "median_rank": 74,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 8.7,
+            "hit@100": 13.04,
+            "hit@500": 21.74,
+            "hit@1000": 21.74,
+            "hit@5000": 21.74,
+            "hit@10000": 21.74,
+            "hit@25000": 21.74,
+            "hit@50000": 21.74
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 2,
+            "hit@100": 3,
+            "hit@500": 5,
+            "hit@1000": 5,
+            "hit@5000": 5,
+            "hit@10000": 5,
+            "hit@25000": 5,
+            "hit@50000": 5
+          },
+          "generation_time_ms": 0.0
+        }
+      }
+    },
+    {
+      "id": "P07_cultural",
+      "level": 7,
+      "level_name": "Cultural",
+      "fields_filled": [
+        "first_name",
+        "last_name",
+        "nickname",
+        "birth_date",
+        "partner_name",
+        "pet_name",
+        "company",
+        "phones",
+        "city",
+        "religion",
+        "keywords"
+      ],
+      "n_fields": 11,
+      "n_ground_truth": 25,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 25,
+          "total_candidates": 50000,
+          "total_hits": 12,
+          "coverage_pct": 48.0,
+          "mrr": 4.2e-05,
+          "median_rank": 22997,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 8.0,
+            "hit@10000": 12.0,
+            "hit@25000": 28.0,
+            "hit@50000": 48.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 0,
+            "hit@1000": 0,
+            "hit@5000": 2,
+            "hit@10000": 3,
+            "hit@25000": 7,
+            "hit@50000": 12
+          },
+          "generation_time_ms": 30907.0
+        },
+        "cupp": {
+          "total_targets": 25,
+          "total_candidates": 2580,
+          "total_hits": 11,
+          "coverage_pct": 44.0,
+          "mrr": 0.00083,
+          "median_rank": 2035,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 8.0,
+            "hit@1000": 16.0,
+            "hit@5000": 44.0,
+            "hit@10000": 44.0,
+            "hit@25000": 44.0,
+            "hit@50000": 44.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 2,
+            "hit@1000": 4,
+            "hit@5000": 11,
+            "hit@10000": 11,
+            "hit@25000": 11,
+            "hit@50000": 11
+          },
+          "generation_time_ms": 1.1
+        },
+        "markov": {
+          "total_targets": 25,
+          "total_candidates": 168,
+          "total_hits": 7,
+          "coverage_pct": 28.0,
+          "mrr": 0.00608,
+          "median_rank": 50,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 16.0,
+            "hit@100": 20.0,
+            "hit@500": 28.0,
+            "hit@1000": 28.0,
+            "hit@5000": 28.0,
+            "hit@10000": 28.0,
+            "hit@25000": 28.0,
+            "hit@50000": 28.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 4,
+            "hit@100": 5,
+            "hit@500": 7,
+            "hit@1000": 7,
+            "hit@5000": 7,
+            "hit@10000": 7,
+            "hit@25000": 7,
+            "hit@50000": 7
+          },
+          "generation_time_ms": 0.0
+        }
+      }
+    },
+    {
+      "id": "P08_phrases",
+      "level": 8,
+      "level_name": "Phrases",
+      "fields_filled": [
+        "first_name",
+        "last_name",
+        "nickname",
+        "birth_date",
+        "partner_name",
+        "pet_name",
+        "company",
+        "city",
+        "keywords",
+        "phrases",
+        "special_dates"
+      ],
+      "n_fields": 11,
+      "n_ground_truth": 25,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 25,
+          "total_candidates": 50000,
+          "total_hits": 18,
+          "coverage_pct": 72.0,
+          "mrr": 6.1e-05,
+          "median_rank": 17052,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 28.0,
+            "hit@25000": 44.0,
+            "hit@50000": 72.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 0,
+            "hit@1000": 0,
+            "hit@5000": 0,
+            "hit@10000": 7,
+            "hit@25000": 11,
+            "hit@50000": 18
+          },
+          "generation_time_ms": 24459.6
+        },
+        "cupp": {
+          "total_targets": 25,
+          "total_candidates": 2712,
+          "total_hits": 15,
+          "coverage_pct": 60.0,
+          "mrr": 0.001322,
+          "median_rank": 2088,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 4.0,
+            "hit@500": 12.0,
+            "hit@1000": 20.0,
+            "hit@5000": 60.0,
+            "hit@10000": 60.0,
+            "hit@25000": 60.0,
+            "hit@50000": 60.0
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 1,
+            "hit@500": 3,
+            "hit@1000": 5,
+            "hit@5000": 15,
+            "hit@10000": 15,
+            "hit@25000": 15,
+            "hit@50000": 15
+          },
+          "generation_time_ms": 1.3
+        },
+        "markov": {
+          "total_targets": 25,
+          "total_candidates": 168,
+          "total_hits": 5,
+          "coverage_pct": 20.0,
+          "mrr": 0.009405,
+          "median_rank": 35,
+          "hit_rates": {
+            "hit@10": 4.0,
+            "hit@50": 12.0,
+            "hit@100": 20.0,
+            "hit@500": 20.0,
+            "hit@1000": 20.0,
+            "hit@5000": 20.0,
+            "hit@10000": 20.0,
+            "hit@25000": 20.0,
+            "hit@50000": 20.0
+          },
+          "hits_raw": {
+            "hit@10": 1,
+            "hit@50": 3,
+            "hit@100": 5,
+            "hit@500": 5,
+            "hit@1000": 5,
+            "hit@5000": 5,
+            "hit@10000": 5,
+            "hit@25000": 5,
+            "hit@50000": 5
+          },
+          "generation_time_ms": 0.0
+        }
+      }
+    },
+    {
+      "id": "P09_rich",
+      "level": 9,
+      "level_name": "Rich",
+      "fields_filled": [
+        "first_name",
+        "last_name",
+        "nickname",
+        "birth_date",
+        "partner_name",
+        "partner_birth",
+        "child_name",
+        "pet_name",
+        "company",
+        "phones",
+        "city",
+        "keywords",
+        "old_passwords",
+        "national_id"
+      ],
+      "n_fields": 14,
+      "n_ground_truth": 26,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 26,
+          "total_candidates": 50000,
+          "total_hits": 17,
+          "coverage_pct": 65.38,
+          "mrr": 0.070559,
+          "median_rank": 10216,
+          "hit_rates": {
+            "hit@10": 11.54,
+            "hit@50": 11.54,
+            "hit@100": 11.54,
+            "hit@500": 11.54,
+            "hit@1000": 11.54,
+            "hit@5000": 19.23,
+            "hit@10000": 30.77,
+            "hit@25000": 42.31,
+            "hit@50000": 65.38
+          },
+          "hits_raw": {
+            "hit@10": 3,
+            "hit@50": 3,
+            "hit@100": 3,
+            "hit@500": 3,
+            "hit@1000": 3,
+            "hit@5000": 5,
+            "hit@10000": 8,
+            "hit@25000": 11,
+            "hit@50000": 17
+          },
+          "generation_time_ms": 20921.4
+        },
+        "cupp": {
+          "total_targets": 26,
+          "total_candidates": 3209,
+          "total_hits": 12,
+          "coverage_pct": 46.15,
+          "mrr": 0.000627,
+          "median_rank": 2144,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 7.69,
+            "hit@1000": 15.38,
+            "hit@5000": 46.15,
+            "hit@10000": 46.15,
+            "hit@25000": 46.15,
+            "hit@50000": 46.15
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 2,
+            "hit@1000": 4,
+            "hit@5000": 12,
+            "hit@10000": 12,
+            "hit@25000": 12,
+            "hit@50000": 12
+          },
+          "generation_time_ms": 1.2
+        },
+        "markov": {
+          "total_targets": 26,
+          "total_candidates": 180,
+          "total_hits": 3,
+          "coverage_pct": 11.54,
+          "mrr": 0.00133,
+          "median_rank": 84,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 7.69,
+            "hit@500": 11.54,
+            "hit@1000": 11.54,
+            "hit@5000": 11.54,
+            "hit@10000": 11.54,
+            "hit@25000": 11.54,
+            "hit@50000": 11.54
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 2,
+            "hit@500": 3,
+            "hit@1000": 3,
+            "hit@5000": 3,
+            "hit@10000": 3,
+            "hit@25000": 3,
+            "hit@50000": 3
+          },
+          "generation_time_ms": 0.1
+        }
+      }
+    },
+    {
+      "id": "P10_complete",
+      "level": 10,
+      "level_name": "Complete",
+      "fields_filled": [
+        "first_name",
+        "last_name",
+        "nickname",
+        "birth_date",
+        "partner_name",
+        "partner_nick",
+        "partner_birth",
+        "child_name",
+        "child_birth",
+        "pet_name",
+        "pet_year",
+        "company",
+        "department",
+        "company_email",
+        "company_domain",
+        "phones",
+        "social_handles",
+        "city",
+        "state",
+        "country",
+        "national_id",
+        "religion",
+        "church",
+        "keywords",
+        "special_dates",
+        "phrases",
+        "old_passwords"
+      ],
+      "n_fields": 27,
+      "n_ground_truth": 31,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 31,
+          "total_candidates": 50000,
+          "total_hits": 17,
+          "coverage_pct": 54.84,
+          "mrr": 0.073687,
+          "median_rank": 10614,
+          "hit_rates": {
+            "hit@10": 16.13,
+            "hit@50": 16.13,
+            "hit@100": 16.13,
+            "hit@500": 16.13,
+            "hit@1000": 16.13,
+            "hit@5000": 19.35,
+            "hit@10000": 25.81,
+            "hit@25000": 38.71,
+            "hit@50000": 54.84
+          },
+          "hits_raw": {
+            "hit@10": 5,
+            "hit@50": 5,
+            "hit@100": 5,
+            "hit@500": 5,
+            "hit@1000": 5,
+            "hit@5000": 6,
+            "hit@10000": 8,
+            "hit@25000": 12,
+            "hit@50000": 17
+          },
+          "generation_time_ms": 45068.8
+        },
+        "cupp": {
+          "total_targets": 31,
+          "total_candidates": 4278,
+          "total_hits": 18,
+          "coverage_pct": 58.06,
+          "mrr": 0.000821,
+          "median_rank": 3167,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 16.13,
+            "hit@1000": 19.35,
+            "hit@5000": 58.06,
+            "hit@10000": 58.06,
+            "hit@25000": 58.06,
+            "hit@50000": 58.06
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 0,
+            "hit@100": 0,
+            "hit@500": 5,
+            "hit@1000": 6,
+            "hit@5000": 18,
+            "hit@10000": 18,
+            "hit@25000": 18,
+            "hit@50000": 18
+          },
+          "generation_time_ms": 2.5
+        },
+        "markov": {
+          "total_targets": 31,
+          "total_candidates": 180,
+          "total_hits": 2,
+          "coverage_pct": 6.45,
+          "mrr": 0.001453,
+          "median_rank": 49,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 3.23,
+            "hit@100": 6.45,
+            "hit@500": 6.45,
+            "hit@1000": 6.45,
+            "hit@5000": 6.45,
+            "hit@10000": 6.45,
+            "hit@25000": 6.45,
+            "hit@50000": 6.45
+          },
+          "hits_raw": {
+            "hit@10": 0,
+            "hit@50": 1,
+            "hit@100": 2,
+            "hit@500": 2,
+            "hit@1000": 2,
+            "hit@5000": 2,
+            "hit@10000": 2,
+            "hit@25000": 2,
+            "hit@50000": 2
+          },
+          "generation_time_ms": 0.1
+        }
+      }
+    }
+  ],
+  "summary": {
+    "cogpie": {
+      "avg_coverage": 63.64,
+      "min_coverage": 48.0,
+      "max_coverage": 86.67,
+      "avg_mrr": 0.016147,
+      "coverage_by_level": {
+        "P01_minimal": 60.0,
+        "P02_basic": 86.67,
+        "P03_names": 75.0,
+        "P04_family": 59.09,
+        "P05_extended": 54.55,
+        "P06_social": 60.87,
+        "P07_cultural": 48.0,
+        "P08_phrases": 72.0,
+        "P09_rich": 65.38,
+        "P10_complete": 54.84
+      }
+    },
+    "cupp": {
+      "avg_coverage": 48.02,
+      "min_coverage": 26.67,
+      "max_coverage": 63.64,
+      "avg_mrr": 0.004777,
+      "coverage_by_level": {
+        "P01_minimal": 26.67,
+        "P02_basic": 46.67,
+        "P03_names": 55.0,
+        "P04_family": 63.64,
+        "P05_extended": 40.91,
+        "P06_social": 39.13,
+        "P07_cultural": 44.0,
+        "P08_phrases": 60.0,
+        "P09_rich": 46.15,
+        "P10_complete": 58.06
+      }
+    },
+    "markov": {
+      "avg_coverage": 15.92,
+      "min_coverage": 0.0,
+      "max_coverage": 53.33,
+      "avg_mrr": 0.010027,
+      "coverage_by_level": {
+        "P01_minimal": 53.33,
+        "P02_basic": 0.0,
+        "P03_names": 0.0,
+        "P04_family": 4.55,
+        "P05_extended": 13.64,
+        "P06_social": 21.74,
+        "P07_cultural": 28.0,
+        "P08_phrases": 20.0,
+        "P09_rich": 11.54,
+        "P10_complete": 6.45
+      }
+    },
+    "coverage_vs_level": [
+      {
+        "level": 1,
+        "level_name": "Minimal",
+        "n_fields": 1,
+        "cogpie": 60.0,
+        "cupp": 26.67,
+        "markov": 53.33
+      },
+      {
+        "level": 2,
+        "level_name": "Basic",
+        "n_fields": 2,
+        "cogpie": 86.67,
+        "cupp": 46.67,
+        "markov": 0.0
+      },
+      {
+        "level": 3,
+        "level_name": "Names",
+        "n_fields": 4,
+        "cogpie": 75.0,
+        "cupp": 55.0,
+        "markov": 0.0
+      },
+      {
+        "level": 4,
+        "level_name": "Family",
+        "n_fields": 7,
+        "cogpie": 59.09,
+        "cupp": 63.64,
+        "markov": 4.55
+      },
+      {
+        "level": 5,
+        "level_name": "Extended",
+        "n_fields": 7,
+        "cogpie": 54.55,
+        "cupp": 40.91,
+        "markov": 13.64
+      },
+      {
+        "level": 6,
+        "level_name": "Social",
+        "n_fields": 9,
+        "cogpie": 60.87,
+        "cupp": 39.13,
+        "markov": 21.74
+      },
+      {
+        "level": 7,
+        "level_name": "Cultural",
+        "n_fields": 11,
+        "cogpie": 48.0,
+        "cupp": 44.0,
+        "markov": 28.0
+      },
+      {
+        "level": 8,
+        "level_name": "Phrases",
+        "n_fields": 11,
+        "cogpie": 72.0,
+        "cupp": 60.0,
+        "markov": 20.0
+      },
+      {
+        "level": 9,
+        "level_name": "Rich",
+        "n_fields": 14,
+        "cogpie": 65.38,
+        "cupp": 46.15,
+        "markov": 11.54
+      },
+      {
+        "level": 10,
+        "level_name": "Complete",
+        "n_fields": 27,
+        "cogpie": 54.84,
+        "cupp": 58.06,
+        "markov": 6.45
+      }
+    ]
+  }
+}

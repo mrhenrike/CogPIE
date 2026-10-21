@@ -314,8 +314,13 @@ class CogPIEEngine:
                         seen.add(c)
                         priority.append(c)
 
+        cross_words = core_keywords[:5] + core_pets[:3]
+        co_words = [t.lower() for t in sorted(banks.get("companies", set()), key=len)
+                    if 2 <= len(t) <= 15 and t.isalpha()][:5]
+        cross_words += co_words
+
         for w1 in core_names[:8]:
-            for w2 in core_keywords[:5] + core_pets[:3]:
+            for w2 in cross_words:
                 for case_fn in [str.lower, str.capitalize]:
                     a, b = case_fn(w1), case_fn(w2)
                     for sep in seps[:3]:
@@ -329,7 +334,32 @@ class CogPIEEngine:
                                 seen.add(c2)
                                 priority.append(c2)
 
-        return old_pw_originals + old_pw_mutations + priority
+        for i, w1 in enumerate(core_names[:6]):
+            for w2 in core_names[i + 1:6]:
+                for case_fn in [str.lower, str.capitalize]:
+                    a, b = case_fn(w1), case_fn(w2)
+                    for sep in seps[:3]:
+                        for s in suffixes[:3]:
+                            c = a + sep + b + s
+                            if c not in seen and 4 <= len(c) <= 30:
+                                seen.add(c)
+                                priority.append(c)
+                            c2 = b + sep + a + s
+                            if c2 not in seen and 4 <= len(c2) <= 30:
+                                seen.add(c2)
+                                priority.append(c2)
+
+        leet_map = {"a": "4", "e": "3", "i": "1", "o": "0", "s": "5", "t": "7"}
+        leet_batch = []
+        for c in priority[:500]:
+            leet_c = c
+            for orig, repl in leet_map.items():
+                leet_c = leet_c.replace(orig, repl)
+            if leet_c != c and leet_c not in seen and 4 <= len(leet_c) <= 30:
+                seen.add(leet_c)
+                leet_batch.append(leet_c)
+
+        return old_pw_originals + old_pw_mutations + priority + leet_batch
 
     def generate_stream(
         self,
