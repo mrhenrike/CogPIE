@@ -13,3 +13,4 @@ build/
 *.tmp
 .claude/
 .cursor/
+benchmark/brazilian_leaks/

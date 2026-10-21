@@ -146,7 +146,7 @@ def _cupp_profile_from_persona(persona: dict) -> dict:
 
 
 def run_cupp_original(persona: dict, max_output: int = 50000) -> list[str]:
-    """Run original cupp.py generate_wordlist_from_profile."""
+    """Run original cupp.py via subprocess with interactive input piped."""
     try:
         cupp_dir = Path(EXTERNAL_ROOT) / "cupp"
         cupp_py = cupp_dir / "cupp.py"
@@ -154,35 +154,68 @@ def run_cupp_original(persona: dict, max_output: int = 50000) -> list[str]:
             logger.warning("cupp.py not found at %s", cupp_py)
             return []
 
-        cupp_cfg = cupp_dir / "cupp.cfg"
-        if not cupp_cfg.exists():
-            logger.warning("cupp.cfg not found")
-            return []
+        cp = persona.get("cupp_profile", {})
+        bd = cp.get("birth_date", "")
+        wbd = cp.get("partner_birth", "")
+        kbd = cp.get("child_birth", "")
 
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("cupp_orig", str(cupp_py))
-        mod = importlib.util.module_from_spec(spec)
+        stdin_lines = [
+            cp.get("first_name", ""),       # 1. First Name
+            cp.get("last_name", ""),        # 2. Surname
+            cp.get("nickname", ""),         # 3. Nickname
+            bd if len(bd) == 8 else "",     # 4. Birthdate (DDMMYYYY)
+            cp.get("partner_first", ""),    # 5. Partners name
+            cp.get("partner_nick", ""),     # 6. Partners nickname
+            wbd if len(wbd) == 8 else "",   # 7. Partners birthdate (DDMMYYYY)
+            cp.get("child_name", ""),       # 8. Child's name
+            "",                              # 9. Child's nickname
+            kbd if len(kbd) == 8 else "",   # 10. Child's birthdate (DDMMYYYY)
+            cp.get("pet_name", ""),         # 11. Pet's name
+            cp.get("company", ""),          # 12. Company name
+        ]
+        words = cp.get("extra_words", [])
+        if words:
+            stdin_lines.append("y")                     # 13. Add keywords? Y
+            stdin_lines.append(",".join(words))         # 14. Keywords
+        else:
+            stdin_lines.append("n")                     # 13. Add keywords? N
 
-        old_cwd = os.getcwd()
-        os.chdir(str(cupp_dir))
-        try:
-            spec.loader.exec_module(mod)
-            mod.read_config(str(cupp_cfg))
-            profile = _cupp_profile_from_persona(persona)
-            import io
-            old_stdout = sys.stdout
-            sys.stdout = io.StringIO()
+        stdin_lines.extend([
+            "y",   # 15. Special chars? Y
+            "y",   # 16. Random numbers? Y
+            "y",   # 17. Leet mode? Y
+            "y",   # 18. Hyperspeed Print? Y
+        ])
+
+        TMP_DIR.mkdir(parents=True, exist_ok=True)
+
+        cmd = [sys.executable, str(cupp_py), "-i"]
+        result = subprocess.run(
+            cmd,
+            input="\n".join(stdin_lines) + "\n",
+            capture_output=True, text=True, timeout=60,
+            cwd=str(cupp_dir),
+        )
+
+        name = cp.get("first_name", "output")
+        output_file = cupp_dir / f"{name}.txt"
+        candidates = []
+        if output_file.exists():
+            with open(output_file, "r", encoding="utf-8", errors="ignore") as f:
+                for line in f:
+                    line = line.strip()
+                    if line:
+                        candidates.append(line)
             try:
-                result = mod.generate_wordlist_from_profile(profile)
-            finally:
-                sys.stdout = old_stdout
+                output_file.unlink()
+            except Exception:
+                pass
 
-            if isinstance(result, list):
-                return result[:max_output]
-            return []
-        finally:
-            os.chdir(old_cwd)
+        return list(dict.fromkeys(candidates))[:max_output]
 
+    except subprocess.TimeoutExpired:
+        logger.warning("CUPP original timed out")
+        return []
     except Exception as e:
         logger.warning("CUPP original failed: %s", e)
         return []
@@ -311,7 +344,8 @@ def run_psudohash(persona: dict, max_output: int = 50000) -> list[str]:
         cp = persona.get("cupp_profile", {})
 
         words = []
-        words.append(cp.get("first_name", ""))
+        if cp.get("first_name"):
+            words.append(cp["first_name"])
         if cp.get("last_name"):
             words.append(cp["last_name"])
         if cp.get("nickname"):
@@ -323,24 +357,31 @@ def run_psudohash(persona: dict, max_output: int = 50000) -> list[str]:
         if cp.get("company"):
             words.append(cp["company"])
         for kw in cp.get("extra_words", [])[:4]:
-            words.append(kw)
-        words = [w for w in words if w and not w.isdecimal()]
+            if kw and not kw.isdecimal():
+                words.append(kw)
+        words = [w for w in words if w]
 
         if not words:
             return []
 
-        word_str = ",".join(words[:8])
-        output_file = psudo_py.parent / "output.txt"
+        word_str = ",".join(words[:5])
+        output_file = TMP_DIR / f"psudo_{persona['id']}.txt"
+        TMP_DIR.mkdir(parents=True, exist_ok=True)
 
-        # Remove old output
         if output_file.exists():
             output_file.unlink()
 
         try:
-            cmd = [sys.executable, "-I", str(psudo_py), "-w", word_str, "-q"]
+            cmd = [
+                sys.executable, str(psudo_py),
+                "-w", word_str,
+                "-cpa",
+                "--maxlen", "20",
+                "-o", str(output_file),
+            ]
             bd = cp.get("birth_date", "")
             if bd and len(bd) >= 4:
-                cmd.extend(["-y", bd[-4:] + "," + bd[-2:]])
+                cmd.extend(["-y", bd[-4:]])
 
             result = subprocess.run(
                 cmd,
@@ -351,11 +392,14 @@ def run_psudohash(persona: dict, max_output: int = 50000) -> list[str]:
             if output_file.exists():
                 with open(output_file, "r", encoding="utf-8", errors="ignore") as f:
                     candidates = [line.strip() for line in f if line.strip()]
-                return candidates[:max_output]
+                return list(dict.fromkeys(candidates))[:max_output]
             return []
         finally:
             if output_file.exists():
-                output_file.unlink()
+                try:
+                    output_file.unlink()
+                except Exception:
+                    pass
 
     except subprocess.TimeoutExpired:
         logger.warning("psudohash timed out")
@@ -453,7 +497,6 @@ def run_pydictor_sedb(persona: dict, max_output: int = 50000) -> list[str]:
         cp = persona.get("cupp_profile", {})
         profile = persona.get("profile", {})
 
-        bd = cp.get("birth_date", "")
         sedb_cmds = []
         if cp.get("first_name"):
             sedb_cmds.append(f"set ename {cp['first_name']}")
@@ -461,25 +504,29 @@ def run_pydictor_sedb(persona: dict, max_output: int = 50000) -> list[str]:
             sedb_cmds.append(f"set sname {cp['last_name']}")
         if cp.get("nickname"):
             sedb_cmds.append(f"set nickname {cp['nickname']}")
-        if bd:
-            sedb_cmds.append(f"set birth {bd}")
-        words = cp.get("extra_words", [])
-        if words:
-            sedb_cmds.append(f"set usedchar {','.join(words[:8])}")
-        if cp.get("company"):
-            sedb_cmds.append(f"set ename {cp['first_name']}")
+
+        bd = cp.get("birth_date", "")
+        if bd and len(bd) == 8:
+            pydictor_bd = bd[4:8] + bd[2:4] + bd[:2]
+            sedb_cmds.append(f"set birth {pydictor_bd}")
+
+        words = list(cp.get("extra_words", []))
         if cp.get("pet_name"):
-            wds = [cp["pet_name"]] + words[:6]
-            sedb_cmds.append(f"set usedchar {','.join(wds)}")
+            words.insert(0, cp["pet_name"])
+        if cp.get("company"):
+            words.append(cp["company"])
+        if words:
+            sedb_cmds.append(f"set usedchar {','.join(words[:10])}")
 
         sedb_cmds.append("run")
+        sedb_cmds.append("exit")
 
         results_dir = pydictor_py.parent / "results"
         existing = set()
         if results_dir.exists():
-            existing = set(results_dir.iterdir())
+            existing = {f.name for f in results_dir.iterdir()}
 
-        cmd = [sys.executable, "-I", str(pydictor_py), "--sedb"]
+        cmd = [sys.executable, str(pydictor_py), "--sedb"]
         result = subprocess.run(
             cmd,
             input="\n".join(sedb_cmds) + "\n",
@@ -489,18 +536,20 @@ def run_pydictor_sedb(persona: dict, max_output: int = 50000) -> list[str]:
 
         candidates = []
         if results_dir.exists():
-            new_files = sorted(set(results_dir.iterdir()) - existing)
+            new_files = sorted(
+                f for f in results_dir.iterdir()
+                if f.name not in existing and f.is_file() and f.suffix == ".txt"
+            )
             for f in new_files:
-                if f.is_file() and f.suffix == ".txt":
-                    with open(f, "r", encoding="utf-8", errors="ignore") as fh:
-                        for line in fh:
-                            line = line.strip()
-                            if line:
-                                candidates.append(line)
-                    try:
-                        f.unlink()
-                    except Exception:
-                        pass
+                with open(f, "r", encoding="utf-8", errors="ignore") as fh:
+                    for line in fh:
+                        line = line.strip()
+                        if line:
+                            candidates.append(line)
+                try:
+                    f.unlink()
+                except Exception:
+                    pass
 
         return list(dict.fromkeys(candidates))[:max_output]
 
@@ -524,8 +573,8 @@ def run_passpwn(persona: dict, max_output: int = 50000) -> list[str]:
         cp = persona.get("cupp_profile", {})
         profile = persona.get("profile", {})
 
-        out_file = TMP_DIR / f"passpwn_{persona['id']}.txt"
         TMP_DIR.mkdir(parents=True, exist_ok=True)
+        spray_file = TMP_DIR / f"passpwn_spray_{persona['id']}.txt"
 
         keywords = []
         if cp.get("first_name"):
@@ -536,20 +585,34 @@ def run_passpwn(persona: dict, max_output: int = 50000) -> list[str]:
             keywords.append(cp["nickname"])
         if cp.get("pet_name"):
             keywords.append(cp["pet_name"])
+        if cp.get("partner_first"):
+            keywords.append(cp["partner_first"])
         for w in cp.get("extra_words", [])[:6]:
             keywords.append(w)
+        keywords = [w for w in keywords if w]
 
         if not keywords:
             return []
 
+        custom_file = TMP_DIR / f"passpwn_custom_{persona['id']}.txt"
+        with open(custom_file, "w") as f:
+            f.write("\n".join(keywords))
+
         cmd = [
-            sys.executable, "-I", str(passpwn_py),
-            "--keywords", ",".join(keywords),
-            "--output", str(out_file),
+            sys.executable, str(passpwn_py),
+            "--custom", str(custom_file),
+            "--include-leet",
             "--max-spray", str(max_output),
+            "--out-spray", str(spray_file),
+            "--quiet",
         ]
         if cp.get("company"):
-            cmd.extend(["--company", cp["company"]])
+            cmd.extend(["--company-words", cp["company"]])
+
+        bd = cp.get("birth_date", "")
+        if bd and len(bd) >= 4:
+            year = bd[-4:]
+            cmd.extend(["--years", year])
 
         result = subprocess.run(
             cmd, capture_output=True, text=True, timeout=120,
@@ -557,15 +620,6 @@ def run_passpwn(persona: dict, max_output: int = 50000) -> list[str]:
         )
 
         candidates = []
-        if out_file.exists():
-            with open(out_file, "r", encoding="utf-8", errors="ignore") as f:
-                for line in f:
-                    line = line.strip()
-                    if line and ":" not in line:
-                        candidates.append(line)
-            out_file.unlink()
-
-        spray_file = passpwn_py.parent / "spray.txt"
         if spray_file.exists():
             with open(spray_file, "r", encoding="utf-8", errors="ignore") as f:
                 for line in f:
@@ -573,6 +627,9 @@ def run_passpwn(persona: dict, max_output: int = 50000) -> list[str]:
                     if line:
                         candidates.append(line)
             spray_file.unlink()
+
+        if custom_file.exists():
+            custom_file.unlink()
 
         return list(dict.fromkeys(candidates))[:max_output]
 
@@ -652,14 +709,42 @@ def run_cogpie(persona: dict, cogpie_engine, max_output: int = 50000) -> list[st
 # ========== WLF COMBINED ==========
 
 def run_wlf_combined(*candidate_lists, max_output: int = 50000) -> list[str]:
-    """Merge multiple candidate lists, priority order (first list wins)."""
+    """Merge multiple candidate lists using round-robin interleave.
+
+    Takes from each list in turn so no single tool's tail blocks others.
+    First 10K from CogPIE (list[0]) are always prioritized, then interleave.
+    """
     seen = set()
     combined = []
-    for cands in candidate_lists:
-        for c in cands:
+
+    if candidate_lists:
+        for c in candidate_lists[0][:10000]:
             if c not in seen:
                 seen.add(c)
                 combined.append(c)
+
+    iterators = [iter(cands) for cands in candidate_lists]
+    while len(combined) < max_output and iterators:
+        exhausted = []
+        for i, it in enumerate(iterators):
+            batch_added = 0
+            for _ in range(500):
+                try:
+                    c = next(it)
+                except StopIteration:
+                    exhausted.append(i)
+                    break
+                if c not in seen:
+                    seen.add(c)
+                    combined.append(c)
+                    batch_added += 1
+                    if len(combined) >= max_output:
+                        break
+            if len(combined) >= max_output:
+                break
+        for i in reversed(exhausted):
+            iterators.pop(i)
+
     return combined[:max_output]
 
 
