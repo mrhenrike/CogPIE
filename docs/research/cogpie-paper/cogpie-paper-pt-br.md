@@ -673,9 +673,34 @@ Resultados chave do benchmark externo:
 
 5. **Eficiência de candidatos:** CogPIE gera exatamente 50.000 candidatos ranqueados por probabilidade. Ferramentas como psudohash geram até 15.000 e longtongue até 5.000, sem ranqueamento, com cobertura muito inferior.
 
-6. **Nenhuma ferramenta externa implementa modelagem de viés cognitivo**, confirmando que CogPIE ocupa um nicho algorítmico inédito na literatura e no ecossistema open-source. A análise de 50 ferramentas (Seção 6.4.7) confirma que nenhuma outra ferramenta combina mais de 2 das 7 categorias algorítmicas cobertas pelo WLF.
+6. **Nenhuma ferramenta externa implementa modelagem de viés cognitivo**, confirmando que CogPIE ocupa um nicho algorítmico inédito na literatura e no ecossistema open-source. A análise de 50 ferramentas (Seção 6.3.9) confirma que nenhuma outra ferramenta combina mais de 2 das 7 categorias algorítmicas cobertas pelo WLF.
 
-#### 6.3.9 Validação Real: Credenciais Brasileiras Vazadas (Larga Escala)
+#### 6.3.9 Análise de Ecossistema: Cobertura WLF de 50 Ferramentas Externas
+
+Para contextualizar o CogPIE dentro do ecossistema mais amplo de geração de senhas, conduzimos uma análise abrangente de 50 ferramentas externas de geração de wordlists, representando 84.000+ stars combinados no GitHub em 7 categorias algorítmicas: C1 (Profile/Target-based), C2 (Combinatoric/Exhaustive), C3 (Rule/Mangling), C4 (Probabilistic/Statistical), C5 (Neural/Deep Learning), C6 (Scraping/Extraction) e C7 (Hybrid Cognitive). Cada ferramenta foi clonada, inspecionada e mapeada para módulos WLF equivalentes.
+
+**Tabela 9: Resumo de Cobertura do Ecossistema**
+
+| Métrica | Valor |
+|---------|-------|
+| Total de ferramentas analisadas | 50 |
+| Cobertura completa pelo WLF (>= externo) | 39 (78%) |
+| Cobertura 90%+ | 4 (8%): pydictor, princeprocessor, elpscrk, kwprocessor |
+| Cobertura 80%+ | 3 (6%): Passhunt, passpwn, kwprocessor |
+| Apenas dados/referência (sem algoritmos) | 4 (8%) |
+| Funções algorítmicas cobertas | 46/46 (100%) |
+
+**Principais achados de cobertura algorítmica:**
+
+1. **WLF é o único framework cobrindo todas as 7 categorias (C1-C7).** Nenhuma ferramenta externa cobre mais de 2 categorias. hashcat (C3) e pydictor (C1+C2) são as ferramentas externas mais abrangentes.
+
+2. **WLF possui 35+ capacidades únicas** não encontradas em nenhuma ferramenta externa, incluindo: modelagem de viés cognitivo (pipeline CogPIE de 5 camadas), 6 arquiteturas neurais (GAN, VAE, Transformer, Diffusion, TCN, NFlow), otimização evolutiva (genetic_engine, map_elites), roteamento por aprendizado por reforço (bandit_router, rl_router), PCFG semântica, PCFG domain-specific, padrões culturais brasileiros, geração fonética, análise de DNA de senhas, correlação PII e modelagem de drift temporal.
+
+3. **5 gaps menores identificados** para trabalho futuro: campos biográficos estendidos do pydictor SEDB (carteira de identidade, número funcional), profundidade de keyboard walk do kwprocessor, sistema de níveis de complexidade do elpscrk, configuração de profundidade de chain do PRINCE e padrões de rotação sazonal do passpwn. Nenhum representa uma limitação fundamental.
+
+4. **130+ módulos WLF vs 1-3 por ferramenta externa:** A vantagem arquitetural é estrutural. Ferramentas externas são construídas para um único paradigma; WLF orquestra módulos entre paradigmas através de uma pipeline unificada com aceleração GPU, roteamento adaptativo e ranqueamento por prioridade.
+
+#### 6.3.10 Validação Real: Credenciais Brasileiras Vazadas (Larga Escala)
 
 Para validar o CogPIE contra credenciais reais comprometidas (ao contrário de personas sintéticas), construímos um benchmark a partir de dados de vazamentos indexados publicamente. Usando busca inteligente do IntelX, coletamos 260.853 pares email:senha únicos de compilações de breaches brasileiros (Collection #2, Collection #4, stealer logs de domínios ig.com.br, itau.com.br, americanas.com.br).
 
@@ -707,7 +732,7 @@ Achados principais:
 
 3. **CogPIE é superconjunto estrito no benchmark pequeno (N=17):** toda senha encontrada por qualquer outra ferramenta também foi encontrada pelo CogPIE, mais hits únicos adicionais. Na escala N=1.000, CogPIE captura 117 senhas não encontradas por nenhum dos quatro concorrentes.
 
-4. **Validade ecológica:** Diferente do benchmark de personas sintéticas (Seção 6.3.8) onde CogPIE atingiu 89,1%, a cobertura no mundo real é naturalmente menor (50,5%) porque: (a) senhas reais exibem maior diversidade e aleatoriedade; (b) extração de PII de endereços de email captura apenas contexto parcial; (c) muitas senhas contendo PII usam padrões além do escopo do modelo (ex.: números de telefone, fragmentos de CPF). Ainda assim, CogPIE mantém superioridade consistente sobre todos os baselines.
+4. **Validade ecológica:** Diferente do benchmark de personas sintéticas (Seção 6.3.8) onde CogPIE atingiu 88,6%, a cobertura no mundo real é naturalmente menor (50,5%) porque: (a) senhas reais exibem maior diversidade e aleatoriedade; (b) extração de PII de endereços de email captura apenas contexto parcial; (c) muitas senhas contendo PII usam padrões além do escopo do modelo (ex.: números de telefone, fragmentos de CPF). Ainda assim, CogPIE mantém superioridade consistente sobre todos os baselines.
 
 5. **Análise de convergência em N=1.000:** Taxas de cobertura estabilizam após ~400 amostras (CogPIE oscila dentro de 49-52%), confirmando confiabilidade estatística dos resultados. O IC 95% para cobertura do CogPIE é aproximadamente [47,4%, 53,6%].
 
@@ -734,13 +759,13 @@ Os parametros do CogPIE utilizados nos experimentos:
 
 4. **Tamanho do conjunto de candidatos:** Sem restrição de orçamento, o CogPIE gera 100.000+ candidatos. Em cenários de ataque online com rate limiting, a qualidade do ranqueamento torna-se crítica para selecionar os candidatos mais promissores dentro de um orçamento pequeno de tentativas.
 
-5. **Diversidade de corpus:** As avaliações iniciais utilizaram o corpus RockYou (14,3M senhas, era 2009). O benchmark de credenciais brasileiras vazadas (Seção 6.3.9) fornece validação em dados contemporâneos do mundo real (260K+ credenciais de compilações de breaches dos anos 2020), mas validação intercultural e intertemporal mais ampla fortaleceria a generalização.
+5. **Diversidade de corpus:** As avaliações iniciais utilizaram o corpus RockYou (14,3M senhas, era 2009). O benchmark de credenciais brasileiras vazadas (Seção 6.3.10) fornece validação em dados contemporâneos do mundo real (260K+ credenciais de compilações de breaches dos anos 2020), mas validação intercultural e intertemporal mais ampla fortaleceria a generalização.
 
 ## 7. Discussão
 
 ### 7.1 Implicações para Segurança de Senhas
 
-Nossos resultados fornecem evidencias quantitativas para uma conclusão amplamente conhecida, porém frequentemente subestimada: senhas geradas por humanos são fundamentalmente inseguras contra ataques direcionados. Quando um atacante possui mesmo informações pessoais básicas sobre um alvo (nomes, datas, interesses), um modelo sistemático de vies cognitivo pode predizer corretamente 50-90% das senhas derivadas de PII, dependendo da completude do perfil e do contexto de avaliação. No Persona Benchmark com 10 personas (Seção 6.3.7), o CogPIE v0.2 atinge cobertura média de 88,6% contra 8 ferramentas externas reais, superando o melhor concorrente individual (elpscrk, 51,1%) por +37,5pp e o Combined de todas as ferramentas (82,2%) por +6,4pp. No benchmark contra ferramentas externas (Seção 6.3.8), CogPIE vence 7/10 personas individualmente contra o Combined e 10/10 contra qualquer ferramenta isolada. O benchmark de credenciais brasileiras reais (Seção 6.3.9) confirma a validade ecológica: CogPIE atinge 50,5% de cobertura em 1.000 senhas reais vazadas com rank mediano 17, superando todos os baselines por +11,7pp ou mais.
+Nossos resultados fornecem evidencias quantitativas para uma conclusão amplamente conhecida, porém frequentemente subestimada: senhas geradas por humanos são fundamentalmente inseguras contra ataques direcionados. Quando um atacante possui mesmo informações pessoais básicas sobre um alvo (nomes, datas, interesses), um modelo sistemático de vies cognitivo pode predizer corretamente 50-90% das senhas derivadas de PII, dependendo da completude do perfil e do contexto de avaliação. No Persona Benchmark com 10 personas (Seção 6.3.7), o CogPIE v0.2 atinge cobertura média de 88,6% contra 8 ferramentas externas reais, superando o melhor concorrente individual (elpscrk, 51,1%) por +37,5pp e o Combined de todas as ferramentas (82,2%) por +6,4pp. No benchmark contra ferramentas externas (Seção 6.3.8), CogPIE vence 7/10 personas individualmente contra o Combined e 10/10 contra qualquer ferramenta isolada. O benchmark de credenciais brasileiras reais (Seção 6.3.10) confirma a validade ecológica: CogPIE atinge 50,5% de cobertura em 1.000 senhas reais vazadas com rank mediano 17, superando todos os baselines por +11,7pp ou mais.
 
 Esta constatação alinha-se com a literatura mais ampla:
 - Wang et al. (2016) constataram que 30% das senhas modificadas podem ser quebradas em 10 tentativas
