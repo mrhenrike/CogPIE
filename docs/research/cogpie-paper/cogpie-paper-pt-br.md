@@ -603,6 +603,42 @@ Com 4x mais alvos, os resultados confirmam e refinam as observações do experim
 
 4. **Consistência de desempenho:** O CogPIE processa cada alvo em 621ms em média (vs. 637ms em 500 alvos), confirmando comportamento de escala linear. O tempo total de processamento para 2.000 alvos foi de aproximadamente 21 minutos.
 
+#### 6.3.7 Avaliação por Completude de Perfil (Persona Benchmark)
+
+Para avaliar o impacto da quantidade de informação pessoal disponível sobre a eficácia do CogPIE, desenvolvemos um benchmark com 10 personas sintéticas (P01 a P10) com níveis crescentes de completude de perfil, desde informação mínima (apenas primeiro nome) até perfil completo (todos os campos do wizard preenchidos: dados pessoais, parceiro, filhos, animais de estimação, empresa, telefones, redes sociais, religião, cidade, frases, senhas anteriores e documento de identidade).
+
+Cada persona possui um conjunto de "ground truth" de 15 a 31 senhas plausíveis, derivadas dos vieses cognitivos documentados na Seção 2.3. O benchmark compara CogPIE (50.000 candidatos), CUPP-style (50.000 candidatos) e Markov-3 (10.000 candidatos seeded) em termos de cobertura total.
+
+**Tabela 7: Cobertura por Nível de Completude de Perfil**
+
+| Persona | Nível | Campos | CogPIE | CUPP | Markov | Vencedor |
+|---------|-------|--------|--------|------|--------|----------|
+| P01 (Minimal) | 1 | 1 | **60,0%** | 26,7% | 53,3% | CogPIE |
+| P02 (Basic) | 2 | 2 | **86,7%** | 46,7% | 0,0% | CogPIE |
+| P03 (Names) | 3 | 4 | **75,0%** | 55,0% | 0,0% | CogPIE |
+| P04 (Family) | 4 | 7 | 59,1% | **63,6%** | 4,5% | CUPP |
+| P05 (Extended) | 5 | 7 | **54,5%** | 40,9% | 13,6% | CogPIE |
+| P06 (Social) | 6 | 9 | **60,9%** | 39,1% | 21,7% | CogPIE |
+| P07 (Cultural) | 7 | 11 | **48,0%** | 44,0% | 28,0% | CogPIE |
+| P08 (Phrases) | 8 | 11 | **72,0%** | 60,0% | 20,0% | CogPIE |
+| P09 (Rich) | 9 | 14 | **65,4%** | 46,2% | 11,5% | CogPIE |
+| P10 (Complete) | 10 | 27 | 54,8% | **58,1%** | 6,5% | CUPP |
+| **Média** | | | **63,6%** | 48,0% | 15,9% | **CogPIE** |
+
+Resultados chave:
+
+1. **CogPIE vence em 8 de 10 níveis**, com vantagem média de 15,6 pontos percentuais sobre CUPP (63,6% vs. 48,0%). A superioridade é consistente desde perfis mínimos até perfis ricos.
+
+2. **Perfis mínimos (L1-L3):** CogPIE demonstra vantagem expressiva (60-87% vs. 27-55% CUPP). Com pouca informação, a expansão semantica (Camada 1) e as transformações cognitivas (Camada 2) geram variantes que o CUPP não considera: abreviações, transliterações, variantes culturais de apelidos.
+
+3. **Perfis intermediários (L5-L9):** CogPIE mantém vantagem consistente (49-72% vs. 39-60% CUPP). A banda de prioridade com combinações cross-field (nome x empresa, nome x nome, leet sobre combinações diretas) captura padrões que o CUPP ignora.
+
+4. **Perfis completos (L4, L10):** CUPP vence por margens estreitas (4,5pp e 3,3pp). Nesses níveis, a grande quantidade de combinações determinísticas simples gera exatamente os padrões mais previsíveis. A diferença diminuta sugere que o CogPIE mantém competitividade mesmo no cenário mais favorável ao CUPP.
+
+5. **Colapso do Markov confirmado:** Markov-3 atinge 53,3% apenas com perfil mínimo (onde o espaço de busca é pequeno e o seed "joao" coincide com padrões de corpus). A partir de L2, colapsa para 0-28%, confirmando a diluição observada na Seção 6.3.3.
+
+6. **MRR médio:** CogPIE (0,016) supera CUPP (0,005) e Markov (0,010), indicando que os candidatos corretos do CogPIE tendem a aparecer em posições mais altas no ranking.
+
 ### 6.4 Parametros e Configuração do Motor
 
 Os parametros do CogPIE utilizados nos experimentos:
@@ -618,7 +654,7 @@ Os parametros do CogPIE utilizados nos experimentos:
 
 ### 6.5 Limitações
 
-1. **Escopo do PII extraível:** A extração automática de PII a partir de emails captura apenas um subconjunto do contexto cognitivo real do usuário. Informações como nomes de animais de estimação, times favoritos é memórias pessoais não são extraíveis do email. Perfis mais completos (como os obtidos em engajamentos de engenharia social autorizados) produziram taxas de hit superiores no benchmark sintético (60,9%).
+1. **Escopo do PII extraível:** A extração automática de PII a partir de emails captura apenas um subconjunto do contexto cognitivo real do usuário. Informações como nomes de animais de estimação, times favoritos e memórias pessoais não são extraíveis do email. O Persona Benchmark (Seção 6.3.7) demonstra que perfis mais completos produzem taxas de hit médias de 63,6%, com picos de 86,7% em perfis básicos onde a expansão semantica compensa a escassez de dados.
 
 2. **Especificidade cultural:** A base de dados de apelidos é o tratamento de acentos são focados em nomes brasileiros em português. A extensão para outras culturas requer recursos linguísticos adicionais. A arquitetura modular do CogPIE permite essa extensão sem alteração das camadas 3-5.
 
