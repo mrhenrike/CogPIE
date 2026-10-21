@@ -1,0 +1,1084 @@
+{
+  "benchmark": "wlf_comparative",
+  "timestamp": "2026-10-21T20:08:29",
+  "algorithms": [
+    "cogpie",
+    "cupp",
+    "bopscrk",
+    "markov"
+  ],
+  "personas": [
+    {
+      "id": "P01_minimal",
+      "level": 1,
+      "level_name": "Minimal",
+      "n_fields": 1,
+      "n_ground_truth": 15,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 15,
+          "total_candidates": 7620,
+          "total_hits": 9,
+          "coverage_pct": 60.0,
+          "mrr": 0.01439,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 26.67,
+            "hit@100": 26.67,
+            "hit@500": 26.67,
+            "hit@1000": 33.33,
+            "hit@5000": 46.67,
+            "hit@10000": 60.0,
+            "hit@25000": 60.0,
+            "hit@50000": 60.0
+          },
+          "time_ms": 70.5
+        },
+        "cupp": {
+          "total_targets": 15,
+          "total_candidates": 445,
+          "total_hits": 4,
+          "coverage_pct": 26.67,
+          "mrr": 0.037299,
+          "hit_rates": {
+            "hit@10": 13.33,
+            "hit@50": 26.67,
+            "hit@100": 26.67,
+            "hit@500": 26.67,
+            "hit@1000": 26.67,
+            "hit@5000": 26.67,
+            "hit@10000": 26.67,
+            "hit@25000": 26.67,
+            "hit@50000": 26.67
+          },
+          "time_ms": 1.9
+        },
+        "bopscrk": {
+          "total_targets": 15,
+          "total_candidates": 1035,
+          "total_hits": 10,
+          "coverage_pct": 66.67,
+          "mrr": 0.007003,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 6.67,
+            "hit@100": 6.67,
+            "hit@500": 13.33,
+            "hit@1000": 66.67,
+            "hit@5000": 66.67,
+            "hit@10000": 66.67,
+            "hit@25000": 66.67,
+            "hit@50000": 66.67
+          },
+          "time_ms": 6.2
+        },
+        "markov": {
+          "total_targets": 15,
+          "total_candidates": 28,
+          "total_hits": 8,
+          "coverage_pct": 53.33,
+          "mrr": 0.166725,
+          "hit_rates": {
+            "hit@10": 26.67,
+            "hit@50": 53.33,
+            "hit@100": 53.33,
+            "hit@500": 53.33,
+            "hit@1000": 53.33,
+            "hit@5000": 53.33,
+            "hit@10000": 53.33,
+            "hit@25000": 53.33,
+            "hit@50000": 53.33
+          },
+          "time_ms": 0.0
+        },
+        "wlf_combined": {
+          "total_targets": 15,
+          "total_candidates": 8793,
+          "total_hits": 12,
+          "coverage_pct": 80.0,
+          "mrr": 0.014417,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 26.67,
+            "hit@100": 26.67,
+            "hit@500": 26.67,
+            "hit@1000": 33.33,
+            "hit@5000": 46.67,
+            "hit@10000": 80.0,
+            "hit@25000": 80.0,
+            "hit@50000": 80.0
+          },
+          "time_ms": 78.6
+        }
+      }
+    },
+    {
+      "id": "P02_basic",
+      "level": 2,
+      "level_name": "Basic",
+      "n_fields": 2,
+      "n_ground_truth": 15,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 15,
+          "total_candidates": 15110,
+          "total_hits": 13,
+          "coverage_pct": 86.67,
+          "mrr": 0.001426,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 53.33,
+            "hit@1000": 60.0,
+            "hit@5000": 73.33,
+            "hit@10000": 80.0,
+            "hit@25000": 86.67,
+            "hit@50000": 86.67
+          },
+          "time_ms": 139.6
+        },
+        "cupp": {
+          "total_targets": 15,
+          "total_candidates": 457,
+          "total_hits": 7,
+          "coverage_pct": 46.67,
+          "mrr": 0.002944,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 6.67,
+            "hit@100": 6.67,
+            "hit@500": 46.67,
+            "hit@1000": 46.67,
+            "hit@5000": 46.67,
+            "hit@10000": 46.67,
+            "hit@25000": 46.67,
+            "hit@50000": 46.67
+          },
+          "time_ms": 0.2
+        },
+        "bopscrk": {
+          "total_targets": 15,
+          "total_candidates": 1080,
+          "total_hits": 1,
+          "coverage_pct": 6.67,
+          "mrr": 0.000154,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 6.67,
+            "hit@1000": 6.67,
+            "hit@5000": 6.67,
+            "hit@10000": 6.67,
+            "hit@25000": 6.67,
+            "hit@50000": 6.67
+          },
+          "time_ms": 0.3
+        },
+        "markov": {
+          "total_targets": 15,
+          "total_candidates": 28,
+          "total_hits": 0,
+          "coverage_pct": 0.0,
+          "mrr": 0.0,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 0.0,
+            "hit@50000": 0.0
+          },
+          "time_ms": 0.0
+        },
+        "wlf_combined": {
+          "total_targets": 15,
+          "total_candidates": 16301,
+          "total_hits": 14,
+          "coverage_pct": 93.33,
+          "mrr": 0.00143,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 53.33,
+            "hit@1000": 60.0,
+            "hit@5000": 73.33,
+            "hit@10000": 80.0,
+            "hit@25000": 93.33,
+            "hit@50000": 93.33
+          },
+          "time_ms": 140.1
+        }
+      }
+    },
+    {
+      "id": "P03_names",
+      "level": 3,
+      "level_name": "Names",
+      "n_fields": 4,
+      "n_ground_truth": 20,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 20,
+          "total_candidates": 50000,
+          "total_hits": 15,
+          "coverage_pct": 75.0,
+          "mrr": 0.000252,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 60.0,
+            "hit@10000": 65.0,
+            "hit@25000": 65.0,
+            "hit@50000": 75.0
+          },
+          "time_ms": 476.0
+        },
+        "cupp": {
+          "total_targets": 20,
+          "total_candidates": 1202,
+          "total_hits": 11,
+          "coverage_pct": 55.0,
+          "mrr": 0.001141,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 5.0,
+            "hit@500": 15.0,
+            "hit@1000": 35.0,
+            "hit@5000": 55.0,
+            "hit@10000": 55.0,
+            "hit@25000": 55.0,
+            "hit@50000": 55.0
+          },
+          "time_ms": 0.4
+        },
+        "bopscrk": {
+          "total_targets": 20,
+          "total_candidates": 10440,
+          "total_hits": 2,
+          "coverage_pct": 10.0,
+          "mrr": 1.2e-05,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 5.0,
+            "hit@25000": 10.0,
+            "hit@50000": 10.0
+          },
+          "time_ms": 3.1
+        },
+        "markov": {
+          "total_targets": 20,
+          "total_candidates": 84,
+          "total_hits": 0,
+          "coverage_pct": 0.0,
+          "mrr": 0.0,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 0.0,
+            "hit@50000": 0.0
+          },
+          "time_ms": 0.0
+        },
+        "wlf_combined": {
+          "total_targets": 20,
+          "total_candidates": 60612,
+          "total_hits": 15,
+          "coverage_pct": 75.0,
+          "mrr": 0.000252,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 60.0,
+            "hit@10000": 65.0,
+            "hit@25000": 65.0,
+            "hit@50000": 75.0
+          },
+          "time_ms": 479.5
+        }
+      }
+    },
+    {
+      "id": "P04_family",
+      "level": 4,
+      "level_name": "Family",
+      "n_fields": 7,
+      "n_ground_truth": 22,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 22,
+          "total_candidates": 48521,
+          "total_hits": 13,
+          "coverage_pct": 59.09,
+          "mrr": 0.000615,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 4.55,
+            "hit@500": 4.55,
+            "hit@1000": 4.55,
+            "hit@5000": 36.36,
+            "hit@10000": 59.09,
+            "hit@25000": 59.09,
+            "hit@50000": 59.09
+          },
+          "time_ms": 455.7
+        },
+        "cupp": {
+          "total_targets": 22,
+          "total_candidates": 1607,
+          "total_hits": 14,
+          "coverage_pct": 63.64,
+          "mrr": 0.001632,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 4.55,
+            "hit@100": 4.55,
+            "hit@500": 9.09,
+            "hit@1000": 13.64,
+            "hit@5000": 63.64,
+            "hit@10000": 63.64,
+            "hit@25000": 63.64,
+            "hit@50000": 63.64
+          },
+          "time_ms": 0.5
+        },
+        "bopscrk": {
+          "total_targets": 22,
+          "total_candidates": 4750,
+          "total_hits": 2,
+          "coverage_pct": 9.09,
+          "mrr": 3.6e-05,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 9.09,
+            "hit@10000": 9.09,
+            "hit@25000": 9.09,
+            "hit@50000": 9.09
+          },
+          "time_ms": 1.4
+        },
+        "markov": {
+          "total_targets": 22,
+          "total_candidates": 110,
+          "total_hits": 1,
+          "coverage_pct": 4.55,
+          "mrr": 0.001057,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 4.55,
+            "hit@100": 4.55,
+            "hit@500": 4.55,
+            "hit@1000": 4.55,
+            "hit@5000": 4.55,
+            "hit@10000": 4.55,
+            "hit@25000": 4.55,
+            "hit@50000": 4.55
+          },
+          "time_ms": 0.0
+        },
+        "wlf_combined": {
+          "total_targets": 22,
+          "total_candidates": 53896,
+          "total_hits": 17,
+          "coverage_pct": 77.27,
+          "mrr": 0.000619,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 4.55,
+            "hit@500": 4.55,
+            "hit@1000": 4.55,
+            "hit@5000": 36.36,
+            "hit@10000": 59.09,
+            "hit@25000": 59.09,
+            "hit@50000": 77.27
+          },
+          "time_ms": 457.59999999999997
+        }
+      }
+    },
+    {
+      "id": "P05_extended",
+      "level": 5,
+      "level_name": "Extended",
+      "n_fields": 7,
+      "n_ground_truth": 22,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 22,
+          "total_candidates": 50000,
+          "total_hits": 10,
+          "coverage_pct": 45.45,
+          "mrr": 0.000141,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 22.73,
+            "hit@10000": 31.82,
+            "hit@25000": 40.91,
+            "hit@50000": 45.45
+          },
+          "time_ms": 523.2
+        },
+        "cupp": {
+          "total_targets": 22,
+          "total_candidates": 2171,
+          "total_hits": 9,
+          "coverage_pct": 40.91,
+          "mrr": 0.000553,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 4.55,
+            "hit@1000": 13.64,
+            "hit@5000": 40.91,
+            "hit@10000": 40.91,
+            "hit@25000": 40.91,
+            "hit@50000": 40.91
+          },
+          "time_ms": 0.6
+        },
+        "bopscrk": {
+          "total_targets": 22,
+          "total_candidates": 42475,
+          "total_hits": 5,
+          "coverage_pct": 22.73,
+          "mrr": 8e-06,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 4.55,
+            "hit@50000": 22.73
+          },
+          "time_ms": 14.1
+        },
+        "markov": {
+          "total_targets": 22,
+          "total_candidates": 166,
+          "total_hits": 2,
+          "coverage_pct": 9.09,
+          "mrr": 0.001172,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 9.09,
+            "hit@500": 9.09,
+            "hit@1000": 9.09,
+            "hit@5000": 9.09,
+            "hit@10000": 9.09,
+            "hit@25000": 9.09,
+            "hit@50000": 9.09
+          },
+          "time_ms": 0.1
+        },
+        "wlf_combined": {
+          "total_targets": 22,
+          "total_candidates": 93618,
+          "total_hits": 10,
+          "coverage_pct": 45.45,
+          "mrr": 0.000141,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 22.73,
+            "hit@10000": 31.82,
+            "hit@25000": 40.91,
+            "hit@50000": 45.45
+          },
+          "time_ms": 537.9000000000001
+        }
+      }
+    },
+    {
+      "id": "P06_social",
+      "level": 6,
+      "level_name": "Social",
+      "n_fields": 9,
+      "n_ground_truth": 23,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 23,
+          "total_candidates": 50000,
+          "total_hits": 11,
+          "coverage_pct": 47.83,
+          "mrr": 0.000132,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 4.35,
+            "hit@5000": 17.39,
+            "hit@10000": 30.43,
+            "hit@25000": 43.48,
+            "hit@50000": 47.83
+          },
+          "time_ms": 523.0
+        },
+        "cupp": {
+          "total_targets": 23,
+          "total_candidates": 2162,
+          "total_hits": 9,
+          "coverage_pct": 39.13,
+          "mrr": 0.000599,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 4.35,
+            "hit@1000": 13.04,
+            "hit@5000": 39.13,
+            "hit@10000": 39.13,
+            "hit@25000": 39.13,
+            "hit@50000": 39.13
+          },
+          "time_ms": 0.6
+        },
+        "bopscrk": {
+          "total_targets": 23,
+          "total_candidates": 50000,
+          "total_hits": 6,
+          "coverage_pct": 26.09,
+          "mrr": 7e-06,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 0.0,
+            "hit@50000": 26.09
+          },
+          "time_ms": 18.2
+        },
+        "markov": {
+          "total_targets": 23,
+          "total_candidates": 192,
+          "total_hits": 3,
+          "coverage_pct": 13.04,
+          "mrr": 0.001728,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 4.35,
+            "hit@100": 4.35,
+            "hit@500": 13.04,
+            "hit@1000": 13.04,
+            "hit@5000": 13.04,
+            "hit@10000": 13.04,
+            "hit@25000": 13.04,
+            "hit@50000": 13.04
+          },
+          "time_ms": 0.1
+        },
+        "wlf_combined": {
+          "total_targets": 23,
+          "total_candidates": 101268,
+          "total_hits": 11,
+          "coverage_pct": 47.83,
+          "mrr": 0.000132,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 4.35,
+            "hit@5000": 17.39,
+            "hit@10000": 30.43,
+            "hit@25000": 43.48,
+            "hit@50000": 47.83
+          },
+          "time_ms": 541.8
+        }
+      }
+    },
+    {
+      "id": "P07_cultural",
+      "level": 7,
+      "level_name": "Cultural",
+      "n_fields": 11,
+      "n_ground_truth": 25,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 25,
+          "total_candidates": 50000,
+          "total_hits": 6,
+          "coverage_pct": 24.0,
+          "mrr": 3.3e-05,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 8.0,
+            "hit@10000": 12.0,
+            "hit@25000": 16.0,
+            "hit@50000": 24.0
+          },
+          "time_ms": 571.3
+        },
+        "cupp": {
+          "total_targets": 25,
+          "total_candidates": 2133,
+          "total_hits": 7,
+          "coverage_pct": 28.0,
+          "mrr": 0.000563,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 4.0,
+            "hit@1000": 12.0,
+            "hit@5000": 28.0,
+            "hit@10000": 28.0,
+            "hit@25000": 28.0,
+            "hit@50000": 28.0
+          },
+          "time_ms": 0.6
+        },
+        "bopscrk": {
+          "total_targets": 25,
+          "total_candidates": 50000,
+          "total_hits": 7,
+          "coverage_pct": 28.0,
+          "mrr": 1.3e-05,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 4.0,
+            "hit@25000": 4.0,
+            "hit@50000": 28.0
+          },
+          "time_ms": 18.8
+        },
+        "markov": {
+          "total_targets": 25,
+          "total_candidates": 240,
+          "total_hits": 5,
+          "coverage_pct": 20.0,
+          "mrr": 0.002059,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 8.0,
+            "hit@500": 20.0,
+            "hit@1000": 20.0,
+            "hit@5000": 20.0,
+            "hit@10000": 20.0,
+            "hit@25000": 20.0,
+            "hit@50000": 20.0
+          },
+          "time_ms": 0.1
+        },
+        "wlf_combined": {
+          "total_targets": 25,
+          "total_candidates": 101537,
+          "total_hits": 6,
+          "coverage_pct": 24.0,
+          "mrr": 3.3e-05,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 8.0,
+            "hit@10000": 12.0,
+            "hit@25000": 16.0,
+            "hit@50000": 24.0
+          },
+          "time_ms": 590.6999999999999
+        }
+      }
+    },
+    {
+      "id": "P08_phrases",
+      "level": 8,
+      "level_name": "Phrases",
+      "n_fields": 11,
+      "n_ground_truth": 25,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 25,
+          "total_candidates": 50000,
+          "total_hits": 10,
+          "coverage_pct": 40.0,
+          "mrr": 5e-05,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 32.0,
+            "hit@25000": 36.0,
+            "hit@50000": 40.0
+          },
+          "time_ms": 557.2
+        },
+        "cupp": {
+          "total_targets": 25,
+          "total_candidates": 2171,
+          "total_hits": 9,
+          "coverage_pct": 36.0,
+          "mrr": 0.000844,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 4.0,
+            "hit@500": 4.0,
+            "hit@1000": 12.0,
+            "hit@5000": 36.0,
+            "hit@10000": 36.0,
+            "hit@25000": 36.0,
+            "hit@50000": 36.0
+          },
+          "time_ms": 0.7
+        },
+        "bopscrk": {
+          "total_targets": 25,
+          "total_candidates": 50000,
+          "total_hits": 2,
+          "coverage_pct": 8.0,
+          "mrr": 3e-06,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 0.0,
+            "hit@50000": 8.0
+          },
+          "time_ms": 20.2
+        },
+        "markov": {
+          "total_targets": 25,
+          "total_candidates": 268,
+          "total_hits": 5,
+          "coverage_pct": 20.0,
+          "mrr": 0.00113,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 20.0,
+            "hit@1000": 20.0,
+            "hit@5000": 20.0,
+            "hit@10000": 20.0,
+            "hit@25000": 20.0,
+            "hit@50000": 20.0
+          },
+          "time_ms": 0.1
+        },
+        "wlf_combined": {
+          "total_targets": 25,
+          "total_candidates": 101604,
+          "total_hits": 10,
+          "coverage_pct": 40.0,
+          "mrr": 5e-05,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 32.0,
+            "hit@25000": 36.0,
+            "hit@50000": 40.0
+          },
+          "time_ms": 578.1
+        }
+      }
+    },
+    {
+      "id": "P09_rich",
+      "level": 9,
+      "level_name": "Rich",
+      "n_fields": 14,
+      "n_ground_truth": 26,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 26,
+          "total_candidates": 50000,
+          "total_hits": 12,
+          "coverage_pct": 46.15,
+          "mrr": 0.07055,
+          "hit_rates": {
+            "hit@10": 11.54,
+            "hit@50": 11.54,
+            "hit@100": 11.54,
+            "hit@500": 11.54,
+            "hit@1000": 11.54,
+            "hit@5000": 11.54,
+            "hit@10000": 30.77,
+            "hit@25000": 38.46,
+            "hit@50000": 46.15
+          },
+          "time_ms": 564.0
+        },
+        "cupp": {
+          "total_targets": 26,
+          "total_candidates": 2616,
+          "total_hits": 9,
+          "coverage_pct": 34.62,
+          "mrr": 0.000453,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 3.85,
+            "hit@1000": 11.54,
+            "hit@5000": 34.62,
+            "hit@10000": 34.62,
+            "hit@25000": 34.62,
+            "hit@50000": 34.62
+          },
+          "time_ms": 0.7
+        },
+        "bopscrk": {
+          "total_targets": 26,
+          "total_candidates": 50000,
+          "total_hits": 1,
+          "coverage_pct": 3.85,
+          "mrr": 1e-06,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 0.0,
+            "hit@50000": 3.85
+          },
+          "time_ms": 19.2
+        },
+        "markov": {
+          "total_targets": 26,
+          "total_candidates": 280,
+          "total_hits": 3,
+          "coverage_pct": 11.54,
+          "mrr": 0.00051,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 11.54,
+            "hit@1000": 11.54,
+            "hit@5000": 11.54,
+            "hit@10000": 11.54,
+            "hit@25000": 11.54,
+            "hit@50000": 11.54
+          },
+          "time_ms": 0.1
+        },
+        "wlf_combined": {
+          "total_targets": 26,
+          "total_candidates": 101942,
+          "total_hits": 12,
+          "coverage_pct": 46.15,
+          "mrr": 0.07055,
+          "hit_rates": {
+            "hit@10": 11.54,
+            "hit@50": 11.54,
+            "hit@100": 11.54,
+            "hit@500": 11.54,
+            "hit@1000": 11.54,
+            "hit@5000": 11.54,
+            "hit@10000": 30.77,
+            "hit@25000": 38.46,
+            "hit@50000": 46.15
+          },
+          "time_ms": 583.9
+        }
+      }
+    },
+    {
+      "id": "P10_complete",
+      "level": 10,
+      "level_name": "Complete",
+      "n_fields": 27,
+      "n_ground_truth": 31,
+      "algorithms": {
+        "cogpie": {
+          "total_targets": 31,
+          "total_candidates": 50000,
+          "total_hits": 10,
+          "coverage_pct": 32.26,
+          "mrr": 0.073677,
+          "hit_rates": {
+            "hit@10": 16.13,
+            "hit@50": 16.13,
+            "hit@100": 16.13,
+            "hit@500": 16.13,
+            "hit@1000": 16.13,
+            "hit@5000": 19.35,
+            "hit@10000": 22.58,
+            "hit@25000": 32.26,
+            "hit@50000": 32.26
+          },
+          "time_ms": 653.9
+        },
+        "cupp": {
+          "total_targets": 31,
+          "total_candidates": 2969,
+          "total_hits": 9,
+          "coverage_pct": 29.03,
+          "mrr": 0.000327,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 3.23,
+            "hit@1000": 6.45,
+            "hit@5000": 29.03,
+            "hit@10000": 29.03,
+            "hit@25000": 29.03,
+            "hit@50000": 29.03
+          },
+          "time_ms": 0.8
+        },
+        "bopscrk": {
+          "total_targets": 31,
+          "total_candidates": 50000,
+          "total_hits": 2,
+          "coverage_pct": 6.45,
+          "mrr": 2e-06,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 0.0,
+            "hit@100": 0.0,
+            "hit@500": 0.0,
+            "hit@1000": 0.0,
+            "hit@5000": 0.0,
+            "hit@10000": 0.0,
+            "hit@25000": 0.0,
+            "hit@50000": 6.45
+          },
+          "time_ms": 21.4
+        },
+        "markov": {
+          "total_targets": 31,
+          "total_candidates": 280,
+          "total_hits": 2,
+          "coverage_pct": 6.45,
+          "mrr": 0.000868,
+          "hit_rates": {
+            "hit@10": 0.0,
+            "hit@50": 3.23,
+            "hit@100": 3.23,
+            "hit@500": 6.45,
+            "hit@1000": 6.45,
+            "hit@5000": 6.45,
+            "hit@10000": 6.45,
+            "hit@25000": 6.45,
+            "hit@50000": 6.45
+          },
+          "time_ms": 0.1
+        },
+        "wlf_combined": {
+          "total_targets": 31,
+          "total_candidates": 102483,
+          "total_hits": 10,
+          "coverage_pct": 32.26,
+          "mrr": 0.073677,
+          "hit_rates": {
+            "hit@10": 16.13,
+            "hit@50": 16.13,
+            "hit@100": 16.13,
+            "hit@500": 16.13,
+            "hit@1000": 16.13,
+            "hit@5000": 19.35,
+            "hit@10000": 22.58,
+            "hit@25000": 32.26,
+            "hit@50000": 32.26
+          },
+          "time_ms": 676.1
+        }
+      }
+    }
+  ],
+  "summary": {
+    "cogpie": {
+      "avg_coverage": 51.65,
+      "min_coverage": 24.0,
+      "max_coverage": 86.67,
+      "wins": 6
+    },
+    "cupp": {
+      "avg_coverage": 39.97,
+      "min_coverage": 26.67,
+      "max_coverage": 63.64,
+      "wins": 1
+    },
+    "bopscrk": {
+      "avg_coverage": 18.76,
+      "min_coverage": 3.85,
+      "max_coverage": 66.67,
+      "wins": 0
+    },
+    "markov": {
+      "avg_coverage": 13.8,
+      "min_coverage": 0.0,
+      "max_coverage": 53.33,
+      "wins": 0
+    },
+    "wlf_combined": {
+      "avg_coverage": 56.13,
+      "min_coverage": 24.0,
+      "max_coverage": 93.33,
+      "wins": 3
+    }
+  }
+}
