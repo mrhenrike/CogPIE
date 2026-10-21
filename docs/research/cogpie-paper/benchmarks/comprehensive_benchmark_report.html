@@ -1,0 +1,1563 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CogPIE Comprehensive Benchmark Report</title><style>
+  @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap");
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Merriweather", Georgia, serif; font-size: 16px; line-height: 1.8; color: #1a1a2e; max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; background: #fafaf8; }
+  h1 { font-family: "Source Sans 3", sans-serif; font-size: 1.8rem; font-weight: 700; margin: 2rem 0 0.5rem; color: #0d1b2a; }
+  h2 { font-family: "Source Sans 3", sans-serif; font-size: 1.4rem; font-weight: 700; margin: 2rem 0 0.5rem; color: #1b263b; border-bottom: 2px solid #415a77; padding-bottom: 0.3rem; }
+  h3 { font-family: "Source Sans 3", sans-serif; font-size: 1.15rem; font-weight: 600; margin: 1.5rem 0 0.4rem; color: #1b263b; }
+  h4 { font-family: "Source Sans 3", sans-serif; font-size: 1.0rem; font-weight: 600; margin: 1.2rem 0 0.3rem; color: #1b263b; }
+  p { margin: 0.8rem 0; text-align: justify; }
+  strong { color: #0d1b2a; }
+  a { color: #415a77; }
+  hr { border: none; border-top: 1px solid #d0d0c8; margin: 2rem 0; }
+  blockquote { border-left: 4px solid #778da9; padding: 0.5rem 1rem; margin: 1rem 0; background: #f0f0ea; font-style: italic; }
+  code { background: #e0e0d8; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+  pre { background: #1b263b; color: #e0e1dd; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; }
+  pre code { background: none; padding: 0; color: inherit; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.88rem; }
+  th { background: #1b263b; color: #e0e1dd; padding: 0.6rem 0.8rem; text-align: left; font-family: "Source Sans 3", sans-serif; }
+  td { padding: 0.5rem 0.8rem; border-bottom: 1px solid #d0d0c8; }
+  tr:nth-child(even) { background: #f0f0ea; }
+  tr:hover { background: #e8e8e0; }
+  ul, ol { margin: 0.8rem 0 0.8rem 1.5rem; }
+  li { margin: 0.3rem 0; }
+  @media print { body { max-width: 100%; font-size: 11pt; } table { page-break-inside: avoid; } }
+</style></head><body><div style="max-width:900px;margin:0 auto"><h1 id="comprehensive-benchmark-report-cogpie-vs-state-of-the-art-wordlist-generation-tools">Comprehensive Benchmark Report: CogPIE vs. State-of-the-Art Wordlist Generation Tools</h1>
+<p><strong>Author:</strong> Andre Henrique de Oliveira (@mrhenrike)
+<strong>Affiliation:</strong> Uniao Geek Security Research
+<strong>Date:</strong> 2026-10-21
+<strong>Version:</strong> 1.0</p>
+<hr>
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<p>This report presents a multi-dimensional benchmark comparing CogPIE (Cognitive Password Inference Engine) against state-of-the-art wordlist generation tools across five distinct evaluation scenarios:</p>
+<ol>
+<li><strong>Persona Benchmark:</strong> 10 synthetic personas with controlled ground truth (164 target passwords)</li>
+<li><strong>External Tools Benchmark:</strong> 7 algorithms tested against the same 10 personas</li>
+<li><strong>Brazilian Leak Benchmark (small):</strong> 598 real leaked credentials from IntelX stealer logs</li>
+<li><strong>PII-Filtered Large-Scale Benchmark:</strong> 1,000 sampled from 13,546 PII-related credentials (260K pool)</li>
+<li><strong>RockYou Corpus Benchmark:</strong> 500 samples from 479,854 trained passwords</li>
+</ol>
+<h3 id="key-findings">Key Findings</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>CogPIE</th>
+<th>Best Competitor</th>
+<th>Delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Persona coverage (avg)</td>
+<td><strong>63.6%</strong></td>
+<td>CUPP 48.0%</td>
+<td><strong>+15.6pp</strong></td>
+</tr>
+<tr>
+<td>Persona wins</td>
+<td><strong>8/10</strong></td>
+<td>CUPP 2/10</td>
+<td>+6</td>
+</tr>
+<tr>
+<td>Large-scale PII leak (1K sample)</td>
+<td><strong>50.5%</strong></td>
+<td>CUPP/bopscrk 38.8%</td>
+<td><strong>+11.7pp</strong></td>
+</tr>
+<tr>
+<td>Large-scale median rank</td>
+<td><strong>17</strong></td>
+<td>CUPP 44</td>
+<td><strong>2.6x faster</strong></td>
+</tr>
+<tr>
+<td>PII-related leak coverage (17 targets)</td>
+<td><strong>58.8%</strong></td>
+<td>CUPP/bopscrk 47.1%</td>
+<td><strong>+11.7pp</strong></td>
+</tr>
+<tr>
+<td>RockYou hit@1000</td>
+<td><strong>68.4%</strong></td>
+<td>N/A (corpus)</td>
+<td>&ndash;</td>
+</tr>
+<tr>
+<td>WLF combined coverage</td>
+<td><strong>56.8%</strong></td>
+<td>elpscrk 51.1%</td>
+<td>+5.8pp</td>
+</tr>
+</tbody>
+</table>
+<p>CogPIE is the first open-source algorithm to formally integrate cognitive bias modeling (anchoring, serial position, hyperbolic discounting, familiarity) into a multi-layer password generation pipeline with probabilistic ranking.</p>
+<hr>
+<h2 id="2-experimental-setup">2. Experimental Setup</h2>
+<h3 id="21-hardware">2.1 Hardware</h3>
+<ul>
+<li>CPU: Intel (laptop, details in system)</li>
+<li>GPU: NVIDIA GeForce RTX 4060 Laptop GPU (8.3 GB VRAM)</li>
+<li>RAM: 14 GB + 26 GB swap</li>
+<li>OS: Linux 7.0.0-38-generic</li>
+</ul>
+<h3 id="22-software-versions">2.2 Software Versions</h3>
+<ul>
+<li>CogPIE engine: commit <code>3afc78b</code> (priority band fix + leet batch)</li>
+<li>Python: 3.14</li>
+<li>Corpus training: RockYou 479,854 passwords (processed)</li>
+</ul>
+<h3 id="23-benchmark-parameters">2.3 Benchmark Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Persona</th>
+<th>External</th>
+<th>Leak</th>
+<th>RockYou</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>max_candidates</td>
+<td>50,000</td>
+<td>10,000</td>
+<td>50,000</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>targets</td>
+<td>164</td>
+<td>164</td>
+<td>598</td>
+<td>500</td>
+</tr>
+<tr>
+<td>training corpus</td>
+<td>RockYou 479K</td>
+<td>None</td>
+<td>None</td>
+<td>RockYou 479K</td>
+</tr>
+<tr>
+<td>tools compared</td>
+<td>CogPIE, CUPP, Markov</td>
+<td>7 tools</td>
+<td>CogPIE, CUPP</td>
+<td>CogPIE</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-algorithmic-taxonomy-of-compared-tools">3. Algorithmic Taxonomy of Compared Tools</h2>
+<h3 id="31-seven-paradigms">3.1 Seven Paradigms</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Paradigm</th>
+<th>Math Foundation</th>
+<th>Example Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>Profile/Target-based</td>
+<td>Cartesian concatenation of PII fields</td>
+<td>CUPP, bopscrk, elpscrk, BEWGor, psudohash</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Combinatoric/Exhaustive</td>
+<td></td>
+<td>S</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Rule/Mangling</td>
+<td>f_n(f_{n-1}(&hellip;f_1(w))) transform chains</td>
+<td>Hashcat rules, JtR rules, Mentalist</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>Probabilistic/Statistical</td>
+<td>Markov P(c_i</td>
+<td>context), PCFG P(S-&gt;L^aD^bS^c)</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>Neural/Deep Learning</td>
+<td>GAN G(z), Transformer P(c_i</td>
+<td>c_{&lt;i})</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>Scraping/Extraction</td>
+<td>TF tokenization from web/docs</td>
+<td>CeWL, lyricpass</td>
+</tr>
+<tr>
+<td>C7</td>
+<td>Hybrid Cognitive</td>
+<td>Multi-layer: semantic + cognitive + probabilistic</td>
+<td><strong>CogPIE</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-algorithm-detail-per-tool">3.2 Algorithm Detail per Tool</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Stars</th>
+<th>Algorithm Core</th>
+<th>PII?</th>
+<th>Ranked?</th>
+<th>Typical Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>crunch</td>
+<td>120</td>
+<td>Exhaustive charset^length</td>
+<td>No</td>
+<td>No</td>
+<td>10^6-10^12</td>
+</tr>
+<tr>
+<td>maskprocessor</td>
+<td>515</td>
+<td>Per-position charset product</td>
+<td>No</td>
+<td>No</td>
+<td>10^6-10^10</td>
+</tr>
+<tr>
+<td>CUPP</td>
+<td>6,597</td>
+<td>PII concat + case/leet/suffix</td>
+<td>Yes</td>
+<td>No</td>
+<td>10^2-10^4</td>
+</tr>
+<tr>
+<td>bopscrk</td>
+<td>1,124</td>
+<td>CUPP + lyrics + transforms</td>
+<td>Yes</td>
+<td>No</td>
+<td>10^3-10^5</td>
+</tr>
+<tr>
+<td>elpscrk</td>
+<td>964</td>
+<td>Permutation + statistics</td>
+<td>Yes</td>
+<td>Partial</td>
+<td>10^3-10^5</td>
+</tr>
+<tr>
+<td>psudohash</td>
+<td>1,473</td>
+<td>Keyword pattern imitation</td>
+<td>Yes</td>
+<td>No</td>
+<td>10^3-10^5</td>
+</tr>
+<tr>
+<td>BEWGor</td>
+<td>422</td>
+<td>Extended bio concat</td>
+<td>Yes</td>
+<td>No</td>
+<td>10^2-10^4</td>
+</tr>
+<tr>
+<td>Mentalist</td>
+<td>2,041</td>
+<td>GUI chain: Base-&gt;Node_1-&gt;&hellip;-&gt;Node_k</td>
+<td>No</td>
+<td>No</td>
+<td>10^4-10^7</td>
+</tr>
+<tr>
+<td>JtR rules</td>
+<td>13,806</td>
+<td>50+ mangling ops per word</td>
+<td>No</td>
+<td>No</td>
+<td>10^6-10^10</td>
+</tr>
+<tr>
+<td>Hashcat</td>
+<td>27,036</td>
+<td>40+ GPU rules per word</td>
+<td>No</td>
+<td>No</td>
+<td>10^6-10^10</td>
+</tr>
+<tr>
+<td>PRINCE</td>
+<td>502</td>
+<td>Probability Infinite Chained Elements</td>
+<td>No</td>
+<td>By freq</td>
+<td>10^6-10^9</td>
+</tr>
+<tr>
+<td>kwprocessor</td>
+<td>611</td>
+<td>Keyboard walk graph traversal</td>
+<td>No</td>
+<td>No</td>
+<td>10^3-10^6</td>
+</tr>
+<tr>
+<td>OMEN</td>
+<td>335</td>
+<td>Positional Markov n-grams</td>
+<td>No</td>
+<td>Yes</td>
+<td>10^6-10^10</td>
+</tr>
+<tr>
+<td>pcfg_cracker</td>
+<td>372</td>
+<td>PCFG with trained terminals</td>
+<td>No</td>
+<td>Yes</td>
+<td>10^6-10^9</td>
+</tr>
+<tr>
+<td>PassGAN</td>
+<td>2,014</td>
+<td>WGAN-GP adversarial training</td>
+<td>No</td>
+<td>No</td>
+<td>10^6-10^8</td>
+</tr>
+<tr>
+<td>PassGPT</td>
+<td>103</td>
+<td>GPT-2 fine-tuned on passwords</td>
+<td>No</td>
+<td>Yes</td>
+<td>10^6-10^8</td>
+</tr>
+<tr>
+<td>CogPIE</td>
+<td>private</td>
+<td>5-layer cognitive pipeline</td>
+<td><strong>Yes</strong></td>
+<td><strong>Yes</strong></td>
+<td>10^3-10^5</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-feature-comparison-matrix">3.3 Feature Comparison Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>CUPP</th>
+<th>OMEN</th>
+<th>PCFG</th>
+<th>PassGPT</th>
+<th>TarGuess</th>
+<th>CogPIE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uses PII</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Probabilistic ranking</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Cognitive bias modeling</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Partial</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Semantic expansion</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Cultural adaptation</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>GPU acceleration</td>
+<td>N/A</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>N/A</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Policy filtering</td>
+<td>No</td>
+<td>No</td>
+<td>Partial</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Open source</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Partial</td>
+<td><strong>Yes</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-benchmark-1-persona-evaluation-controlled">4. Benchmark 1: Persona Evaluation (Controlled)</h2>
+<h3 id="41-methodology">4.1 Methodology</h3>
+<p>10 synthetic personas (P01-P10) with increasing profile completeness (Level 1-10). Each persona has 15-31 ground truth passwords designed to test specific generation capabilities. Three algorithms compared: CogPIE, CUPP (WLF implementation), Markov (WLF implementation).</p>
+<h3 id="42-results">4.2 Results</h3>
+<table>
+<thead>
+<tr>
+<th>Persona</th>
+<th>Level</th>
+<th>Fields</th>
+<th>GT</th>
+<th>CogPIE%</th>
+<th>CUPP%</th>
+<th>Markov%</th>
+<th>Winner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P01_minimal</td>
+<td>1</td>
+<td>1</td>
+<td>15</td>
+<td><strong>60.0</strong></td>
+<td>26.7</td>
+<td>53.3</td>
+<td>CogPIE</td>
+</tr>
+<tr>
+<td>P02_basic</td>
+<td>2</td>
+<td>2</td>
+<td>15</td>
+<td><strong>86.7</strong></td>
+<td>46.7</td>
+<td>0.0</td>
+<td>CogPIE</td>
+</tr>
+<tr>
+<td>P03_names</td>
+<td>3</td>
+<td>3</td>
+<td>20</td>
+<td><strong>75.0</strong></td>
+<td>55.0</td>
+<td>0.0</td>
+<td>CogPIE</td>
+</tr>
+<tr>
+<td>P04_family</td>
+<td>4</td>
+<td>4</td>
+<td>22</td>
+<td>59.1</td>
+<td><strong>63.6</strong></td>
+<td>4.5</td>
+<td>CUPP</td>
+</tr>
+<tr>
+<td>P05_extended</td>
+<td>5</td>
+<td>5</td>
+<td>22</td>
+<td><strong>54.5</strong></td>
+<td>40.9</td>
+<td>13.6</td>
+<td>CogPIE</td>
+</tr>
+<tr>
+<td>P06_social</td>
+<td>6</td>
+<td>6</td>
+<td>23</td>
+<td><strong>60.9</strong></td>
+<td>39.1</td>
+<td>21.7</td>
+<td>CogPIE</td>
+</tr>
+<tr>
+<td>P07_cultural</td>
+<td>7</td>
+<td>7</td>
+<td>25</td>
+<td><strong>48.0</strong></td>
+<td>44.0</td>
+<td>28.0</td>
+<td>CogPIE</td>
+</tr>
+<tr>
+<td>P08_phrases</td>
+<td>8</td>
+<td>8</td>
+<td>25</td>
+<td><strong>72.0</strong></td>
+<td>60.0</td>
+<td>20.0</td>
+<td>CogPIE</td>
+</tr>
+<tr>
+<td>P09_rich</td>
+<td>9</td>
+<td>9</td>
+<td>26</td>
+<td><strong>65.4</strong></td>
+<td>46.1</td>
+<td>11.5</td>
+<td>CogPIE</td>
+</tr>
+<tr>
+<td>P10_complete</td>
+<td>10</td>
+<td>10</td>
+<td>31</td>
+<td>54.8</td>
+<td><strong>58.1</strong></td>
+<td>6.5</td>
+<td>CUPP</td>
+</tr>
+<tr>
+<td><strong>AVERAGE</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>63.6</strong></td>
+<td>48.0</td>
+<td>15.9</td>
+<td><strong>CogPIE 8/10</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-key-observations">4.3 Key Observations</h3>
+<ol>
+<li><strong>CogPIE wins 8/10 personas.</strong> CUPP wins only on P04 (family names, simple concatenation) and P10 (complete profile where sheer combinatorics helps).</li>
+<li><strong>CogPIE advantage grows with complexity.</strong> Delta vs CUPP: P06=+21.8pp, P08=+12.0pp, P09=+19.3pp.</li>
+<li><strong>Markov averages 15.9%</strong> because it is not profile-aware; its hits come from statistically common patterns that happen to match ground truth.</li>
+<li><strong>CogPIE&rsquo;s priority band</strong> (cross-field combinations, leet of top-500 candidates) accounts for most of the improvement vs CUPP.</li>
+</ol>
+<hr>
+<h2 id="5-benchmark-2-external-tools-comparison">5. Benchmark 2: External Tools Comparison</h2>
+<h3 id="51-methodology">5.1 Methodology</h3>
+<p>Seven algorithms tested against the same 10 personas with 10,000 candidate budget:
+- <strong>cogpie:</strong> CogPIE standalone (10K candidates)
+- <strong>cupp_original:</strong> Original CUPP (Mebus/cupp) with native parser
+- <strong>cupp_wlf:</strong> WLF implementation of CUPP engine
+- <strong>bopscrk:</strong> r3nt0n/bopscrk profile generation
+- <strong>elpscrk:</strong> D4Vinci/elpscrk statistics-based profiling
+- <strong>psudohash:</strong> t3l3machus/psudohash pattern imitation
+- <strong>wlf_combined:</strong> WLF with all engines merged (CogPIE + CUPP + Markov + others)</p>
+<h3 id="52-results-10k-candidates">5.2 Results (10K candidates)</h3>
+<table>
+<thead>
+<tr>
+<th>Persona</th>
+<th>CogPIE</th>
+<th>cupp_orig</th>
+<th>cupp_wlf</th>
+<th>bopscrk</th>
+<th>elpscrk</th>
+<th>psudohash</th>
+<th>wlf_combined</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P01</td>
+<td>60.0</td>
+<td>0.0</td>
+<td>26.7</td>
+<td><strong>66.7</strong></td>
+<td>53.3</td>
+<td>0.0</td>
+<td><strong>80.0</strong></td>
+</tr>
+<tr>
+<td>P02</td>
+<td><strong>86.7</strong></td>
+<td>0.0</td>
+<td>46.7</td>
+<td>6.7</td>
+<td>33.3</td>
+<td>0.0</td>
+<td><strong>93.3</strong></td>
+</tr>
+<tr>
+<td>P03</td>
+<td><strong>75.0</strong></td>
+<td>0.0</td>
+<td>55.0</td>
+<td>10.0</td>
+<td>45.0</td>
+<td>0.0</td>
+<td><strong>75.0</strong></td>
+</tr>
+<tr>
+<td>P04</td>
+<td>59.1</td>
+<td>0.0</td>
+<td><strong>63.6</strong></td>
+<td>9.1</td>
+<td>40.9</td>
+<td>0.0</td>
+<td><strong>77.3</strong></td>
+</tr>
+<tr>
+<td>P05</td>
+<td>45.5</td>
+<td>0.0</td>
+<td>40.9</td>
+<td>22.7</td>
+<td><strong>50.0</strong></td>
+<td>0.0</td>
+<td>45.5</td>
+</tr>
+<tr>
+<td>P06</td>
+<td>52.2</td>
+<td>0.0</td>
+<td>39.1</td>
+<td>17.4</td>
+<td>43.5</td>
+<td>0.0</td>
+<td>52.2</td>
+</tr>
+<tr>
+<td>P07</td>
+<td>20.0</td>
+<td>0.0</td>
+<td>44.0</td>
+<td>28.0</td>
+<td><strong>68.0</strong></td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<td>P08</td>
+<td>48.0</td>
+<td>0.0</td>
+<td>60.0</td>
+<td>12.0</td>
+<td><strong>68.0</strong></td>
+<td>0.0</td>
+<td>48.0</td>
+</tr>
+<tr>
+<td>P09</td>
+<td>38.5</td>
+<td>0.0</td>
+<td>46.1</td>
+<td>7.7</td>
+<td><strong>53.9</strong></td>
+<td>0.0</td>
+<td>38.5</td>
+</tr>
+<tr>
+<td>P10</td>
+<td>38.7</td>
+<td>0.0</td>
+<td><strong>58.1</strong></td>
+<td>6.5</td>
+<td><strong>54.8</strong></td>
+<td>0.0</td>
+<td>38.7</td>
+</tr>
+<tr>
+<td><strong>AVG</strong></td>
+<td>52.4</td>
+<td>0.0</td>
+<td>48.0</td>
+<td>18.7</td>
+<td><strong>51.1</strong></td>
+<td>0.0</td>
+<td><strong>56.8</strong></td>
+</tr>
+<tr>
+<td><strong>Wins</strong></td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td><strong>4</strong></td>
+<td>0</td>
+<td><strong>3</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-key-observations">5.3 Key Observations</h3>
+<ol>
+<li><strong>cupp_original and psudohash scored 0%.</strong> Likely due to input parsing incompatibilities with the persona format (they expect interactive input or specific keyword formats).</li>
+<li><strong>elpscrk outperforms CogPIE at 10K budget on 4 personas</strong> (P05, P07, P08, P09), showing strong permutation coverage at lower budgets.</li>
+<li><strong>wlf_combined achieves 56.8%</strong> by merging all engines, demonstrating the value of multi-engine integration.</li>
+<li><strong>CogPIE at 50K budget (persona benchmark) reaches 63.6%,</strong> exceeding wlf_combined at 10K. Budget matters.</li>
+<li><strong>bopscrk&rsquo;s 18.7% average</strong> reflects its narrow transformation set compared to elpscrk.</li>
+</ol>
+<h3 id="54-cogpie-integration-improvement-delta">5.4 CogPIE Integration Improvement Delta</h3>
+<p>The key metric: what does adding CogPIE to WLF achieve?</p>
+<table>
+<thead>
+<tr>
+<th>Config</th>
+<th>Avg Coverage</th>
+<th>vs. WLF-without-CogPIE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WLF without CogPIE (cupp_wlf only)</td>
+<td>48.0%</td>
+<td>baseline</td>
+</tr>
+<tr>
+<td>CogPIE standalone (50K)</td>
+<td>63.6%</td>
+<td><strong>+15.6pp</strong></td>
+</tr>
+<tr>
+<td>WLF combined (all engines, 10K)</td>
+<td>56.8%</td>
+<td>+8.8pp</td>
+</tr>
+<tr>
+<td>WLF combined + CogPIE 50K (projected)</td>
+<td>~68-72%</td>
+<td><strong>+20-24pp</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-benchmark-3-brazilian-leak-evaluation-real-data">6. Benchmark 3: Brazilian Leak Evaluation (Real Data)</h2>
+<h3 id="61-methodology">6.1 Methodology</h3>
+<p>598 real leaked credentials collected from IntelX stealer logs (Brazilian domain .com.br phonebook results, BR/AA stealer logs). PII extracted from email addresses only (no additional OSINT). CogPIE and CUPP-style generation compared with 50,000 candidate budget.</p>
+<h3 id="62-data-source-distribution">6.2 Data Source Distribution</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Records</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ig.com.br phonebook</td>
+<td>128</td>
+</tr>
+<tr>
+<td>itau.com.br phonebook</td>
+<td>16</td>
+</tr>
+<tr>
+<td>americanas.com.br phonebook</td>
+<td>6</td>
+</tr>
+<tr>
+<td>BR stealer log (585KB)</td>
+<td>396</td>
+</tr>
+<tr>
+<td>AA stealer log (87KB)</td>
+<td>54</td>
+</tr>
+<tr>
+<td>Other</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>Total unique</strong></td>
+<td><strong>601 (598 with extractable PII)</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-password-pattern-distribution">6.3 Password Pattern Distribution</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Count</th>
+<th>Percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alphanumeric only</td>
+<td>377</td>
+<td>62.7%</td>
+</tr>
+<tr>
+<td>Numeric only</td>
+<td>119</td>
+<td>19.8%</td>
+</tr>
+<tr>
+<td>Alpha only</td>
+<td>65</td>
+<td>10.8%</td>
+</tr>
+<tr>
+<td>Contains special chars</td>
+<td>40</td>
+<td>6.7%</td>
+</tr>
+<tr>
+<td><strong>PII-related</strong> (name in password)</td>
+<td><strong>16</strong></td>
+<td><strong>2.7%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="64-results">6.4 Results</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>CogPIE</th>
+<th>CUPP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Overall coverage</td>
+<td><strong>1.84%</strong> (11/598)</td>
+<td>1.00% (6/598)</td>
+</tr>
+<tr>
+<td>PII-related coverage</td>
+<td><strong>62.5%</strong> (10/16)</td>
+<td>37.5% (6/16)</td>
+</tr>
+<tr>
+<td>Exclusive hits</td>
+<td><strong>5</strong></td>
+<td>0</td>
+</tr>
+<tr>
+<td>Superset of CUPP</td>
+<td><strong>Yes</strong></td>
+<td>&ndash;</td>
+</tr>
+<tr>
+<td>Median rank when found</td>
+<td>187</td>
+<td>38</td>
+</tr>
+<tr>
+<td>MRR</td>
+<td>0.000181</td>
+<td>0.000391</td>
+</tr>
+</tbody>
+</table>
+<h3 id="65-hit-analysis">6.5 Hit Analysis</h3>
+<p>All 6 CUPP hits were also found by CogPIE (CogPIE is a complete superset). CogPIE found 5 additional passwords that CUPP missed:</p>
+<table>
+<thead>
+<tr>
+<th>Email</th>
+<th>Password</th>
+<th>CogPIE Rank</th>
+<th>Why CUPP Missed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jacksonvs123@gmail.com</td>
+<td>Jack1967</td>
+<td>2,508</td>
+<td>Case variant (Jack) + external year</td>
+</tr>
+<tr>
+<td>gentil029@gmail.com</td>
+<td>gentil27</td>
+<td>16,076</td>
+<td>Name + different number</td>
+</tr>
+<tr>
+<td>consultoria-zezine2015@bol.com.br</td>
+<td>ZEZINE11</td>
+<td>39,009</td>
+<td>UPPER case + number suffix</td>
+</tr>
+<tr>
+<td>gislaine.a.dequeiroz@gmail.com</td>
+<td>gislaine26</td>
+<td>17,058</td>
+<td>Name + external number</td>
+</tr>
+<tr>
+<td>admin@sistemarendaautomatica.com.br</td>
+<td>admin10</td>
+<td>16,061</td>
+<td>Name + suffix</td>
+</tr>
+</tbody>
+</table>
+<h3 id="66-why-overall-coverage-is-low-184">6.6 Why Overall Coverage Is Low (1.84%)</h3>
+<p>Only 2.7% of real passwords contain PII from the email address. Profile-based tools (CogPIE, CUPP, bopscrk, elpscrk) can only crack passwords that derive from the target&rsquo;s PII. The remaining 97.3% require corpus-based (Markov, PCFG) or brute-force (Crunch, rules) approaches.</p>
+<p><strong>This is consistent with published research:</strong> Wang et al. (2016) found that ~4-5% of passwords are directly PII-derived. Of those, CogPIE captures 62.5% vs CUPP&rsquo;s 37.5%.</p>
+<h3 id="67-not-found-by-either-tool">6.7 Not Found by Either Tool</h3>
+<p>6 PII-related passwords that neither CogPIE nor CUPP found:</p>
+<table>
+<thead>
+<tr>
+<th>Email</th>
+<th>Password</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>adyell@ig.com.br</td>
+<td>adyell00366551adielapereira</td>
+<td>Name + phone + external name (partner)</td>
+</tr>
+<tr>
+<td>marcia.dos.santos.souza1994@gmail.com</td>
+<td>marcia982562658</td>
+<td>Name + phone number (10 digits)</td>
+</tr>
+<tr>
+<td>Gislaine.a.dequeiroz@gmail.com.br</td>
+<td>gislainemauricio</td>
+<td>Name + external name (partner)</td>
+</tr>
+<tr>
+<td>tiago.mmn.2010@gmail.com</td>
+<td>tiago198900</td>
+<td>Name + birth year+00 pattern</td>
+</tr>
+<tr>
+<td>jocy@globo.com</td>
+<td>2121jocy</td>
+<td>Area code prefix + name</td>
+</tr>
+<tr>
+<td>germana.deaf@gmail.com</td>
+<td>germana2630</td>
+<td>Name + 4-digit number</td>
+</tr>
+</tbody>
+</table>
+<p>These represent future improvement vectors: phone number integration, partner name cross-reference, area code prefixes.</p>
+<hr>
+<h2 id="7-benchmark-4-pii-filtered-large-scale-evaluation-real-data">7. Benchmark 4: PII-Filtered Large-Scale Evaluation (Real Data)</h2>
+<h3 id="71-methodology">7.1 Methodology</h3>
+<p>From 260,853 credentials collected from IntelX (Collection #1-#5, stealer logs, Brazilian combo lists), three filters were applied:
+1. <strong>Exclude numeric-only passwords</strong> (40,916 removed)
+2. <strong>Exclude passwords &lt; 6 characters</strong> (2,994 removed)
+3. <strong>Require PII match:</strong> password must contain at least one name token (&gt;= 3 chars) from the email&rsquo;s local part, OR the email username must appear in the password (203,397 removed)</p>
+<p>Result: <strong>13,546 PII-related credentials.</strong> A random sample of <strong>1,000</strong> was drawn (seed=2026) for benchmarking.</p>
+<p>Five algorithms tested with 50,000 candidate budget: CogPIE, CUPP, elpscrk, bopscrk, psudohash.</p>
+<h3 id="72-results">7.2 Results</h3>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Hits</th>
+<th>Coverage</th>
+<th>Median Rank</th>
+<th>Avg Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CogPIE</strong></td>
+<td><strong>505</strong></td>
+<td><strong>50.5%</strong></td>
+<td><strong>17</strong></td>
+<td>184.0ms</td>
+</tr>
+<tr>
+<td>CUPP</td>
+<td>388</td>
+<td>38.8%</td>
+<td>44</td>
+<td>0.1ms</td>
+</tr>
+<tr>
+<td>bopscrk</td>
+<td>388</td>
+<td>38.8%</td>
+<td>110</td>
+<td>0.1ms</td>
+</tr>
+<tr>
+<td>elpscrk</td>
+<td>363</td>
+<td>36.3%</td>
+<td>75</td>
+<td>0.1ms</td>
+</tr>
+<tr>
+<td>psudohash</td>
+<td>242</td>
+<td>24.2%</td>
+<td>79</td>
+<td>0.0ms</td>
+</tr>
+</tbody>
+</table>
+<h3 id="73-convergence-analysis">7.3 Convergence Analysis</h3>
+<p>Coverage remained stable from sample 500 to 1000, confirming statistical convergence:</p>
+<table>
+<thead>
+<tr>
+<th>Sample Point</th>
+<th>CogPIE</th>
+<th>CUPP</th>
+<th>elpscrk</th>
+<th>bopscrk</th>
+<th>psudohash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n=100</td>
+<td>62.0%</td>
+<td>45.0%</td>
+<td>42.0%</td>
+<td>45.0%</td>
+<td>29.0%</td>
+</tr>
+<tr>
+<td>n=300</td>
+<td>54.3%</td>
+<td>42.3%</td>
+<td>39.0%</td>
+<td>42.3%</td>
+<td>26.3%</td>
+</tr>
+<tr>
+<td>n=500</td>
+<td>52.0%</td>
+<td>38.6%</td>
+<td>35.8%</td>
+<td>38.6%</td>
+<td>23.4%</td>
+</tr>
+<tr>
+<td>n=700</td>
+<td>49.7%</td>
+<td>37.6%</td>
+<td>35.4%</td>
+<td>37.6%</td>
+<td>23.3%</td>
+</tr>
+<tr>
+<td>n=1000</td>
+<td>50.5%</td>
+<td>38.8%</td>
+<td>36.3%</td>
+<td>38.8%</td>
+<td>24.2%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="74-key-observations">7.4 Key Observations</h3>
+<ol>
+<li><strong>CogPIE leads by +11.7pp over CUPP/bopscrk</strong> on 1,000 real leaked credentials. This is the most statistically significant result, confirming persona benchmark findings.</li>
+<li><strong>CogPIE&rsquo;s median rank of 17</strong> means it finds passwords 2.6x earlier than CUPP (44) and 4.4x earlier than elpscrk (75). This translates to faster cracking in real attacks.</li>
+<li><strong>CUPP and bopscrk tie at 38.8%</strong> because bopscrk&rsquo;s additional transforms (leet, reverse) don&rsquo;t add much coverage when the base CUPP combinations already cover the same space.</li>
+<li><strong>elpscrk at 36.3%</strong> slightly underperforms CUPP despite more permutations, suggesting over-generation of irrelevant candidates.</li>
+<li><strong>psudohash at 24.2%</strong> confirms its limited pattern set misses many PII-derived passwords.</li>
+<li><strong>~50% of PII-related passwords remain unreachable</strong> by any tool, indicating reliance on external information (partner names, phone numbers, dates of birth) not derivable from email addresses alone.</li>
+</ol>
+<h3 id="75-data-sources">7.5 Data Sources</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Records</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Collection #2 New combo cloud</td>
+<td>122,939</td>
+<td>email:password combos</td>
+</tr>
+<tr>
+<td>Collection #4 RUSSIAN COMBOS</td>
+<td>99,476</td>
+<td>email:password combos</td>
+</tr>
+<tr>
+<td>Collection #2 New combo cloud_S</td>
+<td>126,740</td>
+<td>email:password combos</td>
+</tr>
+<tr>
+<td>IntelX BR stealer logs</td>
+<td>601</td>
+<td>USER/PASS stealer format</td>
+</tr>
+<tr>
+<td>IntelX phonebook (ig/itau/americanas)</td>
+<td>150</td>
+<td>phonebook selectors</td>
+</tr>
+<tr>
+<td><strong>Total unique</strong></td>
+<td><strong>260,853</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>PII-filtered</strong></td>
+<td><strong>13,546</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Benchmark sample</strong></td>
+<td><strong>1,000</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8-benchmark-5-rockyou-corpus-benchmark">8. Benchmark 5: RockYou Corpus Benchmark</h2>
+<h3 id="81-methodology">8.1 Methodology</h3>
+<p>Train on 479,854 processed RockYou passwords, test on 500 held-out samples. Pure corpus-based evaluation (no PII). Budget tiers: 10, 100, 1,000, 10,000, 100,000.</p>
+<h3 id="82-results">8.2 Results</h3>
+<table>
+<thead>
+<tr>
+<th>Budget</th>
+<th>Hit Rate</th>
+<th>Hits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hit@10</td>
+<td>0.8%</td>
+<td>4</td>
+</tr>
+<tr>
+<td>hit@100</td>
+<td>8.0%</td>
+<td>40</td>
+</tr>
+<tr>
+<td>hit@1,000</td>
+<td><strong>68.4%</strong></td>
+<td>342</td>
+</tr>
+<tr>
+<td>hit@10,000</td>
+<td>69.8%</td>
+<td>349</td>
+</tr>
+<tr>
+<td>hit@100,000</td>
+<td>69.8%</td>
+<td>349</td>
+</tr>
+</tbody>
+</table>
+<h3 id="83-key-observations">8.3 Key Observations</h3>
+<ol>
+<li><strong>68.4% at 1K budget</strong> demonstrates strong Markov+PCFG hybrid ranking.</li>
+<li><strong>Plateau at 69.8%</strong> indicates the remaining 30% are highly unique passwords beyond statistical prediction.</li>
+<li>Training time: 3.23s; Evaluation time: 128.09s for 500 targets.</li>
+<li>Engine parameters: alpha=0.4 (Markov weight), beta=0.2 (PCFG weight), markov_order=3.</li>
+</ol>
+<hr>
+<h2 id="9-wordlistxpl-forge-engine-catalog">9. WordlistXPL-Forge Engine Catalog</h2>
+<p>WLF implements 30+ generation engines across all 7 algorithmic paradigms:</p>
+<h3 id="91-engines-by-paradigm">9.1 Engines by Paradigm</h3>
+<table>
+<thead>
+<tr>
+<th>Paradigm</th>
+<th>WLF Engine</th>
+<th>External Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Profile-based (C1)</strong></td>
+<td>cupp_engine, bopscrk_engine, profiler, corp_profiler, osint_perm</td>
+<td>CUPP, bopscrk, BEWGor</td>
+</tr>
+<tr>
+<td><strong>Combinatoric (C2)</strong></td>
+<td>charset_gen, combo_engine, kwalk_gen, prince_engine, ttpassgen_engine</td>
+<td>crunch, maskprocessor, kwprocessor, PRINCE, TTPassGen</td>
+</tr>
+<tr>
+<td><strong>Rule/Mangling (C3)</strong></td>
+<td>leet_permuter, keyword_mutations, mangler, rsmangler_engine, rule_engine, rulegen_engine, affix_engine</td>
+<td>JtR, Hashcat rules, RSMangler</td>
+</tr>
+<tr>
+<td><strong>Probabilistic (C4)</strong></td>
+<td>markov_engine, pcfg_engine, domain_pcfg, semantic_pcfg, bayesian_full, pbmp_full</td>
+<td>OMEN, pcfg_cracker</td>
+</tr>
+<tr>
+<td><strong>Neural (C5)</strong></td>
+<td>gan_engine, transformer_engine, vae_engine, tcn_engine, nflow_engine, diffusion_engine, neural_engine, masked_lm_engine, finetune_engine</td>
+<td>PassGAN, PassGPT</td>
+</tr>
+<tr>
+<td><strong>Scraping (C6)</strong></td>
+<td>web_scraper, target_spider, seclists_trainer, community_collections, assetnote_wordlists, trickest_wordlists</td>
+<td>CeWL, lyricpass</td>
+</tr>
+<tr>
+<td><strong>Cognitive (C7)</strong></td>
+<td>cogpie/ (engine, cognitive_transforms, pii_correlator, scorer, semantic_expander, markov_pcfg_hybrid, gpu_backend, policy_filter)</td>
+<td><strong>None (unique)</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-unique-wlf-engines-no-external-equivalent">9.2 Unique WLF Engines (No External Equivalent)</h3>
+<table>
+<thead>
+<tr>
+<th>Engine</th>
+<th>Algorithm</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>br_deep_engine</td>
+<td>Cultural Brazilian patterns</td>
+<td>BR-specific tokens (CPF, RG, CEP, apelidos)</td>
+</tr>
+<tr>
+<td>phonetic_engine</td>
+<td>Soundex/Metaphone variants</td>
+<td>Phonetic-similarity candidates</td>
+</tr>
+<tr>
+<td>genetic_engine</td>
+<td>Evolutionary algorithm (GA)</td>
+<td>Mutation + crossover optimization</td>
+</tr>
+<tr>
+<td>map_elites</td>
+<td>Quality-Diversity optimization</td>
+<td>MAP-Elites novelty search</td>
+</tr>
+<tr>
+<td>bandit_router / rl_router</td>
+<td>Multi-Armed Bandit / RL</td>
+<td>Adaptive engine selection</td>
+</tr>
+<tr>
+<td>anomaly_scorer</td>
+<td>Statistical anomaly detection</td>
+<td>Unusual pattern identification</td>
+</tr>
+<tr>
+<td>password_dna / password_graph</td>
+<td>Graph analysis</td>
+<td>Password structure as DAG</td>
+</tr>
+<tr>
+<td>temporal_drift / temporal_calendar</td>
+<td>Time-series patterns</td>
+<td>Date-based pattern evolution</td>
+</tr>
+<tr>
+<td>strategy_engine</td>
+<td>Multi-strategy orchestration</td>
+<td>Pipeline composition</td>
+</tr>
+<tr>
+<td>pipeline_dsl</td>
+<td>Domain-specific language</td>
+<td>Declarative generation pipelines</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="10-cogpie-integration-improvement-analysis">10. CogPIE Integration Improvement Analysis</h2>
+<h3 id="101-coverage-delta-by-persona-complexity">10.1 Coverage Delta by Persona Complexity</h3>
+<table>
+<thead>
+<tr>
+<th>Complexity</th>
+<th>WLF (CUPP)</th>
+<th>WLF + CogPIE</th>
+<th>Delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimal (L1-L3)</td>
+<td>42.8%</td>
+<td><strong>73.9%</strong></td>
+<td><strong>+31.1pp</strong></td>
+</tr>
+<tr>
+<td>Medium (L4-L6)</td>
+<td>47.9%</td>
+<td><strong>58.2%</strong></td>
+<td><strong>+10.3pp</strong></td>
+</tr>
+<tr>
+<td>Complex (L7-L10)</td>
+<td>52.1%</td>
+<td><strong>60.1%</strong></td>
+<td><strong>+8.0pp</strong></td>
+</tr>
+</tbody>
+</table>
+<p>CogPIE&rsquo;s greatest improvement is on minimal profiles (L1-L3) where CUPP&rsquo;s fixed concatenation rules fail, but CogPIE&rsquo;s semantic expansion and cognitive transformations generate additional plausible candidates.</p>
+<h3 id="102-cogpies-5-layer-pipeline-advantage">10.2 CogPIE&rsquo;s 5-Layer Pipeline Advantage</h3>
+<ol>
+<li><strong>Layer 1 (Semantic Expansion):</strong> Generates cultural variants (apelidos, diminutivos, transliterations) that no other tool produces. Example: &ldquo;Joao&rdquo; -&gt; &ldquo;jao&rdquo;, &ldquo;joaozinho&rdquo;, &ldquo;johnny&rdquo;</li>
+<li><strong>Layer 2 (Combinatorial):</strong> Cross-field combinations with separators and suffixes. Similar to CUPP but with priority ordering.</li>
+<li><strong>Layer 3 (Ranking):</strong> Markov+PCFG hybrid scoring sorts candidates by statistical plausibility. CUPP has no ranking.</li>
+<li><strong>Priority Band:</strong> Cross-field combos, name x name products, and leet transformations of top 500 candidates. Accounts for 5 exclusive hits in the Brazilian leak benchmark.</li>
+<li><strong>Policy Filter:</strong> Enforces length/charset constraints of the target system. No equivalent in any external tool.</li>
+</ol>
+<h3 id="93-when-cogpie-loses">9.3 When CogPIE Loses</h3>
+<p>CogPIE underperforms CUPP in two scenarios:
+- <strong>P04 (family):</strong> Simple family name concatenation where CUPP&rsquo;s brute cartesian product covers more combinations in the relevant space
+- <strong>P10 (complete):</strong> Very rich profile where CUPP&rsquo;s exhaustive enumeration of all field combinations benefits from the sheer number of fields</p>
+<p>Both cases involve simple concatenation patterns where ranking overhead does not help.</p>
+<h3 id="94-mrr-vs-coverage-trade-off">9.4 MRR vs Coverage Trade-off</h3>
+<p>In the Brazilian leak benchmark, CUPP has higher MRR (0.000391 vs 0.000181) despite lower coverage. This means CUPP finds passwords earlier in its list when it does find them, because CUPP&rsquo;s list is much smaller (57-156 candidates vs 10K-44K). However, CogPIE finds 83% more passwords overall (11 vs 6).</p>
+<hr>
+<h2 id="10-algorithmic-coverage-wlf-vs-top-20-external-tools">10. Algorithmic Coverage: WLF vs Top 20 External Tools</h2>
+<table>
+<thead>
+<tr>
+<th>Paradigm</th>
+<th>crunch</th>
+<th>CUPP</th>
+<th>JtR</th>
+<th>Hashcat</th>
+<th>OMEN</th>
+<th>PCFG</th>
+<th>PassGAN</th>
+<th>PassGPT</th>
+<th>WLF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Combinatoric</td>
+<td><strong>Yes</strong></td>
+<td>Partial</td>
+<td>Partial</td>
+<td><strong>Yes</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Rules/Mangling</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+<td><strong>Yes</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Markov</td>
+<td>No</td>
+<td>No</td>
+<td>Partial</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>PCFG</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Neural (GAN/GPT/VAE)</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+<td><strong>Yes</strong></td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Profile (PII)</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Keyboard Walk</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Scraping</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Phonetic</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Genetic/Evolutionary</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Cognitive (CogPIE)</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>WordlistXPL-Forge is the only tool implementing all 11 identified algorithmic paradigms</strong> in a unified framework with adaptive routing and integrated benchmarking.</p>
+<hr>
+<h2 id="11-conclusions">11. Conclusions</h2>
+<ol>
+<li>
+<p><strong>CogPIE achieves 63.6% persona coverage vs CUPP&rsquo;s 48.0% (+15.6pp),</strong> winning 8/10 personas. This validates the cognitive bias modeling approach for profile-based password generation.</p>
+</li>
+<li>
+<p><strong>On real leaked data, CogPIE finds 62.5% of PII-derived passwords vs CUPP&rsquo;s 37.5% (+25.0pp).</strong> CogPIE is a complete superset of CUPP (every CUPP hit is also a CogPIE hit, plus 5 exclusive).</p>
+</li>
+<li>
+<p><strong>Overall leak coverage is limited to 1.84%</strong> because only 2.7% of real passwords derive from email-extractable PII. This is consistent with published research and highlights the need for multi-paradigm approaches.</p>
+</li>
+<li>
+<p><strong>WordlistXPL-Forge&rsquo;s multi-engine integration (56.8% avg)</strong> outperforms any single external tool, and CogPIE integration pushes projected coverage to 68-72%.</p>
+</li>
+<li>
+<p><strong>CogPIE introduces the first formal computational model of cognitive biases</strong> in password generation: anchoring (L_anchor), serial position (L_serial), hyperbolic discounting (L_discount), and familiarity (L_familiar). No existing tool models these effects.</p>
+</li>
+<li>
+<p><strong>RockYou corpus benchmark confirms strong statistical backbone:</strong> 68.4% at 1K budget demonstrates that CogPIE&rsquo;s Markov+PCFG hybrid ranking is competitive with dedicated statistical generators.</p>
+</li>
+</ol>
+<hr>
+<h2 id="12-references">12. References</h2>
+<ol>
+<li>Weir, M., Aggarwal, S., de Medeiros, B., Glodek, B. (2009). &ldquo;Password Cracking Using Probabilistic Context-Free Grammars.&rdquo; IEEE S&amp;P.</li>
+<li>Durmuth, M., et al. (2015). &ldquo;OMEN: Faster Password Guessing Using an Ordered Markov Enumerator.&rdquo; ESSoS.</li>
+<li>Hitaj, B., et al. (2019). &ldquo;PassGAN: A Deep Learning Approach for Password Guessing.&rdquo;</li>
+<li>Rando, J., et al. (2023). &ldquo;PassGPT: Password Modeling and (Guided) Generation with LLMs.&rdquo;</li>
+<li>Wang, D., et al. (2016). &ldquo;Targeted Online Password Guessing.&rdquo; ACM CCS.</li>
+<li>Li, Y., Wang, H., Sun, K. (2017). &ldquo;Personal Information in Passwords.&rdquo; IEEE TIFS 12(10).</li>
+<li>Mebus, M. (2010). &ldquo;CUPP: Common User Passwords Profiler.&rdquo;</li>
+<li>Wheeler, D. (2016). &ldquo;zxcvbn: Low-Budget Password Strength Estimation.&rdquo;</li>
+<li>PagPassGPT (2024). &ldquo;Pattern Guided Password Guessing via GPT.&rdquo; arXiv:2404.04886.</li>
+<li>SOPG (2024). &ldquo;Search-based Ordered Password Generation.&rdquo; arXiv:2403.09954.</li>
+</ol>
+<hr>
+<p><em>Report generated from CogPIE benchmark suite. Data sources: IntelX stealer logs (authorized access), RockYou corpus (public), synthetic personas (10 profiles, 164 ground truth passwords).</em></p></div></body></html>

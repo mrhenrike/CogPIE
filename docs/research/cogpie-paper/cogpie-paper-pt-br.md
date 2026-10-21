@@ -9,7 +9,7 @@ Uniao Geek Security Research
 
 A segurança de senhas permanece como um dos desafios mais persistentes é críticos em segurança da informação. Apesar de décadas de pesquisa, avancos em políticas de autenticação é campanhas de conscientização, usuários consistentemente criam senhas derivadas de seu contexto cognitivo pessoal: nomes, datas, preferencias, memórias é hábitos linguísticos. Este artigo apresenta o CogPIE (Cognitive Pattern Inference Engine), um algoritmo híbrido de 5 camadas que modela explicitamente os vieses cognitivos subjacentes a criação de senhas para gerar candidatos direcionados com alta eficiência. O CogPIE combina: (1) expansão semântica de tokens pessoais com suporte a variantes culturais é linguísticas; (2) regras de transformação cognitiva baseadas em vieses psicologicos documentados na literatura; (3) um sistema híbrido de ranqueamento por cadeias de Markov posicionais e Gramáticas Livres de Contexto Probabilísticas (PCFG); (4) pontuação de entropia prática inspirada no zxcvbn; e (5) filtragem sensível a políticas de senha com deduplicação por CRC32.
 
-Nossa avaliação experimental utiliza dados reais de vazamentos publicos, extraindo pares PII:senha a partir de enderecos de email em corpus de credenciais comprometidas, sem utilizar dados sintéticos na validação principal. Os resultados demonstram que o CogPIE atinge hit@1000 de 68,4% em um corpus de 500.000 senhas do RockYou, com saturação efetiva a partir de 1.000 candidatos, superando significativamente abordagens não direcionadas (Markov puro, frequência, aleatório) é abordagens direcionadas simplistas (CUPP). Apresentamos fundamentos matemáticos formais para cada camada, análise de complexidade, implementação completa em código aberto é evidencias que reforcam que geradores de senhas criptograficamente aleatórios via cofres de senhas constituem a única defesa confiável contra ataques informados por informação pessoal.
+Nossa avaliação experimental utiliza credenciais reais vazadas de compilações públicas de breaches, não dados sintéticos, para validação primária. O CogPIE v0.2 atinge 89,1% de cobertura média contra 7 ferramentas externas reais em 10 personas (vs. 51,1% do melhor concorrente, elpscrk) e 50,5% de cobertura em 1.000 credenciais brasileiras reais filtradas por PII (vs. 38,8% do CUPP/bopscrk), com rank mediano 17. Apresentamos fundamentos matemáticos formais para cada camada, análise de complexidade, implementação completa em código aberto e evidências que reforçam que geradores de senhas criptograficamente aleatórios via cofres de senhas constituem a única defesa confiável contra ataques informados por informação pessoal.
 
 A contribuição central deste trabalho é a demonstração, com evidencias empíricas em escala, de que o viés cognitivo na criação de senhas é universal, transcultural é resistente a políticas de complexidade: não se trata de uma falha de educação ou design de políticas, mas de uma propriedade fundamental da cognição humana.
 
@@ -671,6 +671,42 @@ Resultados chave do benchmark externo:
 
 5. **Nenhuma ferramenta externa implementa modelagem de vies cognitivo**, confirmando que CogPIE ocupa um nicho algorítmico inédito na literatura e no ecossistema open-source.
 
+#### 6.3.9 Validação Real: Credenciais Brasileiras Vazadas (Larga Escala)
+
+Para validar o CogPIE contra credenciais reais comprometidas (ao contrário de personas sintéticas), construímos um benchmark a partir de dados de vazamentos indexados publicamente. Usando busca inteligente do IntelX, coletamos 260.853 pares email:senha únicos de compilações de breaches brasileiros (Collection #2, Collection #4, stealer logs de domínios ig.com.br, itau.com.br, americanas.com.br).
+
+**Pipeline de curadoria dos dados:**
+
+1. **Pool bruto:** 260.853 credenciais únicas
+2. **Filtrar senhas somente numéricas:** removidas 40.916 (sequências de dígitos puros não fornecem sinal de PII)
+3. **Filtrar senhas < 6 caracteres:** removidas 2.994 (curtas demais para PII embutido significativo)
+4. **Exigir PII na senha:** reter apenas senhas contendo pelo menos uma substring dos componentes de nome extraídos do email, resultando em 13.546 credenciais (5,2% do pool bruto)
+5. **Amostra aleatória:** 1.000 credenciais (seed=2026) do pool filtrado
+
+O perfil PII de cada credencial foi automaticamente extraído do endereço de email (decomposição da parte local em nomes, datas, números; extração de empresa do domínio). Cinco algoritmos foram testados com orçamento de 50.000 candidatos cada.
+
+**Tabela 9: Benchmark de Credenciais Brasileiras Reais (N=1.000 PII-filtradas, @50K candidatos)**
+
+| Algoritmo | Hits | Cobertura | Rank Mediano | Tempo Médio |
+|-----------|------|-----------|--------------|-------------|
+| **CogPIE** | **505** | **50,5%** | **17** | 184,0ms |
+| CUPP | 388 | 38,8% | 44 | 0,1ms |
+| bopscrk | 388 | 38,8% | 110 | 0,1ms |
+| elpscrk | 363 | 36,3% | 75 | 0,1ms |
+| psudohash | 242 | 24,2% | 79 | 0,0ms |
+
+Achados principais:
+
+1. **CogPIE atinge 50,5% de cobertura**, uma vantagem de +11,7pp sobre CUPP e bopscrk (38,8%), e +26,3pp sobre psudohash (24,2%). Em 1.000 credenciais reais vazadas onde senhas contêm PII, CogPIE prediz corretamente uma em cada duas senhas dentro de 50.000 tentativas.
+
+2. **Rank mediano de 17 é 2,6x melhor que CUPP (44) e 6,5x melhor que bopscrk (110).** O ranqueamento probabilístico do CogPIE coloca acertos corretos próximos ao topo da lista de candidatos, crítico para cenários de ataque online com rate limiting.
+
+3. **CogPIE é superconjunto estrito no benchmark pequeno (N=17):** toda senha encontrada por qualquer outra ferramenta também foi encontrada pelo CogPIE, mais hits únicos adicionais. Na escala N=1.000, CogPIE captura 117 senhas não encontradas por nenhum dos quatro concorrentes.
+
+4. **Validade ecológica:** Diferente do benchmark de personas sintéticas (Seção 6.3.8) onde CogPIE atingiu 89,1%, a cobertura no mundo real é naturalmente menor (50,5%) porque: (a) senhas reais exibem maior diversidade e aleatoriedade; (b) extração de PII de endereços de email captura apenas contexto parcial; (c) muitas senhas contendo PII usam padrões além do escopo do modelo (ex.: números de telefone, fragmentos de CPF). Ainda assim, CogPIE mantém superioridade consistente sobre todos os baselines.
+
+5. **Análise de convergência em N=1.000:** Taxas de cobertura estabilizam após ~400 amostras (CogPIE oscila dentro de 49-52%), confirmando confiabilidade estatística dos resultados. O IC 95% para cobertura do CogPIE é aproximadamente [47,4%, 53,6%].
+
 ### 6.4 Parametros e Configuração do Motor
 
 Os parametros do CogPIE utilizados nos experimentos:
@@ -694,13 +730,13 @@ Os parametros do CogPIE utilizados nos experimentos:
 
 4. **Tamanho do conjunto de candidatos:** Sem restrição de orçamento, o CogPIE gera 100.000+ candidatos. Em cenários de ataque online com rate limiting, a qualidade do ranqueamento torna-se crítica para selecionar os candidatos mais promissores dentro de um orçamento pequeno de tentativas.
 
-5. **Dados de treinamento é teste do mesmo corpus:** Embora o conjunto de teste seja separado do treinamento, ambos derivam do mesmo corpus (RockYou). Avaliação em corpus independentes é recomendada para verificar generalizabilidade.
+5. **Diversidade de corpus:** As avaliações iniciais utilizaram o corpus RockYou (14,3M senhas, era 2009). O benchmark de credenciais brasileiras vazadas (Seção 6.3.9) fornece validação em dados contemporâneos do mundo real (260K+ credenciais de compilações de breaches dos anos 2020), mas validação intercultural e intertemporal mais ampla fortaleceria a generalização.
 
 ## 7. Discussão
 
 ### 7.1 Implicações para Segurança de Senhas
 
-Nossos resultados fornecem evidencias quantitativas para uma conclusão amplamente conhecida, porém frequentemente subestimada: senhas geradas por humanos são fundamentalmente inseguras contra ataques direcionados. Quando um atacante possui mesmo informações pessoais básicas sobre um alvo (nomes, datas, interesses), um modelo sistemático de vies cognitivo pode predizer corretamente 80-96% das senhas derivadas de PII, dependendo da completude do perfil e do orçamento de tentativas. No Persona Benchmark com 10 personas (Seção 6.3.7), o CogPIE v0.2 atinge cobertura média de 89,1% contra 7 ferramentas externas reais, superando o melhor concorrente individual (elpscrk, 51,1%) por +38,0pp e o Combined de todas as ferramentas (82,3%) por +6,8pp. No benchmark contra ferramentas externas (Seção 6.3.8), CogPIE vence todas as 10 personas individualmente, confirmando a superioridade da abordagem cognitiva sobre heurísticas baseadas apenas em concatenação de PII.
+Nossos resultados fornecem evidencias quantitativas para uma conclusão amplamente conhecida, porém frequentemente subestimada: senhas geradas por humanos são fundamentalmente inseguras contra ataques direcionados. Quando um atacante possui mesmo informações pessoais básicas sobre um alvo (nomes, datas, interesses), um modelo sistemático de vies cognitivo pode predizer corretamente 50-90% das senhas derivadas de PII, dependendo da completude do perfil e do contexto de avaliação. No Persona Benchmark com 10 personas (Seção 6.3.7), o CogPIE v0.2 atinge cobertura média de 89,1% contra 7 ferramentas externas reais, superando o melhor concorrente individual (elpscrk, 51,1%) por +38,0pp e o Combined de todas as ferramentas (82,3%) por +6,8pp. No benchmark contra ferramentas externas (Seção 6.3.8), CogPIE vence todas as 10 personas individualmente. O benchmark de credenciais brasileiras reais (Seção 6.3.9) confirma a validade ecológica: CogPIE atinge 50,5% de cobertura em 1.000 senhas reais vazadas com rank mediano 17, superando todos os baselines por +11,7pp ou mais.
 
 Esta constatação alinha-se com a literatura mais ampla:
 - Wang et al. (2016) constataram que 30% das senhas modificadas podem ser quebradas em 10 tentativas

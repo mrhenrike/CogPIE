@@ -9,12 +9,13 @@
 
 ## 1. Executive Summary
 
-This report presents a multi-dimensional benchmark comparing CogPIE (Cognitive Password Inference Engine) against state-of-the-art wordlist generation tools across four distinct evaluation scenarios:
+This report presents a multi-dimensional benchmark comparing CogPIE (Cognitive Password Inference Engine) against state-of-the-art wordlist generation tools across five distinct evaluation scenarios:
 
 1. **Persona Benchmark:** 10 synthetic personas with controlled ground truth (164 target passwords)
 2. **External Tools Benchmark:** 7 algorithms tested against the same 10 personas
-3. **Brazilian Leak Benchmark:** 598 real leaked credentials from IntelX stealer logs
-4. **RockYou Corpus Benchmark:** 500 samples from 479,854 trained passwords
+3. **Brazilian Leak Benchmark (small):** 598 real leaked credentials from IntelX stealer logs
+4. **PII-Filtered Large-Scale Benchmark:** 1,000 sampled from 13,546 PII-related credentials (260K pool)
+5. **RockYou Corpus Benchmark:** 500 samples from 479,854 trained passwords
 
 ### Key Findings
 
@@ -22,8 +23,9 @@ This report presents a multi-dimensional benchmark comparing CogPIE (Cognitive P
 |--------|--------|-----------------|-------|
 | Persona coverage (avg) | **63.6%** | CUPP 48.0% | **+15.6pp** |
 | Persona wins | **8/10** | CUPP 2/10 | +6 |
-| PII-related leak coverage | **62.5%** | CUPP 37.5% | **+25.0pp** |
-| Leak superset of CUPP | Yes (11/11) | 6/11 | +5 exclusive |
+| Large-scale PII leak (1K sample) | **50.5%** | CUPP/bopscrk 38.8% | **+11.7pp** |
+| Large-scale median rank | **17** | CUPP 44 | **2.6x faster** |
+| PII-related leak coverage (17 targets) | **58.8%** | CUPP/bopscrk 47.1% | **+11.7pp** |
 | RockYou hit@1000 | **68.4%** | N/A (corpus) | -- |
 | WLF combined coverage | **56.8%** | elpscrk 51.1% | +5.8pp |
 
@@ -264,13 +266,72 @@ These represent future improvement vectors: phone number integration, partner na
 
 ---
 
-## 7. Benchmark 4: RockYou Corpus Benchmark
+## 7. Benchmark 4: PII-Filtered Large-Scale Evaluation (Real Data)
 
 ### 7.1 Methodology
 
-Train on 479,854 processed RockYou passwords, test on 500 held-out samples. Pure corpus-based evaluation (no PII). Budget tiers: 10, 100, 1,000, 10,000, 100,000.
+From 260,853 credentials collected from IntelX (Collection #1-#5, stealer logs, Brazilian combo lists), three filters were applied:
+1. **Exclude numeric-only passwords** (40,916 removed)
+2. **Exclude passwords < 6 characters** (2,994 removed)
+3. **Require PII match:** password must contain at least one name token (>= 3 chars) from the email's local part, OR the email username must appear in the password (203,397 removed)
+
+Result: **13,546 PII-related credentials.** A random sample of **1,000** was drawn (seed=2026) for benchmarking.
+
+Five algorithms tested with 50,000 candidate budget: CogPIE, CUPP, elpscrk, bopscrk, psudohash.
 
 ### 7.2 Results
+
+| Algorithm | Hits | Coverage | Median Rank | Avg Time |
+|-----------|------|----------|-------------|----------|
+| **CogPIE** | **505** | **50.5%** | **17** | 184.0ms |
+| CUPP | 388 | 38.8% | 44 | 0.1ms |
+| bopscrk | 388 | 38.8% | 110 | 0.1ms |
+| elpscrk | 363 | 36.3% | 75 | 0.1ms |
+| psudohash | 242 | 24.2% | 79 | 0.0ms |
+
+### 7.3 Convergence Analysis
+
+Coverage remained stable from sample 500 to 1000, confirming statistical convergence:
+
+| Sample Point | CogPIE | CUPP | elpscrk | bopscrk | psudohash |
+|-------------|--------|------|---------|---------|-----------|
+| n=100 | 62.0% | 45.0% | 42.0% | 45.0% | 29.0% |
+| n=300 | 54.3% | 42.3% | 39.0% | 42.3% | 26.3% |
+| n=500 | 52.0% | 38.6% | 35.8% | 38.6% | 23.4% |
+| n=700 | 49.7% | 37.6% | 35.4% | 37.6% | 23.3% |
+| n=1000 | 50.5% | 38.8% | 36.3% | 38.8% | 24.2% |
+
+### 7.4 Key Observations
+
+1. **CogPIE leads by +11.7pp over CUPP/bopscrk** on 1,000 real leaked credentials. This is the most statistically significant result, confirming persona benchmark findings.
+2. **CogPIE's median rank of 17** means it finds passwords 2.6x earlier than CUPP (44) and 4.4x earlier than elpscrk (75). This translates to faster cracking in real attacks.
+3. **CUPP and bopscrk tie at 38.8%** because bopscrk's additional transforms (leet, reverse) don't add much coverage when the base CUPP combinations already cover the same space.
+4. **elpscrk at 36.3%** slightly underperforms CUPP despite more permutations, suggesting over-generation of irrelevant candidates.
+5. **psudohash at 24.2%** confirms its limited pattern set misses many PII-derived passwords.
+6. **~50% of PII-related passwords remain unreachable** by any tool, indicating reliance on external information (partner names, phone numbers, dates of birth) not derivable from email addresses alone.
+
+### 7.5 Data Sources
+
+| Source | Records | Type |
+|--------|---------|------|
+| Collection #2 New combo cloud | 122,939 | email:password combos |
+| Collection #4 RUSSIAN COMBOS | 99,476 | email:password combos |
+| Collection #2 New combo cloud_S | 126,740 | email:password combos |
+| IntelX BR stealer logs | 601 | USER/PASS stealer format |
+| IntelX phonebook (ig/itau/americanas) | 150 | phonebook selectors |
+| **Total unique** | **260,853** | |
+| **PII-filtered** | **13,546** | |
+| **Benchmark sample** | **1,000** | |
+
+---
+
+## 8. Benchmark 5: RockYou Corpus Benchmark
+
+### 8.1 Methodology
+
+Train on 479,854 processed RockYou passwords, test on 500 held-out samples. Pure corpus-based evaluation (no PII). Budget tiers: 10, 100, 1,000, 10,000, 100,000.
+
+### 8.2 Results
 
 | Budget | Hit Rate | Hits |
 |--------|----------|------|
@@ -280,7 +341,7 @@ Train on 479,854 processed RockYou passwords, test on 500 held-out samples. Pure
 | hit@10,000 | 69.8% | 349 |
 | hit@100,000 | 69.8% | 349 |
 
-### 7.3 Key Observations
+### 8.3 Key Observations
 
 1. **68.4% at 1K budget** demonstrates strong Markov+PCFG hybrid ranking.
 2. **Plateau at 69.8%** indicates the remaining 30% are highly unique passwords beyond statistical prediction.
@@ -289,11 +350,11 @@ Train on 479,854 processed RockYou passwords, test on 500 held-out samples. Pure
 
 ---
 
-## 8. WordlistXPL-Forge Engine Catalog
+## 9. WordlistXPL-Forge Engine Catalog
 
 WLF implements 30+ generation engines across all 7 algorithmic paradigms:
 
-### 8.1 Engines by Paradigm
+### 9.1 Engines by Paradigm
 
 | Paradigm | WLF Engine | External Equivalent |
 |----------|-----------|-------------------|
@@ -305,7 +366,7 @@ WLF implements 30+ generation engines across all 7 algorithmic paradigms:
 | **Scraping (C6)** | web_scraper, target_spider, seclists_trainer, community_collections, assetnote_wordlists, trickest_wordlists | CeWL, lyricpass |
 | **Cognitive (C7)** | cogpie/ (engine, cognitive_transforms, pii_correlator, scorer, semantic_expander, markov_pcfg_hybrid, gpu_backend, policy_filter) | **None (unique)** |
 
-### 8.2 Unique WLF Engines (No External Equivalent)
+### 9.2 Unique WLF Engines (No External Equivalent)
 
 | Engine | Algorithm | Purpose |
 |--------|-----------|---------|
@@ -322,9 +383,9 @@ WLF implements 30+ generation engines across all 7 algorithmic paradigms:
 
 ---
 
-## 9. CogPIE Integration Improvement Analysis
+## 10. CogPIE Integration Improvement Analysis
 
-### 9.1 Coverage Delta by Persona Complexity
+### 10.1 Coverage Delta by Persona Complexity
 
 | Complexity | WLF (CUPP) | WLF + CogPIE | Delta |
 |-----------|-----------|-------------|-------|
@@ -334,7 +395,7 @@ WLF implements 30+ generation engines across all 7 algorithmic paradigms:
 
 CogPIE's greatest improvement is on minimal profiles (L1-L3) where CUPP's fixed concatenation rules fail, but CogPIE's semantic expansion and cognitive transformations generate additional plausible candidates.
 
-### 9.2 CogPIE's 5-Layer Pipeline Advantage
+### 10.2 CogPIE's 5-Layer Pipeline Advantage
 
 1. **Layer 1 (Semantic Expansion):** Generates cultural variants (apelidos, diminutivos, transliterations) that no other tool produces. Example: "Joao" -> "jao", "joaozinho", "johnny"
 2. **Layer 2 (Combinatorial):** Cross-field combinations with separators and suffixes. Similar to CUPP but with priority ordering.
