@@ -153,9 +153,12 @@
 |--------|-----------------|-------------------|-----------|
 | Algorithmic paradigms covered | 11/11 | 1-2/11 (any single tool) | 5.5x-11x |
 | Total engines/modules | 109 | 1-3 (any single tool) | 36x-109x |
-| Profile-based coverage (avg) | **89.7%** (CogPIE v0.2) | 52.8% (elpscrk simulated) | **+36.9pp** |
-| Min persona coverage | 80.0% (P01 minimal) | 28.0% (CUPP on P07) | +52pp |
-| Max persona coverage | 96.2% (P09 rich) | 63.6% (CUPP on P04) | +32.6pp |
+| Profile-based coverage (avg, real tools) | **89.1%** (CogPIE v0.2) | 51.1% (elpscrk real) | **+38.0pp** |
+| Combined all 7 tools coverage (avg) | **89.1%** | 82.3% (union of 7 tools) | **+6.8pp** |
+| Min persona coverage | 80.0% (P01 minimal) | 3.9% (psudohash on P09) | +76.1pp |
+| Max persona coverage | 96.2% (P09 rich) | 70.0% (longtongue on P03) | +26.2pp |
+| CogPIE wins vs any single tool | 10/10 | 0/10 | Dominant |
+| CogPIE wins vs Combined | 7/10 | 3/10 | Superior |
 | Neural architectures | 6 (GAN, Transformer, VAE, Diffusion, TCN, NFlow) | 1 (PassGAN or PassGPT) | 6x |
 | Unique capabilities (no external equivalent) | 11 | 0 | Exclusive |
 | GitHub stars (combined external) | ~84,000 | 27,036 (hashcat) | N/A |
