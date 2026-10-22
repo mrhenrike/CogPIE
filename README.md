@@ -12,7 +12,7 @@ A hybrid multi-layer password candidate generator that models cognitive biases i
 
 CogPIE implements a 5-layer pipeline that transforms a target profile into ranked password candidates:
 
-![CogPIE Pipeline](https://raw.githubusercontent.com/mrhenrike/CogPIE/main/assets/pipeline.png)
+![CogPIE Pipeline](https://raw.githubusercontent.com/mrhenrike/WordlistXPL-Forge/main/docs/research/cogpie/assets/pipeline.png)
 
 | Layer | Component | Function |
 |-------|-----------|----------|
@@ -98,7 +98,7 @@ cogpie --profile target.json --corpus rockyou.txt --max 100000 --stats -v
 
 Evaluated against **13,487 real leaked credentials** with embedded PII extracted from public breach compilations (260K+ credentials, PII-filtered, no synthetic data). Each tool received the same profile data and a budget of 10,000 candidates.
 
-![Coverage Comparison](https://raw.githubusercontent.com/mrhenrike/CogPIE/main/assets/benchmark_coverage.png)
+![Coverage Comparison](https://raw.githubusercontent.com/mrhenrike/WordlistXPL-Forge/main/docs/research/cogpie/assets/benchmark_coverage.png)
 
 | Tool | Hits | Coverage | CI Coverage | Exclusive | Med. Rank |
 |------|------|----------|-------------|-----------|-----------|
@@ -121,7 +121,7 @@ Evaluated against **13,487 real leaked credentials** with embedded PII extracted
 
 ### Exclusive Hits Analysis
 
-![Exclusive Hits](https://raw.githubusercontent.com/mrhenrike/CogPIE/main/assets/benchmark_exclusive.png)
+![Exclusive Hits](https://raw.githubusercontent.com/mrhenrike/WordlistXPL-Forge/main/docs/research/cogpie/assets/benchmark_exclusive.png)
 
 CogPIE's 541 exclusive hits demonstrate that cognitive bias modeling captures password patterns orthogonal to traditional combinatorial heuristics. These are passwords that no other tool generates within 10K candidates.
 
@@ -129,7 +129,7 @@ CogPIE's 541 exclusive hits demonstrate that cognitive bias modeling captures pa
 
 Controlled evaluation with 10 synthetic personas (15-31 ground-truth passwords each) against 8 real external tools.
 
-![Persona Benchmark](https://raw.githubusercontent.com/mrhenrike/CogPIE/main/assets/benchmark_persona.png)
+![Persona Benchmark](https://raw.githubusercontent.com/mrhenrike/WordlistXPL-Forge/main/docs/research/cogpie/assets/benchmark_persona.png)
 
 | Tool | Avg Coverage | vs CogPIE |
 |------|-------------|-----------|
