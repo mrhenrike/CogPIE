@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cogpie"
+version = "0.2.0"
+description = "Cognitive Pattern Inference Engine: targeted password candidate generation based on cognitive bias modeling"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    {name = "Andre Henrique de Oliveira", email = "henrique.santos@uniaogeek.com.br"},
+]
+keywords = [
+    "password",
+    "security",
+    "cognitive-bias",
+    "wordlist",
+    "pentest",
+    "markov",
+    "pcfg",
+    "password-generation",
+    "red-team",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Security :: Cryptography",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+gpu = ["torch>=2.0"]
+
+[project.urls]
+Homepage = "https://github.com/mrhenrike/CogPIE"
+Repository = "https://github.com/mrhenrike/CogPIE"
+Issues = "https://github.com/mrhenrike/CogPIE/issues"
+
+[project.scripts]
+cogpie = "cogpie.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["cogpie", "cogpie.*"]
+
+[tool.setuptools.package-data]
+cogpie = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true

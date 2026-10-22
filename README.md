@@ -37,14 +37,22 @@ CUDA backend with 20x speedup on RTX 4060 (1M corpus):
 - CPU: 15.12s/profile
 - GPU: 0.75s/profile (174 MB VRAM)
 
-## Project Structure
+## Installation
 
+```bash
+pip install cogpie
 ```
-cogpie/              # Core engine modules (10 .py files)
-tests/               # Unit tests and benchmarks (28+ tests)
-tools/               # Benchmark and evaluation scripts (8 tools)
-benchmark/           # All benchmark results (JSON + tables)
-docs/research/       # Academic paper (EN + PT-BR, HTML + Markdown)
+
+For GPU acceleration (CUDA):
+
+```bash
+pip install cogpie[gpu]
+```
+
+### CLI
+
+```bash
+cogpie --profile target.json --corpus rockyou.txt --max 50000 -o candidates.txt
 ```
 
 ## Usage
@@ -96,4 +104,4 @@ Andre Henrique de Oliveira (@mrhenrike) / Uniao Geek
 
 ## License
 
-Private research. All rights reserved.
+MIT License. See [LICENSE](LICENSE) for details.

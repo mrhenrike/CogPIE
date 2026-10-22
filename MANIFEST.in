@@ -1,0 +1,11 @@
+include LICENSE
+include README.md
+include cogpie/py.typed
+
+recursive-exclude benchmark *
+recursive-exclude docs *
+recursive-exclude tools *
+recursive-exclude tests *
+exclude .gitignore
+exclude .env
+exclude .env.*
