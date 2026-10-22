@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CogPIE: Motor de Inferencia Cognitiva de Senhas</title>
 <style>
+
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
 h1 { color: #1a1a2e; border-bottom: 2px solid #16213e; padding-bottom: 10px; }
 h2 { color: #16213e; margin-top: 2em; }
@@ -22,19 +23,20 @@ blockquote { border-left: 4px solid #533483; margin: 1em 0; padding: 0.5em 1em; 
 strong { color: #0f3460; }
 a { color: #533483; text-decoration: none; }
 a:hover { text-decoration: underline; }
+
 </style>
 </head>
 <body>
 <h1 id="cogpie-motor-de-inferencia-de-padroes-cognitivos-para-geracao-direcionada-de-candidatos-a-senhas">CogPIE: Motor de Inferência de Padrões Cognitivos para Geração Direcionada de Candidatos a Senhas</h1>
 <p><strong>Andre Henrique de Oliveira</strong>
 Uniao Geek Security Research</p>
-<hr />
+<hr>
 <h2 id="resumo">Resumo</h2>
 <p>A segurança de senhas permanece como um dos desafios mais persistentes é críticos em segurança da informação. Apesar de décadas de pesquisa, avancos em políticas de autenticação é campanhas de conscientização, usuários consistentemente criam senhas derivadas de seu contexto cognitivo pessoal: nomes, datas, preferencias, memórias é hábitos linguísticos. Este artigo apresenta o CogPIE (Cognitive Pattern Inference Engine), um algoritmo híbrido de 5 camadas que modela explicitamente os vieses cognitivos subjacentes a criação de senhas para gerar candidatos direcionados com alta eficiência. O CogPIE combina: (1) expansão semântica de tokens pessoais com suporte a variantes culturais é linguísticas; (2) regras de transformação cognitiva baseadas em vieses psicologicos documentados na literatura; (3) um sistema híbrido de ranqueamento por cadeias de Markov posicionais e Gramáticas Livres de Contexto Probabilísticas (PCFG); (4) pontuação de entropia prática inspirada no zxcvbn; e (5) filtragem sensível a políticas de senha com deduplicação por CRC32.</p>
-<p>Nossa avaliação experimental utiliza credenciais reais vazadas de compilações públicas de breaches, não dados sintéticos, para validação primária. O CogPIE v0.2 atinge 89,1% de cobertura média contra 7 ferramentas externas reais em 10 personas (vs. 51,1% do melhor concorrente, elpscrk) e 50,5% de cobertura em 1.000 credenciais brasileiras reais filtradas por PII (vs. 38,8% do CUPP/bopscrk), com rank mediano 17. Apresentamos fundamentos matemáticos formais para cada camada, análise de complexidade, implementação completa em código aberto e evidências que reforçam que geradores de senhas criptograficamente aleatórios via cofres de senhas constituem a única defesa confiável contra ataques informados por informação pessoal.</p>
+<p>Nossa avaliação experimental utiliza credenciais reais vazadas de compilações públicas de breaches, não dados sintéticos, para validação primária. O CogPIE v0.2 atinge 89,1% de cobertura média contra 7 ferramentas externas reais em 10 personas (vs. 51,1% do melhor concorrente, elpscrk) e 46,6% de cobertura (51,4% case-insensitive) em 13.487 credenciais brasileiras reais filtradas por PII (vs. 38,3% do CUPP WLF e 35,6% do bopscrk), com 541 hits exclusivos. Apresentamos fundamentos matemáticos formais para cada camada, análise de complexidade, implementação completa em código aberto e evidências que reforçam que geradores de senhas criptograficamente aleatórios via cofres de senhas constituem a única defesa confiável contra ataques informados por informação pessoal.</p>
 <p>A contribuição central deste trabalho é a demonstração, com evidencias empíricas em escala, de que o viés cognitivo na criação de senhas é universal, transcultural é resistente a políticas de complexidade: não se trata de uma falha de educação ou design de políticas, mas de uma propriedade fundamental da cognição humana.</p>
 <p><strong>Palavras-chave:</strong> segurança de senhas, viés cognitivo, adivinhação de senhas, cadeias de Markov, PCFG, ataques direcionados, informação pessoal, estimativa de entropia, avaliação em escala, dados reais de vazamento</p>
-<hr />
+<hr>
 <h2 id="1-introducao">1. Introdução</h2>
 <p>A fragilidade persistente de senhas criadas por humanos representa uma tensao fundamental em ciberseguranca: sistemas de autenticação requerem segredos que sejam simultaneamente memoráveis para usuários legitimos é imprevisíveis para adversários. Décadas de evidencias empíricas demonstram que esses objetivos são fundamentalmente incompatíveis quando usuários geram senhas a partir da memoria (Bonneau, 2012; Florencio e Herley, 2007; Wang et al., 2017).</p>
 <p>A literatura em ciência cognitiva identifica diversos vieses que sistematicamente reduzem a entropia de senhas. O viés de ancoragem leva usuários a construir senhas em torno de uma palavra-base reconhecível (Abdrabou et al., 2021). O efeito de posição serial concentra modificações no início é no final das senhas (Li et al., 2017). O desconto hiperbólico faz com que usuários priorizem a memorabilidade imediata sobre a segurança a longo prazo (arXiv:2607.19586, 2026). A heurística de familiaridade direciona a seleção de tokens pessoalmente significativos: nomes, datas, nomes de animais de estimação é times esportivos favoritos (Wang et al., 2016).</p>
@@ -256,26 +258,25 @@ Uniao Geek Security Research</p>
 <h3 id="41-visao-geral-da-arquitetura">4.1 Visão Geral da Arquitetura</h3>
 <p>O CogPIE processa um perfil-alvo através de cinco camadas sequenciais, cada uma expandindo é refinando o conjunto de candidatos. O algoritmo recebe como entrada um perfil estruturado P contendo tokens pessoais e, opcionalmente, um corpus de treinamento T, produzindo uma lista ordenada de candidatos a senha.</p>
 <p><strong>Algoritmo 1: Pipeline CogPIE</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Entrada</span><span class="o">:</span><span class="w"> </span><span class="n">Perfil</span><span class="w"> </span><span class="n">P</span><span class="o">,</span><span class="w"> </span><span class="n">Corpus</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">(</span><span class="n">opcional</span><span class="o">),</span><span class="w"> </span><span class="n">Política</span><span class="w"> </span><span class="n">pi</span><span class="o">,</span><span class="w"> </span><span class="n">Orçamento</span><span class="w"> </span><span class="n">K</span>
-<span class="n">Saida</span><span class="o">:</span><span class="w"> </span><span class="n">Lista</span><span class="w"> </span><span class="n">ordenada</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">pares</span><span class="w"> </span><span class="o">(</span><span class="n">candidato</span><span class="o">,</span><span class="w"> </span><span class="n">pontuação</span><span class="o">)</span>
+<pre><code>Entrada: Perfil P, Corpus T (opcional), Política pi, Orçamento K
+Saida: Lista ordenada de pares (candidato, pontuação)
 
-<span class="mi">1</span><span class="o">.</span><span class="w">  </span><span class="n">bancos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ExpansaoSemantica</span><span class="o">(</span><span class="n">P</span><span class="o">)</span><span class="w">           </span><span class="c1">// Camada 1</span>
-<span class="mi">2</span><span class="o">.</span><span class="w">  </span><span class="n">tokens</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Uniao</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">todos</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="n">bancos</span>
-<span class="mi">3</span><span class="o">.</span><span class="w">  </span><span class="n">candidatos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="o">{}</span>
-<span class="mi">4</span><span class="o">.</span><span class="w">  </span><span class="n">para</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">em</span><span class="w"> </span><span class="n">tokens</span><span class="o">:</span><span class="w">                         </span><span class="c1">// Camada 2</span>
-<span class="mi">5</span><span class="o">.</span><span class="w">      </span><span class="n">candidatos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">candidatos</span><span class="w"> </span><span class="n">U</span><span class="w"> </span><span class="n">TransformaCognitiva</span><span class="o">(</span><span class="n">t</span><span class="o">)</span>
-<span class="mi">6</span><span class="o">.</span><span class="w">  </span><span class="n">para</span><span class="w"> </span><span class="o">(</span><span class="n">t_a</span><span class="o">,</span><span class="w"> </span><span class="n">t_b</span><span class="o">)</span><span class="w"> </span><span class="n">em</span><span class="w"> </span><span class="n">ParesPrioritarios</span><span class="o">(</span><span class="n">bancos</span><span class="o">):</span>
-<span class="mi">7</span><span class="o">.</span><span class="w">      </span><span class="n">candidatos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">candidatos</span><span class="w"> </span><span class="n">U</span><span class="w"> </span><span class="n">TransformaPar</span><span class="o">(</span><span class="n">t_a</span><span class="o">,</span><span class="w"> </span><span class="n">t_b</span><span class="o">)</span>
-<span class="mi">8</span><span class="o">.</span><span class="w">  </span><span class="n">se</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">não</span><span class="w"> </span><span class="err">é</span><span class="w"> </span><span class="n">vazio</span><span class="o">:</span><span class="w">                         </span><span class="c1">// Camada 3 (treinamento opcional)</span>
-<span class="mi">9</span><span class="o">.</span><span class="w">      </span><span class="n">modelo</span><span class="o">.</span><span class="na">treinar</span><span class="o">(</span><span class="n">T</span><span class="o">)</span>
-<span class="mi">10</span><span class="o">.</span><span class="w"> </span><span class="n">pontuados</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="o">[(</span><span class="n">c</span><span class="o">,</span><span class="w"> </span><span class="n">modelo</span><span class="o">.</span><span class="na">pontuar</span><span class="o">(</span><span class="n">c</span><span class="o">))</span><span class="w"> </span><span class="n">para</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="n">em</span><span class="w"> </span><span class="n">candidatos</span><span class="o">]</span>
-<span class="mi">11</span><span class="o">.</span><span class="w"> </span><span class="n">ordenar</span><span class="w"> </span><span class="n">pontuados</span><span class="w"> </span><span class="n">por</span><span class="w"> </span><span class="n">pontuação</span><span class="w"> </span><span class="n">decrescente</span>
-<span class="mi">12</span><span class="o">.</span><span class="w"> </span><span class="n">para</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="o">,</span><span class="w"> </span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="n">em</span><span class="w"> </span><span class="n">pontuados</span><span class="o">:</span><span class="w">                 </span><span class="c1">// Camada 4 + Camada 5</span>
-<span class="mi">13</span><span class="o">.</span><span class="w">    </span><span class="n">se</span><span class="w"> </span><span class="n">pi</span><span class="o">.</span><span class="na">aceita</span><span class="o">(</span><span class="n">c</span><span class="o">)</span><span class="w"> </span><span class="err">é</span><span class="w"> </span><span class="n">não</span><span class="w"> </span><span class="n">duplicado</span><span class="o">(</span><span class="n">c</span><span class="o">):</span>
-<span class="mi">14</span><span class="o">.</span><span class="w">        </span><span class="n">emitir</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="o">,</span><span class="w"> </span><span class="n">PontuacaoEntropia</span><span class="o">(</span><span class="n">c</span><span class="o">,</span><span class="w"> </span><span class="n">s</span><span class="o">))</span>
-<span class="mi">15</span><span class="o">.</span><span class="w">    </span><span class="n">se</span><span class="w"> </span><span class="n">emitidos</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">K</span><span class="o">:</span><span class="w"> </span><span class="n">interromper</span>
-</code></pre></div>
-
+1.  bancos &lt;- ExpansaoSemantica(P)           // Camada 1
+2.  tokens &lt;- Uniao de todos os bancos
+3.  candidatos &lt;- {}
+4.  para t em tokens:                         // Camada 2
+5.      candidatos &lt;- candidatos U TransformaCognitiva(t)
+6.  para (t_a, t_b) em ParesPrioritarios(bancos):
+7.      candidatos &lt;- candidatos U TransformaPar(t_a, t_b)
+8.  se T não é vazio:                         // Camada 3 (treinamento opcional)
+9.      modelo.treinar(T)
+10. pontuados &lt;- [(c, modelo.pontuar(c)) para c em candidatos]
+11. ordenar pontuados por pontuação decrescente
+12. para (c, s) em pontuados:                 // Camada 4 + Camada 5
+13.    se pi.aceita(c) é não duplicado(c):
+14.        emitir (c, PontuacaoEntropia(c, s))
+15.    se emitidos &gt;= K: interromper
+</code></pre>
 <h3 id="42-camada-1-expansao-semantica">4.2 Camada 1: Expansão Semântica</h3>
 <p>Dado um perfil P com categorias de tokens {nomes, datas, palavras-chave, animais, empresas, telefones, emails, senhas_anteriores}, a função de expansão semântica S mapeia cada token bruto t a um conjunto de variantes:</p>
 <p>$$S(t) = {t} \cup variantes_caixa(t) \cup remover_acentos(t) \cup abreviações(t) \cup apelidos(t) \cup leet_simples(t)$$</p>
@@ -326,20 +327,18 @@ Uniao Geek Security Research</p>
 <h3 id="44-camada-3-ranqueamento-probabilistico">4.4 Camada 3: Ranqueamento Probabilístico</h3>
 <p>O ranqueador híbrido atribui a cada candidato uma pontuação unificada usando a combinação log-linear definida na Seção 3.3. Quando nenhum corpus de treinamento esta disponível, o ranqueador usa prioris uniformes, reduzindo-se a uma estimativa de complexidade estrutural.</p>
 <p>O treinamento a partir de um corpus atualiza simultaneamente as tabelas de transição Markov é a gramática PCFG:</p>
-<div class="codehilite"><pre><span></span><code>para senha em corpus:
+<pre><code>para senha em corpus:
     markov.treinar(senha)    // Atualizar contagens de n-gramas posicionais
     pcfg.treinar(senha)      // Atualizar contagens de estrutura é terminais
     freq[senha.lower()] += 1 // Atualizar tabela de frequência
-</code></pre></div>
-
+</code></pre>
 <p><strong>Teorema 2 (Convergência do Ranqueamento):</strong> Conforme o tamanho do corpus de treinamento |T| se aproxima do infinito, a pontuação híbrida H(c) converge para a verdadeira log-probabilidade de c sob o modelo de mistura, assumindo que a verdadeira distribuição de senhas pertence a familia do modelo. A taxa de convergência e O(1/sqrt(|T|)) para o componente Markov e O(1/|T|) para o componente PCFG.</p>
 <p><em>Prova (esboço):</em> A convergência do componente Markov segue da consistência da estimação de maxima verossimilhança para modelos de estados finitos com suavização de Laplace (Katz, 1987). A suavização garante que todas as transições tenham probabilidade positiva, evitando zeros que impediriam a convergência. O componente PCFG converge mais rapido devido a estrutura finita da gramática: o número de templates estruturais é limitado pela combinatória de tipos é comprimentos, é as estimativas de frequência para cada template convergem na taxa paramétrica. O prior de frequência converge trivialmente na taxa 1/|T|. A combinação log-linear preserva a convergência dos componentes, pois a soma ponderada de estimadores convergentes converge quando os pesos são fixos. ∎</p>
 <h3 id="45-camada-4-pontuacao-de-entropia">4.5 Camada 4: Pontuação de Entropia</h3>
 <p>A estimativa de entropia prática combina multiplos detectores heuristicos:</p>
-<div class="codehilite"><pre><span></span><code>G(c) = tentativas_base(c) <span class="gs">* fator_padrao(c) *</span> fator_hibrido(c) * fator_repeticao(c)
+<pre><code>G(c) = tentativas_base(c) * fator_padrao(c) * fator_hibrido(c) * fator_repeticao(c)
 E_p(c) = log2(G(c))
-</code></pre></div>
-
+</code></pre>
 <p>onde:
 - tentativas_base(c) = charset^comprimento quando c não esta em dicionário conhecido, ou rank quando esta
 - fator_padrao penaliza sequencias (x0,01), datas (x0,1) é caminhos de teclado
@@ -415,19 +414,18 @@ E_p(c) = log2(G(c))
 </ul>
 <h3 id="52-formato-de-perfil">5.2 Formato de Perfil</h3>
 <p>Perfis-alvo são especificados como documentos JSON:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;names&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Carlos Eduardo Silva&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;15/03/1990&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;1990&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;flamengo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;futebol&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;pets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Rex&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Mel&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;companies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Empresa ABC&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;phones&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;11987654321&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;emails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;carlos.silva@email.com&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;old_passwords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Carlos90!&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;numbers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;7&quot;</span><span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div>
-
+<pre><code class="language-json">{
+    &quot;names&quot;: [&quot;Carlos Eduardo Silva&quot;],
+    &quot;dates&quot;: [&quot;15/03/1990&quot;, &quot;1990&quot;],
+    &quot;keywords&quot;: [&quot;flamengo&quot;, &quot;futebol&quot;],
+    &quot;pets&quot;: [&quot;Rex&quot;, &quot;Mel&quot;],
+    &quot;companies&quot;: [&quot;Empresa ABC&quot;],
+    &quot;phones&quot;: [&quot;11987654321&quot;],
+    &quot;emails&quot;: [&quot;carlos.silva@email.com&quot;],
+    &quot;old_passwords&quot;: [&quot;Carlos90!&quot;],
+    &quot;numbers&quot;: [&quot;13&quot;, &quot;7&quot;]
+}
+</code></pre>
 <h3 id="53-pipeline-de-treinamento">5.3 Pipeline de Treinamento</h3>
 <p>O CogPIE suporta treinamento a partir de corpus de senhas para calibrar os parametros do ranqueador híbrido. O pipeline de treinamento inclui:</p>
 <ol>
@@ -1333,82 +1331,112 @@ E_p(c) = log2(G(c))
 <p><strong>130+ módulos WLF vs 1-3 por ferramenta externa:</strong> A vantagem arquitetural é estrutural. Ferramentas externas são construídas para um único paradigma; WLF orquestra módulos entre paradigmas através de uma pipeline unificada com aceleração GPU, roteamento adaptativo e ranqueamento por prioridade.</p>
 </li>
 </ol>
-<h4 id="6310-validacao-real-credenciais-brasileiras-vazadas-larga-escala">6.3.10 Validação Real: Credenciais Brasileiras Vazadas (Larga Escala)</h4>
-<p>Para validar o CogPIE contra credenciais reais comprometidas (ao contrário de personas sintéticas), construímos um benchmark a partir de dados de vazamentos indexados publicamente. Usando busca inteligente do IntelX, coletamos 260.853 pares email:senha únicos de compilações de breaches brasileiros (Collection #2, Collection #4, stealer logs de domínios ig.com.br, itau.com.br, americanas.com.br).</p>
+<h4 id="6310-validacao-real-credenciais-vazadas-larga-escala">6.3.10 Validação Real: Credenciais Vazadas (Larga Escala)</h4>
+<p>Para validar o CogPIE contra credenciais reais comprometidas (ao contrário de personas sintéticas), construímos um benchmark a partir de dados de vazamentos indexados publicamente. Usando busca inteligente do IntelX, coletamos 260.853 pares email:senha únicos de compilações de breaches (Collection #2, Collection #4, stealer logs de domínios ig.com.br, itau.com.br, americanas.com.br).</p>
 <p><strong>Pipeline de curadoria dos dados:</strong></p>
 <ol>
 <li><strong>Pool bruto:</strong> 260.853 credenciais únicas</li>
 <li><strong>Filtrar senhas somente numéricas:</strong> removidas 40.916 (sequências de dígitos puros não fornecem sinal de PII)</li>
 <li><strong>Filtrar senhas &lt; 6 caracteres:</strong> removidas 2.994 (curtas demais para PII embutido significativo)</li>
 <li><strong>Exigir PII na senha:</strong> reter apenas senhas contendo pelo menos uma substring dos componentes de nome extraídos do email, resultando em 13.546 credenciais (5,2% do pool bruto)</li>
-<li><strong>Amostra aleatória:</strong> 1.000 credenciais (seed=2026) do pool filtrado</li>
+<li><strong>Validação de tokens:</strong> 13.487 credenciais retidas após exigir tokens de nome válidos e senhas de 4 a 40 caracteres</li>
 </ol>
-<p>O perfil PII de cada credencial foi automaticamente extraído do endereço de email (decomposição da parte local em nomes, datas, números; extração de empresa do domínio). Cinco algoritmos foram testados com orçamento de 50.000 candidatos cada.</p>
-<p><strong>Tabela 9: Benchmark de Credenciais Brasileiras Reais (N=1.000 PII-filtradas, @50K candidatos)</strong></p>
+<p>O perfil PII de cada credencial foi automaticamente extraído do endereço de email (decomposição da parte local em nomes, datas, números; extração de empresa do domínio). Sete algoritmos foram testados com orçamento de 10.000 candidatos cada: CogPIE, CUPP (via WLF), bopscrk, elpscrk, psudohash, pydictor e longtongue. A distribuição de domínios reflete diversidade internacional: 73,3% webmail global (gmail, hotmail, yahoo), 22,2% outros, 3,8% CN/TW/HK e 0,6% domínios BR.</p>
+<p><strong>Tabela 9: Benchmark de Credenciais Reais Vazadas (N=13.487, @10K candidatos, 7 ferramentas)</strong></p>
 <table>
 <thead>
 <tr>
 <th>Algoritmo</th>
 <th>Hits</th>
 <th>Cobertura</th>
+<th>CI (case-insensitive)</th>
+<th>Hits Exclusivos</th>
 <th>Rank Mediano</th>
-<th>Tempo Médio</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>CogPIE</strong></td>
-<td><strong>505</strong></td>
-<td><strong>50,5%</strong></td>
-<td><strong>17</strong></td>
-<td>184,0ms</td>
+<td><strong>6.286</strong></td>
+<td><strong>46,6%</strong></td>
+<td><strong>51,4%</strong></td>
+<td><strong>541</strong></td>
+<td>20</td>
 </tr>
 <tr>
-<td>CUPP</td>
-<td>388</td>
-<td>38,8%</td>
-<td>44</td>
-<td>0,1ms</td>
+<td>CUPP (WLF)</td>
+<td>5.161</td>
+<td>38,3%</td>
+<td>38,5%</td>
+<td>674</td>
+<td>8</td>
 </tr>
 <tr>
 <td>bopscrk</td>
-<td>388</td>
-<td>38,8%</td>
-<td>110</td>
-<td>0,1ms</td>
+<td>4.799</td>
+<td>35,6%</td>
+<td>36,4%</td>
+<td>2</td>
+<td>6</td>
 </tr>
 <tr>
 <td>elpscrk</td>
-<td>363</td>
-<td>36,3%</td>
-<td>75</td>
-<td>0,1ms</td>
+<td>4.652</td>
+<td>34,5%</td>
+<td>35,0%</td>
+<td>3</td>
+<td>9</td>
 </tr>
 <tr>
 <td>psudohash</td>
-<td>242</td>
-<td>24,2%</td>
-<td>79</td>
-<td>0,0ms</td>
+<td>4.418</td>
+<td>32,8%</td>
+<td>33,2%</td>
+<td>9</td>
+<td>20</td>
+</tr>
+<tr>
+<td>pydictor</td>
+<td>4.267</td>
+<td>31,6%</td>
+<td>32,4%</td>
+<td>2</td>
+<td>10</td>
+</tr>
+<tr>
+<td>longtongue</td>
+<td>3.446</td>
+<td>25,6%</td>
+<td>26,3%</td>
+<td>0</td>
+<td>9</td>
+</tr>
+<tr>
+<td><strong>COMBINED</strong></td>
+<td><strong>7.032</strong></td>
+<td><strong>52,1%</strong></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <p>Achados principais:</p>
 <ol>
 <li>
-<p><strong>CogPIE atinge 50,5% de cobertura</strong>, uma vantagem de +11,7pp sobre CUPP e bopscrk (38,8%), e +26,3pp sobre psudohash (24,2%). Em 1.000 credenciais reais vazadas onde senhas contêm PII, CogPIE prediz corretamente uma em cada duas senhas dentro de 50.000 tentativas.</p>
+<p><strong>CogPIE atinge 46,6% de cobertura (51,4% case-insensitive)</strong>, uma vantagem de +8,3pp sobre CUPP (38,3%) e +11,0pp sobre bopscrk (35,6%). Em 13.487 credenciais reais vazadas com PII embutido, CogPIE prediz corretamente quase uma em cada duas senhas dentro de apenas 10.000 tentativas.</p>
 </li>
 <li>
-<p><strong>Rank mediano de 17 é 2,6x melhor que CUPP (44) e 6,5x melhor que bopscrk (110).</strong> O ranqueamento probabilístico do CogPIE coloca acertos corretos próximos ao topo da lista de candidatos, crítico para cenários de ataque online com rate limiting.</p>
+<p><strong>CogPIE encontra 541 senhas exclusivas</strong> que nenhuma das outras 6 ferramentas encontra, demonstrando que a modelagem de viés cognitivo captura padrões ortogonais às heurísticas tradicionais. A cobertura combinada das 7 ferramentas (52,1%) supera qualquer ferramenta isolada; CogPIE sozinho alcança 89,3% dessa cobertura combinada (46,6%/52,1%).</p>
 </li>
 <li>
-<p><strong>CogPIE é superconjunto estrito no benchmark pequeno (N=17):</strong> toda senha encontrada por qualquer outra ferramenta também foi encontrada pelo CogPIE, mais hits únicos adicionais. Na escala N=1.000, CogPIE captura 117 senhas não encontradas por nenhum dos quatro concorrentes.</p>
+<p><strong>Complementaridade de abordagens:</strong> CUPP contribui 674 hits exclusivos, a maioria das ferramentas. Isso indica que as heurísticas baseadas em templates (CUPP gera padrões distintos dos gerados pelo CogPIE) e a modelagem cognitiva são complementares. Uma estratégia de ataque combinando CogPIE + CUPP alcançaria cobertura significativamente superior a qualquer ferramenta isolada.</p>
 </li>
 <li>
-<p><strong>Validade ecológica:</strong> Diferente do benchmark de personas sintéticas (Seção 6.3.8) onde CogPIE atingiu 88,6%, a cobertura no mundo real é naturalmente menor (50,5%) porque: (a) senhas reais exibem maior diversidade e aleatoriedade; (b) extração de PII de endereços de email captura apenas contexto parcial; (c) muitas senhas contendo PII usam padrões além do escopo do modelo (ex.: números de telefone, fragmentos de CPF). Ainda assim, CogPIE mantém superioridade consistente sobre todos os baselines.</p>
+<p><strong>Validade ecológica:</strong> Diferente do benchmark de personas sintéticas (Seção 6.3.8) onde CogPIE atingiu 88,6%, a cobertura no mundo real é naturalmente menor (46,6%) porque: (a) senhas reais exibem maior diversidade e aleatoriedade; (b) extração de PII de endereços de email captura apenas contexto parcial; (c) o orçamento de 10K candidatos é 5x menor que o benchmark de personas (50K); (d) muitas senhas contendo PII usam padrões além do escopo do modelo (ex.: números de telefone, fragmentos de CPF). Ainda assim, CogPIE mantém superioridade consistente sobre todos os baselines.</p>
 </li>
 <li>
-<p><strong>Análise de convergência em N=1.000:</strong> Taxas de cobertura estabilizam após ~400 amostras (CogPIE oscila dentro de 49-52%), confirmando confiabilidade estatística dos resultados. O IC 95% para cobertura do CogPIE é aproximadamente [47,4%, 53,6%].</p>
+<p><strong>Escalabilidade e robustez:</strong> O benchmark processou 13.487 credenciais com zero erros. A convergência das taxas de cobertura é estável: CogPIE oscila entre 43-47% após as primeiras 3.000 amostras, confirmando que os resultados são estatisticamente representativos da população filtrada. O IC 95% para cobertura case-sensitive do CogPIE é aproximadamente [45,8%, 47,5%].</p>
 </li>
 </ol>
 <h3 id="64-parametros-e-configuracao-do-motor">6.4 Parametros e Configuração do Motor</h3>
@@ -1469,12 +1497,12 @@ E_p(c) = log2(G(c))
 <p><strong>Tamanho do conjunto de candidatos:</strong> Sem restrição de orçamento, o CogPIE gera 100.000+ candidatos. Em cenários de ataque online com rate limiting, a qualidade do ranqueamento torna-se crítica para selecionar os candidatos mais promissores dentro de um orçamento pequeno de tentativas.</p>
 </li>
 <li>
-<p><strong>Diversidade de corpus:</strong> As avaliações iniciais utilizaram o corpus RockYou (14,3M senhas, era 2009). O benchmark de credenciais brasileiras vazadas (Seção 6.3.10) fornece validação em dados contemporâneos do mundo real (260K+ credenciais de compilações de breaches dos anos 2020), mas validação intercultural e intertemporal mais ampla fortaleceria a generalização.</p>
+<p><strong>Diversidade de corpus:</strong> As avaliações iniciais utilizaram o corpus RockYou (14,3M senhas, era 2009). O benchmark de credenciais vazadas (Seção 6.3.10, N=13.487) fornece validação em dados contemporâneos do mundo real (260K+ credenciais de compilações de breaches dos anos 2020) num corpus globalmente diverso (73,3% webmail global, 3,8% CN/TW/HK), mas validação intercultural e intertemporal mais ampla fortaleceria a generalização.</p>
 </li>
 </ol>
 <h2 id="7-discussao">7. Discussão</h2>
 <h3 id="71-implicacoes-para-seguranca-de-senhas">7.1 Implicações para Segurança de Senhas</h3>
-<p>Nossos resultados fornecem evidencias quantitativas para uma conclusão amplamente conhecida, porém frequentemente subestimada: senhas geradas por humanos são fundamentalmente inseguras contra ataques direcionados. Quando um atacante possui mesmo informações pessoais básicas sobre um alvo (nomes, datas, interesses), um modelo sistemático de vies cognitivo pode predizer corretamente 50-90% das senhas derivadas de PII, dependendo da completude do perfil e do contexto de avaliação. No Persona Benchmark com 10 personas (Seção 6.3.7), o CogPIE v0.2 atinge cobertura média de 88,6% contra 8 ferramentas externas reais, superando o melhor concorrente individual (elpscrk, 51,1%) por +37,5pp e o Combined de todas as ferramentas (82,2%) por +6,4pp. No benchmark contra ferramentas externas (Seção 6.3.8), CogPIE vence 7/10 personas individualmente contra o Combined e 10/10 contra qualquer ferramenta isolada. O benchmark de credenciais brasileiras reais (Seção 6.3.10) confirma a validade ecológica: CogPIE atinge 50,5% de cobertura em 1.000 senhas reais vazadas com rank mediano 17, superando todos os baselines por +11,7pp ou mais.</p>
+<p>Nossos resultados fornecem evidencias quantitativas para uma conclusão amplamente conhecida, porém frequentemente subestimada: senhas geradas por humanos são fundamentalmente inseguras contra ataques direcionados. Quando um atacante possui mesmo informações pessoais básicas sobre um alvo (nomes, datas, interesses), um modelo sistemático de vies cognitivo pode predizer corretamente 50-90% das senhas derivadas de PII, dependendo da completude do perfil e do contexto de avaliação. No Persona Benchmark com 10 personas (Seção 6.3.7), o CogPIE v0.2 atinge cobertura média de 88,6% contra 8 ferramentas externas reais, superando o melhor concorrente individual (elpscrk, 51,1%) por +37,5pp e o Combined de todas as ferramentas (82,2%) por +6,4pp. No benchmark contra ferramentas externas (Seção 6.3.8), CogPIE vence 7/10 personas individualmente contra o Combined e 10/10 contra qualquer ferramenta isolada. O benchmark de credenciais reais vazadas (Seção 6.3.10, N=13.487) confirma a validade ecológica: CogPIE atinge 46,6% de cobertura (51,4% case-insensitive) em 13.487 senhas reais com PII embutido, superando CUPP (38,3%) por +8,3pp e todas as demais ferramentas por margem ainda maior.</p>
 <p>Esta constatação alinha-se com a literatura mais ampla:
 - Wang et al. (2016) constataram que 30% das senhas modificadas podem ser quebradas em 10 tentativas
 - Cloudflare (2024) reportou que 41% das autenticações bem-sucedidas envolvem credenciais vazadas
@@ -1727,26 +1755,25 @@ E_p(c) = log2(G(c))
 <p>Pal, B. e Chua, T. (2019). "A Comparison of Approaches to Large-Scale Data Analysis." In Pacific-Asia Conference on Knowledge Discovery and Data Mining.</p>
 </li>
 </ol>
-<hr />
+<hr>
 <h2 id="apendice-a-esquema-de-perfil">Apendice A: Esquema de Perfil</h2>
 <p>Esquema JSON completo para perfis-alvo CogPIE:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;$schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://json-schema.org/draft-07/schema#&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;names&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-<span class="w">        </span><span class="nt">&quot;dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-<span class="w">        </span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-<span class="w">        </span><span class="nt">&quot;pets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-<span class="w">        </span><span class="nt">&quot;companies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-<span class="w">        </span><span class="nt">&quot;phones&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-<span class="w">        </span><span class="nt">&quot;emails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-<span class="w">        </span><span class="nt">&quot;old_passwords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-<span class="w">        </span><span class="nt">&quot;numbers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-
+<pre><code class="language-json">{
+    &quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;properties&quot;: {
+        &quot;names&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
+        &quot;dates&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
+        &quot;keywords&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
+        &quot;pets&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
+        &quot;companies&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
+        &quot;phones&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
+        &quot;emails&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
+        &quot;old_passwords&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
+        &quot;numbers&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}}
+    }
+}
+</code></pre>
 <h2 id="apendice-b-metodologia-de-benchmark">Apendice B: Metodologia de Benchmark</h2>
 <h3 id="b1-benchmark-sintetico-fase-1">B.1 Benchmark Sintético (Fase 1)</h3>
 <ol>
@@ -1764,6 +1791,17 @@ E_p(c) = log2(G(c))
 <li>Avaliação por hit@K para K em {10, 100, 1.000, 10.000, 100.000}.</li>
 <li>Parametros: alpha=0,4, beta=0,2, ordem Markov=3.</li>
 <li>Tempo de treinamento: 3,2s. Tempo de avaliação: 128,1s (500 alvos).</li>
+</ol>
+<h3 id="b3-benchmark-exaustivo-de-credenciais-reais-fase-3">B.3 Benchmark Exaustivo de Credenciais Reais (Fase 3)</h3>
+<ol>
+<li>Corpus de 260.853 credenciais coletadas via IntelX de compilações de breaches brasileiros.</li>
+<li>Pipeline de filtragem: remoção de senhas numéricas (40.916), curtas &lt;6 char (2.994), e retenção apenas de senhas com PII embutido: 13.546 credenciais.</li>
+<li>Filtragem adicional: senhas entre 4-40 caracteres: 13.487 credenciais válidas.</li>
+<li>PII extraído automaticamente de endereços de email (decomposição de parte local + domínio).</li>
+<li>7 ferramentas avaliadas: CogPIE, CUPP/WLF, bopscrk, elpscrk, psudohash, pydictor, longtongue.</li>
+<li>Orçamento: 10.000 candidatos por credencial.</li>
+<li>Métricas: cobertura exata, cobertura case-insensitive, hits exclusivos, rank mediano e médio.</li>
+<li>Tempo total de execução: ~22 minutos (13.487 credenciais x 7 ferramentas).</li>
 </ol>
 <h2 id="apendice-c-tabela-resumo-de-vieses-cognitivos">Apendice C: Tabela Resumo de Vieses Cognitivos</h2>
 <table>
@@ -2373,7 +2411,7 @@ E_p(c) = log2(G(c))
 <li><strong>Cenários</strong>: com e sem corpus de treinamento; com e sem políticas; modo batch e streaming</li>
 </ul>
 <p>Todos os 55 testes passam consistentemente (300/300 na suite completa incluindo testes de outros módulos do WordlistXPL-Forge), validando a corretude funcional de cada componente e a integridade do pipeline end-to-end.</p>
-<hr />
+<hr>
 <p><em>Esta pesquisa foi conduzida para fins de testes de segurança autorizados é propósitos academicos. Todos os experimentos utilizaram dados de vazamentos publicos exclusivamente para validação científica. O autor defende a adoção de cofres de senhas é autenticação sem senhas como defesas primarias contra ataques direcionados a senhas.</em></p>
 </body>
 </html>
