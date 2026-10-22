@@ -1,42 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CogPIE: Motor de Inferencia Cognitiva de Senhas</title>
+<title>CogPIE: Motor de Inferência Cognitiva de Senhas</title>
 <style>
-
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
 h1 { color: #1a1a2e; border-bottom: 2px solid #16213e; padding-bottom: 10px; }
 h2 { color: #16213e; margin-top: 2em; }
 h3 { color: #0f3460; }
 h4 { color: #533483; }
-table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.9em; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
 th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
 th { background-color: #16213e; color: white; }
 tr:nth-child(even) { background-color: #f8f9fa; }
-tr:hover { background-color: #e8f4f8; }
 code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
 pre { background-color: #1a1a2e; color: #e8e8e8; padding: 15px; border-radius: 5px; overflow-x: auto; }
 pre code { background-color: transparent; color: inherit; }
-blockquote { border-left: 4px solid #533483; margin: 1em 0; padding: 0.5em 1em; background-color: #f8f5ff; }
+blockquote { border-left: 4px solid #533483; margin: 1em 0; padding: 0.5em 1em; background-color: #f8f4ff; }
 strong { color: #0f3460; }
-a { color: #533483; text-decoration: none; }
-a:hover { text-decoration: underline; }
-
+a { color: #533483; }
 </style>
 </head>
 <body>
 <h1 id="cogpie-motor-de-inferencia-de-padroes-cognitivos-para-geracao-direcionada-de-candidatos-a-senhas">CogPIE: Motor de Inferência de Padrões Cognitivos para Geração Direcionada de Candidatos a Senhas</h1>
 <p><strong>Andre Henrique de Oliveira</strong>
 Uniao Geek Security Research</p>
-<hr>
+<hr />
 <h2 id="resumo">Resumo</h2>
 <p>A segurança de senhas permanece como um dos desafios mais persistentes é críticos em segurança da informação. Apesar de décadas de pesquisa, avancos em políticas de autenticação é campanhas de conscientização, usuários consistentemente criam senhas derivadas de seu contexto cognitivo pessoal: nomes, datas, preferencias, memórias é hábitos linguísticos. Este artigo apresenta o CogPIE (Cognitive Pattern Inference Engine), um algoritmo híbrido de 5 camadas que modela explicitamente os vieses cognitivos subjacentes a criação de senhas para gerar candidatos direcionados com alta eficiência. O CogPIE combina: (1) expansão semântica de tokens pessoais com suporte a variantes culturais é linguísticas; (2) regras de transformação cognitiva baseadas em vieses psicologicos documentados na literatura; (3) um sistema híbrido de ranqueamento por cadeias de Markov posicionais e Gramáticas Livres de Contexto Probabilísticas (PCFG); (4) pontuação de entropia prática inspirada no zxcvbn; e (5) filtragem sensível a políticas de senha com deduplicação por CRC32.</p>
 <p>Nossa avaliação experimental utiliza credenciais reais vazadas de compilações públicas de breaches, não dados sintéticos, para validação primária. O CogPIE v0.2 atinge 89,1% de cobertura média contra 7 ferramentas externas reais em 10 personas (vs. 51,1% do melhor concorrente, elpscrk) e 46,6% de cobertura (51,4% case-insensitive) em 13.487 credenciais brasileiras reais filtradas por PII (vs. 38,3% do CUPP WLF e 35,6% do bopscrk), com 541 hits exclusivos. Apresentamos fundamentos matemáticos formais para cada camada, análise de complexidade, implementação completa em código aberto e evidências que reforçam que geradores de senhas criptograficamente aleatórios via cofres de senhas constituem a única defesa confiável contra ataques informados por informação pessoal.</p>
 <p>A contribuição central deste trabalho é a demonstração, com evidencias empíricas em escala, de que o viés cognitivo na criação de senhas é universal, transcultural é resistente a políticas de complexidade: não se trata de uma falha de educação ou design de políticas, mas de uma propriedade fundamental da cognição humana.</p>
 <p><strong>Palavras-chave:</strong> segurança de senhas, viés cognitivo, adivinhação de senhas, cadeias de Markov, PCFG, ataques direcionados, informação pessoal, estimativa de entropia, avaliação em escala, dados reais de vazamento</p>
-<hr>
+<hr />
 <h2 id="1-introducao">1. Introdução</h2>
 <p>A fragilidade persistente de senhas criadas por humanos representa uma tensao fundamental em ciberseguranca: sistemas de autenticação requerem segredos que sejam simultaneamente memoráveis para usuários legitimos é imprevisíveis para adversários. Décadas de evidencias empíricas demonstram que esses objetivos são fundamentalmente incompatíveis quando usuários geram senhas a partir da memoria (Bonneau, 2012; Florencio e Herley, 2007; Wang et al., 2017).</p>
 <p>A literatura em ciência cognitiva identifica diversos vieses que sistematicamente reduzem a entropia de senhas. O viés de ancoragem leva usuários a construir senhas em torno de uma palavra-base reconhecível (Abdrabou et al., 2021). O efeito de posição serial concentra modificações no início é no final das senhas (Li et al., 2017). O desconto hiperbólico faz com que usuários priorizem a memorabilidade imediata sobre a segurança a longo prazo (arXiv:2607.19586, 2026). A heurística de familiaridade direciona a seleção de tokens pessoalmente significativos: nomes, datas, nomes de animais de estimação é times esportivos favoritos (Wang et al., 2016).</p>
@@ -1755,7 +1751,7 @@ E_p(c) = log2(G(c))
 <p>Pal, B. e Chua, T. (2019). "A Comparison of Approaches to Large-Scale Data Analysis." In Pacific-Asia Conference on Knowledge Discovery and Data Mining.</p>
 </li>
 </ol>
-<hr>
+<hr />
 <h2 id="apendice-a-esquema-de-perfil">Apendice A: Esquema de Perfil</h2>
 <p>Esquema JSON completo para perfis-alvo CogPIE:</p>
 <pre><code class="language-json">{
@@ -2411,7 +2407,7 @@ E_p(c) = log2(G(c))
 <li><strong>Cenários</strong>: com e sem corpus de treinamento; com e sem políticas; modo batch e streaming</li>
 </ul>
 <p>Todos os 55 testes passam consistentemente (300/300 na suite completa incluindo testes de outros módulos do WordlistXPL-Forge), validando a corretude funcional de cada componente e a integridade do pipeline end-to-end.</p>
-<hr>
+<hr />
 <p><em>Esta pesquisa foi conduzida para fins de testes de segurança autorizados é propósitos academicos. Todos os experimentos utilizaram dados de vazamentos publicos exclusivamente para validação científica. O autor defende a adoção de cofres de senhas é autenticação sem senhas como defesas primarias contra ataques direcionados a senhas.</em></p>
 </body>
 </html>
