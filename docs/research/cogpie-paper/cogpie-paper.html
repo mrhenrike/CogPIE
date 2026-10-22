@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CogPIE: Cognitive Password Inference Engine</title>
 <style>
@@ -10,16 +10,18 @@ h1 { color: #1a1a2e; border-bottom: 2px solid #16213e; padding-bottom: 10px; }
 h2 { color: #16213e; margin-top: 2em; }
 h3 { color: #0f3460; }
 h4 { color: #533483; }
-table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.9em; }
 th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
 th { background-color: #16213e; color: white; }
 tr:nth-child(even) { background-color: #f8f9fa; }
+tr:hover { background-color: #e8f4f8; }
 code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
 pre { background-color: #1a1a2e; color: #e8e8e8; padding: 15px; border-radius: 5px; overflow-x: auto; }
 pre code { background-color: transparent; color: inherit; }
-blockquote { border-left: 4px solid #533483; margin: 1em 0; padding: 0.5em 1em; background-color: #f8f4ff; }
+blockquote { border-left: 4px solid #533483; margin: 1em 0; padding: 0.5em 1em; background-color: #f8f5ff; }
 strong { color: #0f3460; }
-a { color: #533483; }
+a { color: #533483; text-decoration: none; }
+a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -242,25 +244,26 @@ Uniao Geek Security Research</p>
 <h3 id="41-architecture-overview">4.1 Architecture Overview</h3>
 <p>CogPIE processes a target profile through five sequential layers, each expanding and refining the candidate set. The algorithm takes as input a structured profile P containing personal tokens and optionally a training corpus T, producing an ordered list of password candidates.</p>
 <p><strong>Algorithm 1: CogPIE Pipeline</strong></p>
-<pre><code>Input: Profile P, Corpus T (optional), Policy pi, Budget K
-Output: Ordered list of (candidate, score) pairs
+<div class="codehilite"><pre><span></span><code><span class="n">Input</span><span class="o">:</span><span class="w"> </span><span class="n">Profile</span><span class="w"> </span><span class="n">P</span><span class="o">,</span><span class="w"> </span><span class="n">Corpus</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">(</span><span class="n">optional</span><span class="o">),</span><span class="w"> </span><span class="n">Policy</span><span class="w"> </span><span class="n">pi</span><span class="o">,</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="n">K</span>
+<span class="n">Output</span><span class="o">:</span><span class="w"> </span><span class="n">Ordered</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="o">(</span><span class="n">candidate</span><span class="o">,</span><span class="w"> </span><span class="n">score</span><span class="o">)</span><span class="w"> </span><span class="n">pairs</span>
 
-1. banks &lt;- SemanticExpand(P)          // Layer 1
-2. tokens &lt;- Union of all banks
-3. candidates &lt;- {}
-4. for t in tokens:                     // Layer 2
-5.     candidates &lt;- candidates U CognitiveTransform(t)
-6. for (t_a, t_b) in PriorityPairs(banks):
-7.     candidates &lt;- candidates U PairTransform(t_a, t_b)
-8. if T is not empty:                   // Layer 3 (optional training)
-9.     model.train(T)
-10. scored &lt;- [(c, model.score(c)) for c in candidates]
-11. sort scored by score descending
-12. for (c, s) in scored:               // Layer 4 + Layer 5
-13.    if pi.accepts(c) and not duplicate(c):
-14.        emit (c, EntropyScore(c, s))
-15.    if emitted &gt;= K: break
-</code></pre>
+<span class="mi">1</span><span class="o">.</span><span class="w"> </span><span class="n">banks</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">SemanticExpand</span><span class="o">(</span><span class="n">P</span><span class="o">)</span><span class="w">          </span><span class="c1">// Layer 1</span>
+<span class="mi">2</span><span class="o">.</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Union</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">banks</span>
+<span class="mi">3</span><span class="o">.</span><span class="w"> </span><span class="n">candidates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="o">{}</span>
+<span class="mi">4</span><span class="o">.</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">tokens</span><span class="o">:</span><span class="w">                     </span><span class="c1">// Layer 2</span>
+<span class="mi">5</span><span class="o">.</span><span class="w">     </span><span class="n">candidates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">candidates</span><span class="w"> </span><span class="n">U</span><span class="w"> </span><span class="n">CognitiveTransform</span><span class="o">(</span><span class="n">t</span><span class="o">)</span>
+<span class="mi">6</span><span class="o">.</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="o">(</span><span class="n">t_a</span><span class="o">,</span><span class="w"> </span><span class="n">t_b</span><span class="o">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">PriorityPairs</span><span class="o">(</span><span class="n">banks</span><span class="o">):</span>
+<span class="mi">7</span><span class="o">.</span><span class="w">     </span><span class="n">candidates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">candidates</span><span class="w"> </span><span class="n">U</span><span class="w"> </span><span class="n">PairTransform</span><span class="o">(</span><span class="n">t_a</span><span class="o">,</span><span class="w"> </span><span class="n">t_b</span><span class="o">)</span>
+<span class="mi">8</span><span class="o">.</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">empty</span><span class="o">:</span><span class="w">                   </span><span class="c1">// Layer 3 (optional training)</span>
+<span class="mi">9</span><span class="o">.</span><span class="w">     </span><span class="n">model</span><span class="o">.</span><span class="na">train</span><span class="o">(</span><span class="n">T</span><span class="o">)</span>
+<span class="mi">10</span><span class="o">.</span><span class="w"> </span><span class="n">scored</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="o">[(</span><span class="n">c</span><span class="o">,</span><span class="w"> </span><span class="n">model</span><span class="o">.</span><span class="na">score</span><span class="o">(</span><span class="n">c</span><span class="o">))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">candidates</span><span class="o">]</span>
+<span class="mi">11</span><span class="o">.</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="n">scored</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="n">descending</span>
+<span class="mi">12</span><span class="o">.</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="o">,</span><span class="w"> </span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">scored</span><span class="o">:</span><span class="w">               </span><span class="c1">// Layer 4 + Layer 5</span>
+<span class="mi">13</span><span class="o">.</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">pi</span><span class="o">.</span><span class="na">accepts</span><span class="o">(</span><span class="n">c</span><span class="o">)</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">duplicate</span><span class="o">(</span><span class="n">c</span><span class="o">):</span>
+<span class="mi">14</span><span class="o">.</span><span class="w">        </span><span class="n">emit</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="o">,</span><span class="w"> </span><span class="n">EntropyScore</span><span class="o">(</span><span class="n">c</span><span class="o">,</span><span class="w"> </span><span class="n">s</span><span class="o">))</span>
+<span class="mi">15</span><span class="o">.</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">emitted</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">K</span><span class="o">:</span><span class="w"> </span><span class="k">break</span>
+</code></pre></div>
+
 <h3 id="42-layer-1-semantic-expansion">4.2 Layer 1: Semantic Expansion</h3>
 <p>Given a profile P with token categories {names, dates, keywords, pets, companies, phones, emails, old_passwords}, the semantic expansion function S maps each raw token t to a set of variants:</p>
 <p>S(t) = {t} U case_variants(t) U strip_accents(t) U abbreviations(t) U nicknames(t) U leet_single(t)</p>
@@ -305,18 +308,20 @@ Output: Ordered list of (candidate, score) pairs
 <h3 id="44-layer-3-probabilistic-ranking">4.4 Layer 3: Probabilistic Ranking</h3>
 <p>The hybrid ranker assigns each candidate a unified score using the log-linear combination defined in Section 3.3. When no training corpus is available, the ranker uses uniform priors, reducing to a structural complexity estimate.</p>
 <p>Training from a corpus updates both the Markov transition tables and the PCFG grammar simultaneously:</p>
-<pre><code>for password in corpus:
-    markov.train(password)    // Update positional n-gram counts
-    pcfg.train(password)      // Update structure and terminal counts
-    freq[password.lower()] += 1  // Update frequency table
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">password</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">corpus</span>:
+<span class="w">    </span><span class="nv">markov</span>.<span class="nv">train</span><span class="ss">(</span><span class="nv">password</span><span class="ss">)</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Update</span><span class="w"> </span><span class="nv">positional</span><span class="w"> </span><span class="nv">n</span><span class="o">-</span><span class="nv">gram</span><span class="w"> </span><span class="nv">counts</span>
+<span class="w">    </span><span class="nv">pcfg</span>.<span class="nv">train</span><span class="ss">(</span><span class="nv">password</span><span class="ss">)</span><span class="w">      </span><span class="o">//</span><span class="w"> </span><span class="nv">Update</span><span class="w"> </span><span class="nv">structure</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">terminal</span><span class="w"> </span><span class="nv">counts</span>
+<span class="w">    </span><span class="nv">freq</span>[<span class="nv">password</span>.<span class="nv">lower</span><span class="ss">()</span>]<span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="nv">Update</span><span class="w"> </span><span class="nv">frequency</span><span class="w"> </span><span class="nv">table</span>
+</code></pre></div>
+
 <p><strong>Theorem 2 (Ranking Convergence):</strong> As the training corpus size |T| approaches infinity, the hybrid score H(c) converges to the true log-probability of c under the mixture model, assuming the true password distribution lies within the model family. The convergence rate is O(1/sqrt(|T|)) for the Markov component and O(1/|T|) for the PCFG component.</p>
 <p><em>Proof sketch:</em> The Markov component's convergence follows from the consistency of maximum likelihood estimation for finite-state models with Laplace smoothing (Katz, 1987). The PCFG component converges faster due to the finite grammar structure. The frequency prior converges at the parametric rate. The log-linear combination preserves convergence of the components.</p>
 <h3 id="45-layer-4-entropy-scoring">4.5 Layer 4: Entropy Scoring</h3>
 <p>Practical entropy estimation combines multiple heuristic detectors:</p>
-<pre><code>G(c) = base_guesses(c) * pattern_factor(c) * hybrid_factor(c) * repeat_factor(c)
+<div class="codehilite"><pre><span></span><code>G(c) = base_guesses(c) <span class="gs">* pattern_factor(c) *</span> hybrid_factor(c) * repeat_factor(c)
 E_p(c) = log2(G(c))
-</code></pre>
+</code></pre></div>
+
 <p>where:
 - base_guesses(c) = charset^length when c is not in a known dictionary, or rank when it is
 - pattern_factor penalizes sequences (x0.01), dates (x0.1), and keyboard walks
@@ -389,18 +394,19 @@ E_p(c) = log2(G(c))
 </ul>
 <h3 id="52-profile-format">5.2 Profile Format</h3>
 <p>Target profiles are specified as JSON documents:</p>
-<pre><code class="language-json">{
-    &quot;names&quot;: [&quot;Carlos Eduardo Silva&quot;],
-    &quot;dates&quot;: [&quot;15/03/1990&quot;, &quot;1990&quot;],
-    &quot;keywords&quot;: [&quot;flamengo&quot;, &quot;futebol&quot;],
-    &quot;pets&quot;: [&quot;Rex&quot;, &quot;Mel&quot;],
-    &quot;companies&quot;: [&quot;Empresa ABC&quot;],
-    &quot;phones&quot;: [&quot;11987654321&quot;],
-    &quot;emails&quot;: [&quot;carlos.silva@email.com&quot;],
-    &quot;old_passwords&quot;: [&quot;Carlos90!&quot;],
-    &quot;numbers&quot;: [&quot;13&quot;, &quot;7&quot;]
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;names&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Carlos Eduardo Silva&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;15/03/1990&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;1990&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;flamengo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;futebol&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;pets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Rex&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Mel&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;companies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Empresa ABC&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;phones&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;11987654321&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;emails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;carlos.silva@email.com&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;old_passwords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Carlos90!&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;numbers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;7&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <h3 id="53-integration-with-existing-tools">5.3 Integration with Existing Tools</h3>
 <p>CogPIE integrates with the WordlistXPL-Forge ecosystem, which already provides:
 - A positional Markov engine (OMEN-style, <code>markov_engine.py</code>)
@@ -1285,156 +1291,10 @@ E_p(c) = log2(G(c))
 <p><strong>Convergence analysis at N=1,000:</strong> Coverage rates stabilize after ~400 samples (CogPIE oscillates within 49-52%), confirming statistical reliability of the results. The 95% CI for CogPIE coverage is approximately [47.4%, 53.6%].</p>
 </li>
 </ol>
-<h4 id="6410-exhaustive-benchmark-full-leaked-credential-corpus-n13487">6.4.10 Exhaustive Benchmark: Full Leaked Credential Corpus (N=13,487)</h4>
-<p>To eliminate sampling bias and validate the robustness of results from Section 6.4.9, we ran the benchmark against the <strong>entire PII-filtered corpus</strong> of 13,487 valid credentials (from 13,546 after PII filtering; 59 excluded due to password length outside the 4-40 character range). The candidate budget was set to 10,000 per credential, and the benchmark was expanded to 7 tools (adding pydictor and longtongue to the original 5).</p>
-<p><strong>Corpus domain distribution:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Category</th>
-<th>Credentials</th>
-<th>%</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Global webmail (gmail, hotmail, yahoo, outlook)</td>
-<td>9,890</td>
-<td>73.3%</td>
-</tr>
-<tr>
-<td>Other domains</td>
-<td>3,000</td>
-<td>22.2%</td>
-</tr>
-<tr>
-<td>CN/TW/HK</td>
-<td>517</td>
-<td>3.8%</td>
-</tr>
-<tr>
-<td>.br (Brazilian domains)</td>
-<td>80</td>
-<td>0.6%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Table 10: Exhaustive Real-World Credential Benchmark (N=13,487, @10K candidates, 7 tools)</strong></p>
-<table>
-<thead>
-<tr>
-<th>Algorithm</th>
-<th>Hits</th>
-<th>Coverage</th>
-<th>CI Cov.</th>
-<th>Exclusive</th>
-<th>Med. Rank</th>
-<th>Mean Rank</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>CogPIE</strong></td>
-<td><strong>6,286</strong></td>
-<td><strong>46.6%</strong></td>
-<td><strong>51.4%</strong></td>
-<td><strong>541</strong></td>
-<td>20</td>
-<td>759.7</td>
-</tr>
-<tr>
-<td>CUPP/WLF</td>
-<td>5,161</td>
-<td>38.3%</td>
-<td>38.5%</td>
-<td>674</td>
-<td>8</td>
-<td>92.7</td>
-</tr>
-<tr>
-<td>bopscrk</td>
-<td>4,799</td>
-<td>35.6%</td>
-<td>36.5%</td>
-<td>2</td>
-<td>6</td>
-<td>6.4</td>
-</tr>
-<tr>
-<td>elpscrk</td>
-<td>4,652</td>
-<td>34.5%</td>
-<td>35.0%</td>
-<td>3</td>
-<td>9</td>
-<td>10.1</td>
-</tr>
-<tr>
-<td>psudohash</td>
-<td>4,418</td>
-<td>32.8%</td>
-<td>33.2%</td>
-<td>9</td>
-<td>20</td>
-<td>21.4</td>
-</tr>
-<tr>
-<td>pydictor</td>
-<td>4,267</td>
-<td>31.6%</td>
-<td>32.4%</td>
-<td>2</td>
-<td>10</td>
-<td>14.4</td>
-</tr>
-<tr>
-<td>longtongue</td>
-<td>3,446</td>
-<td>25.6%</td>
-<td>26.3%</td>
-<td>0</td>
-<td>9</td>
-<td>10.3</td>
-</tr>
-<tr>
-<td><strong>Combined</strong></td>
-<td><strong>7,032</strong></td>
-<td><strong>52.1%</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>Key findings from the exhaustive benchmark:</p>
-<ol>
-<li>
-<p><strong>CogPIE leads with 46.6% exact coverage and 51.4% case-insensitive</strong>, a +8.3pp advantage over the runner-up (CUPP, 38.3%). Across 13,487 real credentials with embedded PII, CogPIE correctly predicts nearly half of all passwords within just 10,000 guesses.</p>
-</li>
-<li>
-<p><strong>541 exclusive CogPIE hits:</strong> passwords found only by CogPIE and by none of the other 6 tools. This demonstrates that the cognitive engine captures password generation patterns inaccessible to purely combinatorial transformations.</p>
-</li>
-<li>
-<p><strong>Combined coverage of 52.1%</strong> indicates that even merging all 7 tools, only 5.5pp additional are recovered beyond CogPIE alone. CogPIE accounts for 89.4% of the combined coverage (6,286/7,032).</p>
-</li>
-<li>
-<p><strong>CUPP shows 674 exclusive hits</strong> despite lower total coverage. This reflects simple concatenation patterns (e.g., name+4-digit year without separator) that CUPP generates but CogPIE ranks lower due to their low cognitive probability. These hits tend to appear at very high CogPIE ranks (mean rank 759.7 vs. CUPP's 92.7), indicating CogPIE generates them but positions them below the 10,000 threshold.</p>
-</li>
-<li>
-<p><strong>longtongue with zero exclusives</strong> confirms its search space is a complete subset of the other tools; bopscrk (2), elpscrk (3) and pydictor (2) show minimal exclusivity.</p>
-</li>
-<li>
-<p><strong>Consistency with N=1,000 sample:</strong> CogPIE's 46.6% coverage on the full corpus is consistent with the 50.5% observed in the sample (Section 6.4.9), within expected variation given that N=1,000 used a 50K candidate budget vs. 10K in the exhaustive run. When normalized by budget, CogPIE's per-candidate efficiency is superior.</p>
-</li>
-<li>
-<p><strong>Cross-cultural validation:</strong> Although originally designed for Brazilian names, the 13,487-credential corpus is predominantly global (73.3% webmail, 3.8% CN/TW/HK). The 46.6% coverage on this diverse corpus confirms the universality of cognitive bias in PII-based password construction.</p>
-</li>
-</ol>
 <h3 id="65-limitations">6.5 Limitations</h3>
 <ol>
 <li>
-<p><strong>Corpus diversity:</strong> Initial evaluations used the RockYou corpus (14.3M passwords, 2009-era). The Brazilian credential leak benchmarks (Section 6.4.9, N=1,000 sample; Section 6.4.10, N=13,487 exhaustive) provide validation on contemporary real-world data (260K+ credentials from 2020s breach compilations) across a globally diverse corpus (73.3% global webmail, 3.8% CN/TW/HK), but broader cross-cultural and cross-temporal validation would strengthen generalizability.</p>
+<p><strong>Corpus diversity:</strong> Initial evaluations used the RockYou corpus (14.3M passwords, 2009-era). The Brazilian credential leak benchmark (Section 6.4.9) provides validation on contemporary real-world data (260K+ credentials from 2020s breach compilations), but broader cross-cultural and cross-temporal validation would strengthen generalizability.</p>
 </li>
 <li>
 <p><strong>Cultural specificity:</strong> The current nickname database and accent handling are focused on Brazilian Portuguese names. Extending to other cultures would require additional linguistic resources.</p>
@@ -1680,22 +1540,23 @@ E_p(c) = log2(G(c))
 <hr />
 <h2 id="appendix-a-profile-schema">Appendix A: Profile Schema</h2>
 <p>Complete JSON schema for CogPIE target profiles:</p>
-<pre><code class="language-json">{
-    &quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,
-    &quot;type&quot;: &quot;object&quot;,
-    &quot;properties&quot;: {
-        &quot;names&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;dates&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;keywords&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;pets&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;companies&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;phones&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;emails&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;old_passwords&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;numbers&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;}}
-    }
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;$schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://json-schema.org/draft-07/schema#&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;names&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+<span class="w">        </span><span class="nt">&quot;dates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+<span class="w">        </span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+<span class="w">        </span><span class="nt">&quot;pets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+<span class="w">        </span><span class="nt">&quot;companies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+<span class="w">        </span><span class="nt">&quot;phones&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+<span class="w">        </span><span class="nt">&quot;emails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+<span class="w">        </span><span class="nt">&quot;old_passwords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+<span class="w">        </span><span class="nt">&quot;numbers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <h2 id="appendix-b-benchmark-methodology">Appendix B: Benchmark Methodology</h2>
 <p>Primary evaluation was conducted using real breach data from publicly available corpora (RockYou):</p>
 <ol>
@@ -1708,17 +1569,6 @@ E_p(c) = log2(G(c))
 <li>Six algorithms were compared: CogPIE (full 5-layer pipeline), CUPP-style (deterministic concatenation), Markov order-3, Frequency baseline, Levenshtein (edit-distance mutations), and Random.</li>
 <li>Parameters: alpha=0.4, beta=0.2, Markov order=3. Training time: ~3.2s for 500K passwords.</li>
 <li>Scale evaluation: 500K and 1M training corpora with 500 and 2000 test targets respectively.</li>
-</ol>
-<h3 id="b2-exhaustive-real-world-credential-benchmark-phase-3">B.2 Exhaustive Real-World Credential Benchmark (Phase 3)</h3>
-<ol>
-<li>Corpus of 260,853 credentials collected via IntelX from Brazilian breach compilations.</li>
-<li>Filtering pipeline: removal of numeric-only passwords (40,916), short &lt;6 char (2,994), and retention of only passwords with embedded PII: 13,546 credentials.</li>
-<li>Additional filtering: passwords between 4-40 characters: 13,487 valid credentials.</li>
-<li>PII automatically extracted from email addresses (local part decomposition + domain).</li>
-<li>7 tools evaluated: CogPIE, CUPP/WLF, bopscrk, elpscrk, psudohash, pydictor, longtongue.</li>
-<li>Budget: 10,000 candidates per credential.</li>
-<li>Metrics: exact coverage, case-insensitive coverage, exclusive hits, median and mean rank.</li>
-<li>Total execution time: ~22 minutes (13,487 credentials x 7 tools).</li>
 </ol>
 <h2 id="appendix-c-cognitive-bias-summary-table">Appendix C: Cognitive Bias Summary Table</h2>
 <table>

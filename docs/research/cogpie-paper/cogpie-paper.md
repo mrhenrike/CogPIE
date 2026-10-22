@@ -661,51 +661,9 @@ Key findings:
 
 5. **Convergence analysis at N=1,000:** Coverage rates stabilize after ~400 samples (CogPIE oscillates within 49-52%), confirming statistical reliability of the results. The 95% CI for CogPIE coverage is approximately [47.4%, 53.6%].
 
-#### 6.4.10 Exhaustive Benchmark: Full Leaked Credential Corpus (N=13,487)
-
-To eliminate sampling bias and validate the robustness of results from Section 6.4.9, we ran the benchmark against the **entire PII-filtered corpus** of 13,487 valid credentials (from 13,546 after PII filtering; 59 excluded due to password length outside the 4-40 character range). The candidate budget was set to 10,000 per credential, and the benchmark was expanded to 7 tools (adding pydictor and longtongue to the original 5).
-
-**Corpus domain distribution:**
-
-| Category | Credentials | % |
-|----------|-------------|---|
-| Global webmail (gmail, hotmail, yahoo, outlook) | 9,890 | 73.3% |
-| Other domains | 3,000 | 22.2% |
-| CN/TW/HK | 517 | 3.8% |
-| .br (Brazilian domains) | 80 | 0.6% |
-
-**Table 10: Exhaustive Real-World Credential Benchmark (N=13,487, @10K candidates, 7 tools)**
-
-| Algorithm | Hits | Coverage | CI Cov. | Exclusive | Med. Rank | Mean Rank |
-|-----------|------|----------|---------|-----------|-----------|-----------|
-| **CogPIE** | **6,286** | **46.6%** | **51.4%** | **541** | 20 | 759.7 |
-| CUPP/WLF | 5,161 | 38.3% | 38.5% | 674 | 8 | 92.7 |
-| bopscrk | 4,799 | 35.6% | 36.5% | 2 | 6 | 6.4 |
-| elpscrk | 4,652 | 34.5% | 35.0% | 3 | 9 | 10.1 |
-| psudohash | 4,418 | 32.8% | 33.2% | 9 | 20 | 21.4 |
-| pydictor | 4,267 | 31.6% | 32.4% | 2 | 10 | 14.4 |
-| longtongue | 3,446 | 25.6% | 26.3% | 0 | 9 | 10.3 |
-| **Combined** | **7,032** | **52.1%** | | | | |
-
-Key findings from the exhaustive benchmark:
-
-1. **CogPIE leads with 46.6% exact coverage and 51.4% case-insensitive**, a +8.3pp advantage over the runner-up (CUPP, 38.3%). Across 13,487 real credentials with embedded PII, CogPIE correctly predicts nearly half of all passwords within just 10,000 guesses.
-
-2. **541 exclusive CogPIE hits:** passwords found only by CogPIE and by none of the other 6 tools. This demonstrates that the cognitive engine captures password generation patterns inaccessible to purely combinatorial transformations.
-
-3. **Combined coverage of 52.1%** indicates that even merging all 7 tools, only 5.5pp additional are recovered beyond CogPIE alone. CogPIE accounts for 89.4% of the combined coverage (6,286/7,032).
-
-4. **CUPP shows 674 exclusive hits** despite lower total coverage. This reflects simple concatenation patterns (e.g., name+4-digit year without separator) that CUPP generates but CogPIE ranks lower due to their low cognitive probability. These hits tend to appear at very high CogPIE ranks (mean rank 759.7 vs. CUPP's 92.7), indicating CogPIE generates them but positions them below the 10,000 threshold.
-
-5. **longtongue with zero exclusives** confirms its search space is a complete subset of the other tools; bopscrk (2), elpscrk (3) and pydictor (2) show minimal exclusivity.
-
-6. **Consistency with N=1,000 sample:** CogPIE's 46.6% coverage on the full corpus is consistent with the 50.5% observed in the sample (Section 6.4.9), within expected variation given that N=1,000 used a 50K candidate budget vs. 10K in the exhaustive run. When normalized by budget, CogPIE's per-candidate efficiency is superior.
-
-7. **Cross-cultural validation:** Although originally designed for Brazilian names, the 13,487-credential corpus is predominantly global (73.3% webmail, 3.8% CN/TW/HK). The 46.6% coverage on this diverse corpus confirms the universality of cognitive bias in PII-based password construction.
-
 ### 6.5 Limitations
 
-1. **Corpus diversity:** Initial evaluations used the RockYou corpus (14.3M passwords, 2009-era). The Brazilian credential leak benchmarks (Section 6.4.9, N=1,000 sample; Section 6.4.10, N=13,487 exhaustive) provide validation on contemporary real-world data (260K+ credentials from 2020s breach compilations) across a globally diverse corpus (73.3% global webmail, 3.8% CN/TW/HK), but broader cross-cultural and cross-temporal validation would strengthen generalizability.
+1. **Corpus diversity:** Initial evaluations used the RockYou corpus (14.3M passwords, 2009-era). The Brazilian credential leak benchmark (Section 6.4.9) provides validation on contemporary real-world data (260K+ credentials from 2020s breach compilations), but broader cross-cultural and cross-temporal validation would strengthen generalizability.
 
 2. **Cultural specificity:** The current nickname database and accent handling are focused on Brazilian Portuguese names. Extending to other cultures would require additional linguistic resources.
 
@@ -913,17 +871,6 @@ Primary evaluation was conducted using real breach data from publicly available 
 7. Six algorithms were compared: CogPIE (full 5-layer pipeline), CUPP-style (deterministic concatenation), Markov order-3, Frequency baseline, Levenshtein (edit-distance mutations), and Random.
 8. Parameters: alpha=0.4, beta=0.2, Markov order=3. Training time: ~3.2s for 500K passwords.
 9. Scale evaluation: 500K and 1M training corpora with 500 and 2000 test targets respectively.
-
-### B.2 Exhaustive Real-World Credential Benchmark (Phase 3)
-
-1. Corpus of 260,853 credentials collected via IntelX from Brazilian breach compilations.
-2. Filtering pipeline: removal of numeric-only passwords (40,916), short <6 char (2,994), and retention of only passwords with embedded PII: 13,546 credentials.
-3. Additional filtering: passwords between 4-40 characters: 13,487 valid credentials.
-4. PII automatically extracted from email addresses (local part decomposition + domain).
-5. 7 tools evaluated: CogPIE, CUPP/WLF, bopscrk, elpscrk, psudohash, pydictor, longtongue.
-6. Budget: 10,000 candidates per credential.
-7. Metrics: exact coverage, case-insensitive coverage, exclusive hits, median and mean rank.
-8. Total execution time: ~22 minutes (13,487 credentials x 7 tools).
 
 ## Appendix C: Cognitive Bias Summary Table
 
