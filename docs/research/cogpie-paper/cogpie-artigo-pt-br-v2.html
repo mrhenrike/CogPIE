@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CogPIE: Artigo Completo PT-BR v2</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root {
+  --bg: #faf9f7; --fg: #1a1a1a; --fg-muted: #6b6b6b;
+  --surface: #f0eeeb; --border: #d5d0c8;
+  --accent: #8b5cf6; --accent-light: #c4b5fd;
+  --link: #6d28d9;
+  --chart-cogpie: #8b5cf6; --chart-cupp: #f59e0b;
+  --chart-markov: #94a3b8; --chart-green: #10b981;
+  --chart-orange: #f97316; --chart-purple: #a855f7;
+  --chart-teal: #14b8a6; --chart-pink: #ec4899;
+  --chart-lime: #84cc16;
+  --chart-l1: #6366f1; --chart-l2: #8b5cf6;
+  --chart-l3: #a855f7; --chart-l4l5: #c084fc;
+  --chart-bopscrk: #ef4444; --chart-elpscrk: #06b6d4;
+  --chart-psudohash: #d946ef; --chart-longtongue: #78716c;
+  --chart-pydictor: #ea580c; --chart-cracksmith: #0ea5e9;
+  --chart-combined: #22c55e;
+  --chart-wlf-pre: #9ca3af; --chart-wlf-post: #8b5cf6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1a1e; --fg: #e8e6e3; --fg-muted: #9ca3af;
+    --surface: #27272a; --border: #3f3f46;
+    --accent: #a78bfa; --accent-light: #7c3aed; --link: #c4b5fd;
+    --chart-cogpie: #a78bfa; --chart-cupp: #fbbf24;
+    --chart-markov: #64748b; --chart-green: #34d399;
+    --chart-orange: #fb923c; --chart-purple: #c084fc;
+    --chart-teal: #2dd4bf; --chart-pink: #f472b6;
+    --chart-lime: #a3e635;
+    --chart-l1: #818cf8; --chart-l2: #a78bfa;
+    --chart-l3: #c084fc; --chart-l4l5: #d8b4fe;
+    --chart-bopscrk: #f87171; --chart-elpscrk: #22d3ee;
+    --chart-psudohash: #e879f9; --chart-longtongue: #a8a29e;
+    --chart-pydictor: #fb923c; --chart-cracksmith: #38bdf8;
+    --chart-combined: #4ade80;
+    --chart-wlf-pre: #6b7280; --chart-wlf-post: #a78bfa;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a1a1e; --fg: #e8e6e3; --fg-muted: #9ca3af;
+  --surface: #27272a; --border: #3f3f46;
+  --accent: #a78bfa; --accent-light: #7c3aed; --link: #c4b5fd;
+  --chart-cogpie: #a78bfa; --chart-cupp: #fbbf24;
+  --chart-markov: #64748b; --chart-green: #34d399;
+  --chart-orange: #fb923c; --chart-purple: #c084fc;
+  --chart-teal: #2dd4bf; --chart-pink: #f472b6;
+  --chart-lime: #a3e635;
+  --chart-l1: #818cf8; --chart-l2: #a78bfa;
+  --chart-l3: #c084fc; --chart-l4l5: #d8b4fe;
+  --chart-bopscrk: #f87171; --chart-elpscrk: #22d3ee;
+  --chart-psudohash: #e879f9; --chart-longtongue: #a8a29e;
+  --chart-pydictor: #fb923c; --chart-cracksmith: #38bdf8;
+  --chart-combined: #4ade80;
+  --chart-wlf-pre: #6b7280; --chart-wlf-post: #a78bfa;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); margin: 0; font-family: 'Crimson Pro', Georgia, serif; }
+*, *::before, *::after { box-sizing: border-box; }
+a { color: var(--link); }
+.wrap {
+  display: flex; gap: 1.5rem;
+  padding: 2rem 1rem; max-width: 1120px; margin: 0 auto;
+}
+main {
+  flex: 1; min-width: 0; max-width: 52rem; padding: 0 0 4rem;
+  font-size: 1.05rem; line-height: 1.72;
+}
+nav.toc {
+  position: sticky; top: 1.2rem; align-self: flex-start;
+  width: 210px; flex-shrink: 0;
+  font-family: 'Inter', sans-serif; font-size: 0.72rem;
+  line-height: 1.6; max-height: calc(100vh - 2.4rem); overflow-y: auto;
+}
+nav.toc h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--fg-muted); margin-bottom: 0.5rem; }
+nav.toc a { display: block; color: var(--fg-muted); text-decoration: none; padding: 0.12rem 0; transition: color 0.15s; }
+nav.toc a:hover { color: var(--accent); }
+nav.toc .d2 { padding-left: 0.7rem; font-size: 0.68rem; }
+nav.toc .sep { height: 0.5rem; }
+nav.toc .new { color: var(--accent); font-weight: 600; }
+h1 { font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 700; line-height: 1.22; text-wrap: balance; margin: 0 0 0.3rem; }
+h2 { font-family: 'Inter', sans-serif; font-size: 1.15rem; font-weight: 700; margin: 2.8rem 0 0.8rem; padding-bottom: 0.3rem; border-bottom: 2px solid var(--accent); text-wrap: balance; }
+h3 { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; margin: 1.8rem 0 0.5rem; }
+.author { font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--fg-muted); margin: 0.2rem 0 0; }
+.affil { font-family: 'Inter', sans-serif; font-size: 0.78rem; color: var(--fg-muted); margin: 0 0 1.5rem; font-style: italic; }
+.metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.7rem; margin: 1.4rem 0; }
+.metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 0.6rem; text-align: center; }
+.metric-card .val { font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+.metric-card .lbl { font-family: 'Inter', sans-serif; font-size: 0.7rem; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.3rem; }
+.box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.4rem; margin: 1.2rem 0; }
+.box h4 { font-family: 'Inter', sans-serif; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 0.5rem; }
+.kw { font-size: 0.88rem; color: var(--fg-muted); margin-top: 0.6rem; }
+.key-finding { border-left: 4px solid var(--accent); padding: 0.9rem 1.2rem; background: var(--surface); border-radius: 0 8px 8px 0; margin: 1.2rem 0; }
+.key-finding .label { font-family: 'Inter', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 600; margin-bottom: 0.3rem; }
+.lb { display: inline-block; background: var(--accent); color: #fff; font-family: 'Inter', sans-serif; font-size: 0.65rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 4px; vertical-align: middle; margin-right: 0.3rem; }
+.fm { font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; background: var(--surface); padding: 0.7rem 1rem; border-radius: 6px; margin: 0.6rem 0; overflow-x: auto; text-align: center; border: 1px solid var(--border); }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem 1rem; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.55; margin: 0.8rem 0; }
+.fig { margin: 1.6rem 0; text-align: center; }
+.fig svg { max-width: 100%; height: auto; }
+.fig-caption { font-family: 'Inter', sans-serif; font-size: 0.78rem; color: var(--fg-muted); margin-top: 0.5rem; text-align: left; line-height: 1.5; }
+.ox { overflow-x: auto; margin: 0.8rem 0; }
+table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 0.78rem; }
+th, td { padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--border); text-align: left; }
+th { font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fg-muted); border-bottom: 2px solid var(--border); }
+tr.total td { font-weight: 600; border-top: 2px solid var(--accent); }
+tr.hl td { font-weight: 600; color: var(--accent); }
+ol.refs { font-size: 0.8rem; line-height: 1.45; padding-left: 1.6rem; }
+ol.refs li { margin-bottom: 0.35rem; }
+.apl { font-family: 'Inter', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 600; margin-bottom: -0.3rem; }
+.fn { font-family: 'Inter', sans-serif; font-size: 0.76rem; color: var(--fg-muted); text-align: center; margin-top: 2.5rem; padding-top: 1.2rem; border-top: 1px solid var(--border); font-style: italic; }
+.compare-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; margin: 1rem 0 1.4rem; }
+.compare-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem; text-align: center; font-family: 'Inter', sans-serif; }
+.compare-card .name { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+.compare-card .big { font-size: 2rem; font-weight: 700; line-height: 1.1; }
+.compare-card .sub { font-size: 0.72rem; color: var(--fg-muted); margin-top: 0.2rem; }
+.cc-cogpie { border-top: 3px solid var(--chart-cogpie); }
+.cc-cogpie .big { color: var(--chart-cogpie); }
+.cc-cupp { border-top: 3px solid var(--chart-cupp); }
+.cc-cupp .big { color: var(--chart-cupp); }
+.cc-markov { border-top: 3px solid var(--chart-markov); }
+.cc-markov .big { color: var(--chart-markov); }
+.tool-url { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--fg-muted); word-break: break-all; }
+@media (max-width: 900px) {
+  nav.toc { display: none; }
+  main { padding: 1.5rem 0 3rem; max-width: 100%; }
+  h1 { font-size: 1.35rem; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .compare-grid { grid-template-columns: 1fr; }
+  table { font-size: 0.73rem; }
+  th, td { padding: 0.3rem 0.35rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="toc">
+  <h3>Sum&aacute;rio</h3>
+  <a href="#resumo">Resumo</a>
+  <a href="#abstract">Abstract</a>
+  <a href="#s1">1. Introdu&ccedil;&atilde;o</a>
+  <a href="#s2">2. Trabalhos Relacionados</a>
+  <a class="d2" href="#s2-1">2.1 N&atilde;o Direcionado</a>
+  <a class="d2" href="#s2-2">2.2 Direcionado</a>
+  <a class="d2" href="#s2-3">2.3 Vi&eacute;ses Cognitivos</a>
+  <a class="d2" href="#s2-4">2.4 Estimativa de For&ccedil;a</a>
+  <a class="d2" href="#s2-5">2.5 Pol&iacute;ticas</a>
+  <a class="d2" href="#s2-6">2.6 Reutiliza&ccedil;&atilde;o</a>
+  <div class="sep"></div>
+  <a href="#s3">3. Fundamenta&ccedil;&atilde;o Te&oacute;rica</a>
+  <a class="d2" href="#s3-1">3.1 Cadeias de Markov</a>
+  <a class="d2" href="#s3-2">3.2 PCFG</a>
+  <a class="d2" href="#s3-3">3.3 Score H&iacute;brido</a>
+  <a class="d2" href="#s3-4">3.4 Entropia Pr&aacute;tica</a>
+  <a class="d2" href="#s3-5">3.5 Modelo de Vi&eacute;s</a>
+  <a class="d2" href="#s3-6">3.6 Carga Cognitiva</a>
+  <div class="sep"></div>
+  <a href="#s4">4. Algoritmo CogPIE</a>
+  <a class="d2" href="#s4-1">4.1 Arquitetura</a>
+  <a class="d2" href="#s4-2">4.2 Expans&atilde;o Sem&acirc;ntica</a>
+  <a class="d2" href="#s4-3">4.3 Transformadas Cognitivas</a>
+  <a class="d2" href="#s4-4">4.4 Ranking Probabil&iacute;stico</a>
+  <a class="d2" href="#s4-5">4.5 Entropia e Filtragem</a>
+  <a class="d2" href="#s4-6">4.6 Complexidade</a>
+  <div class="sep"></div>
+  <a href="#s5">5. Implementa&ccedil;&atilde;o</a>
+  <a href="#s6">6. Avalia&ccedil;&atilde;o Experimental</a>
+  <a class="d2" href="#s6-1">6.1 Metodologia</a>
+  <a class="d2" href="#s6-2">6.2 Resultados Sint&eacute;ticos</a>
+  <a class="d2" href="#s6-3">6.3 Abla&ccedil;&atilde;o</a>
+  <a class="d2" href="#s6-4">6.4 Cen&aacute;rio Online</a>
+  <a class="d2 new" href="#s6-5">6.5 Corpus Real (13.487)</a>
+  <a class="d2 new" href="#s6-6">6.6 WLF 10 Personas</a>
+  <a class="d2 new" href="#s6-7">6.7 Ferramentas Externas</a>
+  <a class="d2 new" href="#s6-8">6.8 Ferramentas Expandidas</a>
+  <a class="d2 new" href="#s6-9">6.9 Escala GPU (1M)</a>
+  <a class="d2 new" href="#s6-10">6.10 Evolu&ccedil;&atilde;o do WLF</a>
+  <a class="d2" href="#s6-11">6.11 Limita&ccedil;&otilde;es</a>
+  <div class="sep"></div>
+  <a href="#s7">7. Discuss&atilde;o</a>
+  <a class="d2" href="#s7-1">7.1 Implica&ccedil;&otilde;es</a>
+  <a class="d2" href="#s7-2">7.2 Defesas</a>
+  <a class="d2" href="#s7-3">7.3 &Eacute;tica</a>
+  <a class="d2" href="#s7-4">7.4 Compara&ccedil;&atilde;o Neural</a>
+  <a class="d2" href="#s7-5">7.5 Trabalhos Futuros</a>
+  <a href="#s8">8. Conclus&atilde;o</a>
+  <a href="#refs">Refer&ecirc;ncias</a>
+  <a href="#ap-a">Ap&ecirc;ndice A</a>
+  <a href="#ap-b">Ap&ecirc;ndice B</a>
+  <a href="#ap-c">Ap&ecirc;ndice C</a>
+</nav>
+
+<main>
+<h1>CogPIE: Motor de Infer&ecirc;ncia de Padr&otilde;es Cognitivos para Gera&ccedil;&atilde;o Direcionada de Candidatos a Senhas</h1>
+<p class="author"><strong>Andr&eacute; Henrique de Oliveira</strong></p>
+<p class="affil">Uni&atilde;o Geek Security Research, 2026</p>
+
+<div class="metrics">
+  <div class="metric-card"><div class="val">89,7%</div><div class="lbl">Cobertura WLF</div></div>
+  <div class="metric-card"><div class="val">51,4%</div><div class="lbl">CI Leaks Reais</div></div>
+  <div class="metric-card"><div class="val">75,95%</div><div class="lbl">Hit@1000 GPU</div></div>
+  <div class="metric-card"><div class="val">13.487</div><div class="lbl">Credenciais Reais</div></div>
+</div>
+<hr>
+
+<!-- RESUMO -->
+<div class="box" id="resumo">
+  <h4>Resumo</h4>
+  <p>A seguran&ccedil;a de senhas permanece como um dos desafios mais cr&iacute;ticos em seguran&ccedil;a da informa&ccedil;&atilde;o. Este artigo apresenta o CogPIE (Cognitive Pattern Inference Engine), um algoritmo h&iacute;brido de cinco camadas que modela vi&eacute;ses cognitivos para gerar candidatos direcionados de senhas. O CogPIE combina expans&atilde;o sem&acirc;ntica de tokens pessoais, regras de transforma&ccedil;&atilde;o cognitiva baseadas em vi&eacute;ses psicol&oacute;gicos documentados, um sistema h&iacute;brido de ranqueamento por cadeias de Markov e PCFG, pontua&ccedil;&atilde;o de entropia pr&aacute;tica e filtragem sens&iacute;vel a pol&iacute;ticas. Nossa avalia&ccedil;&atilde;o experimental abrange dados sint&eacute;ticos, comparativos com 10 ferramentas externas e <strong>valida&ccedil;&atilde;o com 13.487 credenciais reais de vazamentos</strong>. O CogPIE atinge <strong>89,7% de cobertura m&eacute;dia</strong> em benchmarks WLF (10 personas), <strong>51,38% case-insensitive</strong> contra credenciais reais e <strong>75,95% hit@1000</strong> com corpus GPU de 1M. Adicionalmente, demonstramos que a integra&ccedil;&atilde;o do CogPIE ao <a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">WordlistXPL-Forge</a> elevou a cobertura m&eacute;dia do framework de 39,97% para 89,7%, representando um salto de +124,4% relativo. Nossos resultados refor&ccedil;am que cofres de senhas com gera&ccedil;&atilde;o criptograficamente aleat&oacute;ria, ou algoritmos de permuta&ccedil;&atilde;o n&atilde;o baseados em padr&otilde;es humanos, permanecem a &uacute;nica defesa confi&aacute;vel contra ataques direcionados. C&oacute;digo-fonte: <a href="https://github.com/mrhenrike/CogPIE" target="_blank">github.com/mrhenrike/CogPIE</a> e <a href="https://pypi.org/project/cogpie/" target="_blank">PyPI</a>.</p>
+  <p class="kw"><strong>Palavras-chave:</strong> seguran&ccedil;a de senhas, vi&eacute;s cognitivo, adivinha&ccedil;&atilde;o de senhas, cadeias de Markov, PCFG, ataques direcionados, WordlistXPL-Forge</p>
+</div>
+
+<div class="box" id="abstract">
+  <h4>Abstract</h4>
+  <p>Password security remains one of the most critical challenges in information security. This paper presents CogPIE (Cognitive Pattern Inference Engine), a 5-layer hybrid algorithm that models cognitive biases for targeted password candidate generation. Our evaluation spans synthetic data, 10 external tools comparison, and <strong>validation on 13,487 real leaked credentials</strong>. CogPIE achieves <strong>89.7% average coverage</strong> on WLF benchmarks, <strong>51.38% case-insensitive</strong> against real leaks, and <strong>75.95% hit@1000</strong> on 1M GPU corpus. We additionally show that integrating CogPIE into <a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">WordlistXPL-Forge</a> raised the framework's average coverage from 39.97% to 89.7%, a +124.4% relative improvement. Source: <a href="https://github.com/mrhenrike/CogPIE" target="_blank">github.com/mrhenrike/CogPIE</a>.</p>
+  <p class="kw"><strong>Keywords:</strong> password security, cognitive bias, password guessing, Markov chains, PCFG, targeted attacks, WordlistXPL-Forge</p>
+</div>
+
+<!-- ============================================================== -->
+<!-- 1. INTRODU&Ccedil;&Atilde;O -->
+<!-- ============================================================== -->
+<h2 id="s1">1. Introdu&ccedil;&atilde;o</h2>
+
+<p>A fraqueza persistente de senhas escolhidas por humanos representa uma tens&atilde;o fundamental em ciberseguran&ccedil;a: sistemas de autentica&ccedil;&atilde;o requerem segredos que sejam simultaneamente memor&aacute;veis e imprevis&iacute;veis. D&eacute;cadas de evid&ecirc;ncias emp&iacute;ricas demonstram que esses objetivos s&atilde;o fundamentalmente incompat&iacute;veis quando usu&aacute;rios geram senhas de mem&oacute;ria (Bonneau, 2012; Flor&ecirc;ncio e Herley, 2007; Wang et al., 2016).</p>
+
+<p>A literatura de ci&ecirc;ncia cognitiva identifica diversos vi&eacute;ses que sistematicamente reduzem a entropia: ancoragem (construir ao redor de uma palavra-base reconhec&iacute;vel), efeito de posi&ccedil;&atilde;o serial (modifica&ccedil;&otilde;es concentradas no in&iacute;cio e fim), desconto hiperb&oacute;lico (priorizar memorabilidade sobre seguran&ccedil;a) e heur&iacute;stica de familiaridade (tokens pessoalmente significativos). Mazurek et al. (2013) confirmaram que mesmo pol&iacute;ticas rigorosas de composi&ccedil;&atilde;o n&atilde;o impedem que ~10% das senhas de uma universidade inteira sejam crack&aacute;veis offline.</p>
+
+<div class="key-finding">
+  <div class="label">Contexto-Chave</div>
+  <strong>76,2%</strong> dos usu&aacute;rios pesquisados fazem apenas modifica&ccedil;&otilde;es menores em senhas existentes (pesquisa 2026, N=248). <strong>43-51%</strong> reutilizam a mesma senha entre sites (Das et al., 2014). <strong>41%</strong> das autentica&ccedil;&otilde;es bem-sucedidas envolvem credenciais vazadas (Cloudflare, 2024). <strong>81%</strong> dos breaches corporativos envolvem senhas fracas ou roubadas (Verizon DBIR, 2023). <strong>59%</strong> das pessoas incorporam nome ou data de nascimento em suas senhas (Google/Harris Poll, 2019). Apenas <strong>34%</strong> da popula&ccedil;&atilde;o utiliza um gerenciador de senhas (Bitwarden, 2023).
+</div>
+
+<p>Este artigo introduz o <strong>CogPIE</strong>, um algoritmo h&iacute;brido de 5 camadas: (L1) Expans&atilde;o Sem&acirc;ntica, (L2) Transformadas Cognitivas, (L3) Ranking Probabil&iacute;stico Markov+PCFG, (L4) Score de Entropia e (L5) Filtragem por Pol&iacute;tica. Demonstramos tamb&eacute;m como a integra&ccedil;&atilde;o do CogPIE ao <a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">WordlistXPL-Forge</a> transformou o framework, elevando sua cobertura m&eacute;dia de 39,97% para 89,7% em benchmarks de 10 personas.</p>
+
+<!-- ============================================================== -->
+<!-- 2. TRABALHOS RELACIONADOS -->
+<!-- ============================================================== -->
+<h2 id="s2">2. Trabalhos Relacionados</h2>
+
+<h3 id="s2-1">2.1 Adivinha&ccedil;&atilde;o N&atilde;o Direcionada</h3>
+<p>Weir et al. (2009) introduziram PCFG para decomposi&ccedil;&atilde;o de senhas, quebrando 28-129% mais que o <a href="https://github.com/openwall/john" target="_blank">John the Ripper</a> (acesso: out. 2026). O <a href="https://github.com/RUB-SysSec/OMEN" target="_blank">OMEN</a> (D&uuml;rmuth et al., 2015; acesso: out. 2026) atingiu &gt;40% de taxa de crack em 90M de tentativas com modelo de n-gramas otimizado. <a href="https://github.com/brannondorsey/PassGAN" target="_blank">PassGAN</a> (Hitaj et al., 2019; acesso: out. 2026) e PassGPT (Rando et al., 2023) representam abordagens neurais: PassGPT relatou ~20% mais senhas in&eacute;ditas que modelos anteriores. Pasquini et al. (2021) demonstraram que representa&ccedil;&otilde;es aprendidas superam modelos de n-gramas em estimativas de probabilidade.</p>
+
+<h3 id="s2-2">2.2 Adivinha&ccedil;&atilde;o Direcionada</h3>
+<p>Wang et al. (2016) formalizaram o TarGuess: 30% de senhas modificadas crack&aacute;veis em 10 tentativas, analisando 28,8M de contas. Li et al. (2017) estenderam com Personal-PCFG, integrando 7 tipos de PII na gram&aacute;tica. <a href="https://github.com/Mebus/cupp" target="_blank">CUPP</a> (Mebus, 2010; acesso: out. 2026) representa o extremo pr&aacute;tico: regras heur&iacute;sticas sem modelagem probabil&iacute;stica. Pal et al. (2019) documentaram o fen&ocirc;meno de &ldquo;credential tweaking&rdquo;, onde atacantes derivam senhas de credenciais j&aacute; vazadas aplicando transforma&ccedil;&otilde;es previs&iacute;veis.</p>
+
+<h3 id="s2-3">2.3 Vi&eacute;ses Cognitivos na Cria&ccedil;&atilde;o de Senhas</h3>
+<p>Abdrabou et al. (2021) forneceram evid&ecirc;ncias neurofisiol&oacute;gicas via pupilometria (CHI 2021): di&acirc;metro pupilar correlaciona-se inversamente com a for&ccedil;a da senha, confirmando que senhas fracas exigem menor esfor&ccedil;o cognitivo. Uma pesquisa de 2026 (N=248) encontrou 76,2% dos participantes fazendo apenas modifica&ccedil;&otilde;es menores. Ur et al. (2015, SOUPS) documentaram que usu&aacute;rios adicionam caracteres especiais quase exclusivamente no final, e d&iacute;gitos s&atilde;o tipicamente anos ou datas significativas. Komanduri et al. (2011) mostraram que pol&iacute;ticas mais complexas n&atilde;o produziram senhas proporcionalmente mais fortes. Ur et al. (2016) confirmaram que usu&aacute;rios superestimam drasticamente a for&ccedil;a de suas pr&oacute;prias senhas.</p>
+
+<h3 id="s2-4">2.4 Estimativa de For&ccedil;a de Senhas</h3>
+<p>Bonneau (2012) introduziu alpha-guesswork analisando 70 milh&otilde;es de senhas anonimizadas. Wheeler (2016) operacionalizou esses insights no <a href="https://github.com/dropbox/zxcvbn" target="_blank">zxcvbn</a> (acesso: out. 2026). Golla e D&uuml;rmuth (2018) avaliaram sistematicamente a precis&atilde;o de medidores de for&ccedil;a, encontrando vari&acirc;ncias significativas entre implementa&ccedil;&otilde;es: at&eacute; 50% de discord&acirc;ncia para a mesma senha. Dell'Amico e Filippone (2015) propuseram avalia&ccedil;&atilde;o via Monte Carlo.</p>
+
+<h3 id="s2-5">2.5 Padr&otilde;es de Pol&iacute;ticas</h3>
+<p>NIST SP 800-63B (2017, rev. 2024) recomenda: m&iacute;nimo 8 caracteres, verifica&ccedil;&atilde;o contra breaches, sem rota&ccedil;&atilde;o peri&oacute;dica, incentivo a passphrases. Revis&atilde;o 4 reconhece passkeys sincronizadas (AAL2) e vinculadas a hardware (AAL3). Kelley et al. (2012) demonstraram que pol&iacute;ticas de 16 caracteres sem requisitos de classe produzem senhas mais fortes que pol&iacute;ticas complexas de 8 caracteres. Shay et al. (2010) observaram que usu&aacute;rios tendem a contornar regras de composi&ccedil;&atilde;o com padr&otilde;es previs&iacute;veis.</p>
+
+<h3 id="s2-6">2.6 Reutiliza&ccedil;&atilde;o de Senhas</h3>
+<p>Das et al. (2014): 43-51% de reutiliza&ccedil;&atilde;o. Flor&ecirc;ncio e Herley (2007): m&eacute;dia de 25 contas por usu&aacute;rio, 6-7 senhas distintas. Cloudflare (2024): 41% do tr&aacute;fego de autentica&ccedil;&atilde;o envolve credenciais vazadas. Wang et al. (2016, &ldquo;The Next Domino to Fall&rdquo;) demonstraram que 73% dos usu&aacute;rios compartilham pelo menos uma senha entre servi&ccedil;os. O custo m&eacute;dio de um data breach atingiu US$ 4,45M em 2023 (IBM Cost of a Data Breach Report, 2023), e credenciais comprometidas s&atilde;o o vetor inicial mais comum.</p>
+
+<!-- ============================================================== -->
+<!-- 3. FUNDAMENTA&Ccedil;&Atilde;O TE&Oacute;RICA -->
+<!-- ============================================================== -->
+<h2 id="s3">3. Fundamenta&ccedil;&atilde;o Te&oacute;rica</h2>
+
+<h3 id="s3-1">3.1 Cadeias de Markov para Modelagem de Senhas</h3>
+<div class="fm">P<sub>markov</sub>(p) = P(c<sub>1</sub> | START<sup>n</sup>) &middot; &prod;<sub>i=2</sub><sup>L</sup> P(c<sub>i</sub> | c<sub>i-n</sub>...c<sub>i-1</sub>) &middot; P(END | c<sub>L-n+1</sub>...c<sub>L</sub>)</div>
+<p>Modelo de n-gramas com suaviza&ccedil;&atilde;o Katz (Katz, 1987). Narayanan e Shmatikov (2005) demonstraram efic&aacute;cia de cadeias de Markov em ataques a dicion&aacute;rios. Ma et al. (2014) sistematizaram a compara&ccedil;&atilde;o entre modelos probabil&iacute;sticos, encontrando que Markov de ordem 4 oferece o melhor equil&iacute;brio entre precis&atilde;o e generaliza&ccedil;&atilde;o.</p>
+
+<h3 id="s3-2">3.2 Gram&aacute;ticas Livres de Contexto Probabil&iacute;sticas</h3>
+<div class="fm">P<sub>pcfg</sub>(p) = P(S) &middot; &prod;<sub>i=1</sub><sup>k</sup> P(terminal<sub>i</sub> | s<sub>i</sub>)</div>
+<p>Decomposi&ccedil;&atilde;o estrutural em segmentos (letras, d&iacute;gitos, especiais). Weir et al. (2009) demonstraram superioridade sobre ataques baseados em regras, quebrando 28-129% mais senhas que John the Ripper com as mesmas wordlists de treinamento.</p>
+
+<h3 id="s3-3">3.3 Fun&ccedil;&atilde;o de Score H&iacute;brido</h3>
+<div class="fm">H(c) = &alpha; &middot; log P<sub>markov</sub>(c) + (1 - &alpha; - &beta;) &middot; log P<sub>pcfg</sub>(c) + &beta; &middot; log P<sub>freq</sub>(c)</div>
+<p>onde &alpha; = 0,4, &beta; = 0,2. Combina&ccedil;&atilde;o log-linear convexa no espa&ccedil;o de log-probabilidade. Os par&acirc;metros foram determinados por grid search sobre os dados sint&eacute;ticos (87 senhas, 5 perfis), otimizando hit rate total.</p>
+
+<h3 id="s3-4">3.4 Entropia Pr&aacute;tica</h3>
+<div class="fm">E<sub>p</sub>(c) = log<sub>2</sub>(G(c))</div>
+<p>onde G(c) &eacute; o n&uacute;mero estimado de tentativas para um atacante &oacute;timo. Bonneau (2012) formalizou alpha-guesswork como m&eacute;trica mais realista que entropia de Shannon para distribui&ccedil;&otilde;es de senhas, que s&atilde;o altamente enviesadas (seguem Lei de Zipf; Wang e Jian, 2014).</p>
+
+<h3 id="s3-5">3.5 Modelo Formal de Vi&eacute;s Cognitivo</h3>
+<div class="fm">senha = PolicyAdapt(Combine(Transform(Select(C))))</div>
+<p>O modelo captura o processo de cria&ccedil;&atilde;o humana em quatro est&aacute;gios: sele&ccedil;&atilde;o de conceitos familiares (C), transforma&ccedil;&atilde;o (leetspeak, capitaliza&ccedil;&atilde;o), combina&ccedil;&atilde;o (concatena&ccedil;&atilde;o, separa&ccedil;&atilde;o por s&iacute;mbolos) e adapta&ccedil;&atilde;o &agrave; pol&iacute;tica vigente (comprimento m&iacute;nimo, classes obrigat&oacute;rias).</p>
+
+<h3 id="s3-6">3.6 Teoria da Carga Cognitiva</h3>
+<p>A teoria de Sweller (1988) e o modelo de mem&oacute;ria de trabalho de Baddeley (1986) explicam as restri&ccedil;&otilde;es fundamentais: carga intr&iacute;nseca, estranha e pertinente. O achado cl&aacute;ssico de Miller (1956) de 7&plusmn;2 itens restringe diretamente a complexidade de senhas integr&aacute;veis na mem&oacute;ria de trabalho. Adams e Sasse (1999) argumentaram que &ldquo;usu&aacute;rios n&atilde;o s&atilde;o o inimigo&rdquo;; sistemas de seguran&ccedil;a que ignoram limita&ccedil;&otilde;es cognitivas produzem solu&ccedil;&otilde;es inseguras.</p>
+
+<div class="key-finding">
+  <div class="label">Implica&ccedil;&atilde;o Te&oacute;rica</div>
+  Restri&ccedil;&otilde;es da mem&oacute;ria de trabalho significam que usu&aacute;rios n&atilde;o conseguem manter uma senha complexa e &uacute;nica enquanto a codificam para recupera&ccedil;&atilde;o posterior. O resultado &eacute; depend&ecirc;ncia sistem&aacute;tica de tokens pessoalmente significativos e padr&otilde;es de modifica&ccedil;&atilde;o previs&iacute;veis. <strong>O CogPIE modela precisamente essas restri&ccedil;&otilde;es.</strong>
+</div>
+
+<!-- ============================================================== -->
+<!-- 4. ALGORITMO COGPIE -->
+<!-- ============================================================== -->
+<h2 id="s4">4. Algoritmo CogPIE</h2>
+
+<h3 id="s4-1">4.1 Vis&atilde;o Geral da Arquitetura</h3>
+
+<div class="fig">
+<svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pipeline de 5 camadas do CogPIE">
+  <rect x="20" y="110" width="95" height="50" rx="8" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
+  <text x="67" y="132" font-family="Inter, sans-serif" font-size="10" fill="var(--fg)" text-anchor="middle" font-weight="600">Perfil Alvo</text>
+  <text x="67" y="148" font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="middle">JSON</text>
+  <line x1="115" y1="135" x2="143" y2="135" stroke="var(--fg-muted)" stroke-width="1.5" marker-end="url(#ah)"/>
+  <rect x="145" y="95" width="85" height="80" rx="6" fill="var(--chart-l1)" fill-opacity="0.15" stroke="var(--chart-l1)" stroke-width="2"/>
+  <text x="187" y="118" font-family="Inter, sans-serif" font-size="9" fill="var(--chart-l1)" text-anchor="middle" font-weight="700">Camada 1</text>
+  <text x="187" y="133" font-family="Inter, sans-serif" font-size="8" fill="var(--fg)" text-anchor="middle">Expans&atilde;o</text>
+  <text x="187" y="145" font-family="Inter, sans-serif" font-size="8" fill="var(--fg)" text-anchor="middle">Sem&acirc;ntica</text>
+  <text x="187" y="165" font-family="JetBrains Mono, monospace" font-size="7" fill="var(--fg-muted)" text-anchor="middle">~280 tokens</text>
+  <line x1="230" y1="135" x2="258" y2="135" stroke="var(--fg-muted)" stroke-width="1.5" marker-end="url(#ah)"/>
+  <rect x="260" y="95" width="85" height="80" rx="6" fill="var(--chart-l2)" fill-opacity="0.15" stroke="var(--chart-l2)" stroke-width="2"/>
+  <text x="302" y="118" font-family="Inter, sans-serif" font-size="9" fill="var(--chart-l2)" text-anchor="middle" font-weight="700">Camada 2</text>
+  <text x="302" y="133" font-family="Inter, sans-serif" font-size="8" fill="var(--fg)" text-anchor="middle">Transformadas</text>
+  <text x="302" y="145" font-family="Inter, sans-serif" font-size="8" fill="var(--fg)" text-anchor="middle">Cognitivas</text>
+  <text x="302" y="165" font-family="JetBrains Mono, monospace" font-size="7" fill="var(--fg-muted)" text-anchor="middle">~120k candidatos</text>
+  <line x1="345" y1="135" x2="373" y2="135" stroke="var(--fg-muted)" stroke-width="1.5" marker-end="url(#ah)"/>
+  <rect x="375" y="95" width="85" height="80" rx="6" fill="var(--chart-l3)" fill-opacity="0.15" stroke="var(--chart-l3)" stroke-width="2"/>
+  <text x="417" y="118" font-family="Inter, sans-serif" font-size="9" fill="var(--chart-l3)" text-anchor="middle" font-weight="700">Camada 3</text>
+  <text x="417" y="133" font-family="Inter, sans-serif" font-size="8" fill="var(--fg)" text-anchor="middle">Markov+PCFG</text>
+  <text x="417" y="145" font-family="Inter, sans-serif" font-size="8" fill="var(--fg)" text-anchor="middle">Ranking</text>
+  <line x1="460" y1="135" x2="488" y2="135" stroke="var(--fg-muted)" stroke-width="1.5" marker-end="url(#ah)"/>
+  <rect x="490" y="98" width="85" height="35" rx="6" fill="var(--chart-l4l5)" fill-opacity="0.15" stroke="var(--chart-l4l5)" stroke-width="2"/>
+  <text x="532" y="119" font-family="Inter, sans-serif" font-size="8" fill="var(--chart-l4l5)" text-anchor="middle" font-weight="700">L4 Entropia</text>
+  <rect x="490" y="138" width="85" height="35" rx="6" fill="var(--chart-l4l5)" fill-opacity="0.10" stroke="var(--chart-l4l5)" stroke-width="1.5"/>
+  <text x="532" y="159" font-family="Inter, sans-serif" font-size="8" fill="var(--chart-l4l5)" text-anchor="middle" font-weight="700">L5 Pol&iacute;tica</text>
+  <line x1="575" y1="135" x2="603" y2="135" stroke="var(--fg-muted)" stroke-width="1.5" marker-end="url(#ah)"/>
+  <rect x="605" y="110" width="60" height="50" rx="8" fill="var(--accent)" fill-opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+  <text x="635" y="132" font-family="Inter, sans-serif" font-size="9" fill="var(--accent)" text-anchor="middle" font-weight="700">Sa&iacute;da</text>
+  <text x="635" y="148" font-family="Inter, sans-serif" font-size="7" fill="var(--fg-muted)" text-anchor="middle">Top-K</text>
+  <g font-family="JetBrains Mono, monospace" font-size="7" fill="var(--fg-muted)" text-anchor="middle">
+    <text x="187" y="188">0,002s</text><text x="302" y="188">0,310s</text><text x="417" y="188">0,850s</text><text x="532" y="188">0,057s</text>
+  </g>
+  <defs><marker id="ah" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--fg-muted)"/></marker></defs>
+</svg>
+<p class="fig-caption"><strong>Figura 1.</strong> Arquitetura do pipeline de 5 camadas do CogPIE com tempos de execu&ccedil;&atilde;o por camada.</p>
+</div>
+
+<h3 id="s4-2">4.2 Camada 1: Expans&atilde;o Sem&acirc;ntica</h3>
+<p><span class="lb">L1</span> Mapeia cada token bruto para variantes: <code>case_variants &cup; strip_accents &cup; abbreviations &cup; nicknames &cup; leet_single</code>. Fator m&eacute;dio de expans&atilde;o: 21,5x (13 tokens brutos para ~279 variantes). Inclui diminutivos culturais, hipocor&iacute;sticos e varia&ccedil;&otilde;es ortogr&aacute;ficas regionais.</p>
+
+<h3 id="s4-3">4.3 Camada 2: Transformadas Cognitivas</h3>
+<p><span class="lb">L2</span> Distribui&ccedil;&atilde;o das transformadas: combina&ccedil;&otilde;es de pares (42,5%), sufixos de ano (40,1%), caractere especial (4,5%), d&iacute;gito &uacute;nico (3,9%), leetspeak parcial (3,6%), capitaliza&ccedil;&atilde;o (2,1%), prefixos (2,1%), muta&ccedil;&otilde;es de teclado (1,2%). As propor&ccedil;&otilde;es foram calibradas empiricamente com base nas distribui&ccedil;&otilde;es observadas por Li et al. (2017) e Ur et al. (2015).</p>
+
+<h3 id="s4-4">4.4 Camada 3: Ranking Probabil&iacute;stico</h3>
+<p><span class="lb">L3</span> Score unificado via combina&ccedil;&atilde;o log-linear. Converg&ecirc;ncia O(1/&radic;|T|) para Markov, O(1/|T|) para PCFG. Par&acirc;metro &oacute;timo: &alpha;=0,4, &beta;=0,2 para taxa m&aacute;xima de 60,9% nos dados sint&eacute;ticos.</p>
+
+<h3 id="s4-5">4.5 Score de Entropia e Filtragem</h3>
+<p><span class="lb">L4</span> Score <a href="https://github.com/dropbox/zxcvbn" target="_blank">zxcvbn</a> (acesso: out. 2026): 0 (&lt;10 bits) a 4 (&ge;34 bits). <span class="lb">L5</span> Deduplica&ccedil;&atilde;o CRC32: 1 em 4,3B falso positivo, 10x economia de mem&oacute;ria. Filtragem sens&iacute;vel a pol&iacute;ticas NIST SP 800-63B e requisitos customiz&aacute;veis.</p>
+
+<h3 id="s4-6">4.6 Complexidade e Margem de Seguran&ccedil;a</h3>
+<p><strong>Tempo:</strong> O(C &middot; log C). <strong>Espa&ccedil;o:</strong> O(C + |T| &middot; n &middot; |&Sigma;|). T&iacute;pico: 100k-200k candidatos, 28 MB pico, 1,2s. Entropia efetiva de senha baseada em perfil: ~21 bits (vs. 52,6 bits te&oacute;ricos para 8 caracteres alfanum&eacute;ricos aleat&oacute;rios).</p>
+
+<!-- ============================================================== -->
+<!-- 5. IMPLEMENTA&Ccedil;&Atilde;O -->
+<!-- ============================================================== -->
+<h2 id="s5">5. Implementa&ccedil;&atilde;o</h2>
+<p>M&oacute;dulo Python dentro do <a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">WordlistXPL-Forge</a> (XPL-Suite). Seis arquivos (~800 LOC): <code>semantic_expander.py</code> (L1), <code>cognitive_transforms.py</code> (L2), <code>markov_pcfg_hybrid.py</code> (L3), <code>scorer.py</code> (L4), <code>policy_filter.py</code> (L5), <code>engine.py</code> (orquestrador). Integra-se com o ecossistema WLF existente: motor Markov posicional (baseado em OMEN), gerador PCFG, profiler CUPP, permutador leet, keyboard walk generator (9 layouts) e estimador de entropia. Distribu&iacute;do via <a href="https://pypi.org/project/cogpie/" target="_blank">PyPI</a> (v1.0.1, acesso: out. 2026).</p>
+
+<!-- ============================================================== -->
+<!-- 6. AVALIA&Ccedil;&Atilde;O EXPERIMENTAL -->
+<!-- ============================================================== -->
+<h2 id="s6">6. Avalia&ccedil;&atilde;o Experimental</h2>
+
+<h3 id="s6-1">6.1 Metodologia</h3>
+<p>Avalia&ccedil;&atilde;o em seis frentes: (i) datasets sint&eacute;ticos com 5 perfis e 87 senhas; (ii) 10 personas WLF com complexidade crescente; (iii) 10 ferramentas externas; (iv) 13.487 credenciais reais de vazamentos; (v) escala GPU com corpus de 1M; (vi) evolu&ccedil;&atilde;o do WLF pr&eacute; e p&oacute;s-CogPIE. <strong>Todos os experimentos sint&eacute;ticos utilizam exclusivamente dados sint&eacute;ticos.</strong> A valida&ccedil;&atilde;o com credenciais reais emprega m&eacute;tricas agregadas conforme protocolo de Das et al. (2014).</p>
+
+<h3 id="s6-2">6.2 Resultados Sint&eacute;ticos</h3>
+<div class="compare-grid">
+  <div class="compare-card cc-cogpie"><div class="name">CogPIE</div><div class="big">60,9%</div><div class="sub">53 / 87 senhas</div><div class="sub">~119.880 candidatos</div></div>
+  <div class="compare-card cc-cupp"><div class="name">CUPP Baseline</div><div class="big">51,7%</div><div class="sub">45 / 87 senhas</div><div class="sub">~121 candidatos</div></div>
+  <div class="compare-card cc-markov"><div class="name">Markov Baseline</div><div class="big">0,0%</div><div class="sub">0 / 87 senhas</div><div class="sub">71 comuns</div></div>
+</div>
+<p>CogPIE supera CUPP em 4 de 5 perfis (Carlos 63,2%, Maria 64,7%, Jo&atilde;o 58,8%, Roberto 64,7%) e empata em um (Ana 52,9%). Melhoria relativa de 17,8%. O Markov baseline (sem treinamento direcionado) n&atilde;o encontra nenhuma senha, confirmando que adivinha&ccedil;&atilde;o n&atilde;o direcionada &eacute; ineficaz sem corpus de treinamento relevante.</p>
+
+<h3 id="s6-3">6.3 Estudo de Abla&ccedil;&atilde;o por Camada</h3>
+<div class="ox">
+<table>
+  <thead><tr><th>Configura&ccedil;&atilde;o</th><th>Taxa</th><th>Delta</th><th>Nota</th></tr></thead>
+  <tbody>
+    <tr class="hl"><td><strong>CogPIE Completo</strong></td><td><strong>60,9%</strong></td><td>baseline</td><td>5 camadas ativas</td></tr>
+    <tr><td>Sem L1 (expans&atilde;o)</td><td>35,0%</td><td>-25,9pp</td><td>Sem apelidos, abrevia&ccedil;&otilde;es, variantes</td></tr>
+    <tr><td>Sem L2 (transformadas)</td><td>20,0%</td><td>-40,9pp</td><td>Sem sufixo/leet/pares</td></tr>
+    <tr><td>Sem L3 (ranking)</td><td>60,9%</td><td>0pp</td><td>Mesmos candidatos, sem ordena&ccedil;&atilde;o</td></tr>
+    <tr><td>CUPP baseline</td><td>51,7%</td><td>-9,2pp</td><td>Concatena&ccedil;&atilde;o simples</td></tr>
+  </tbody>
+</table>
+</div>
+<p>A Camada 2 (transformadas cognitivas) &eacute; o componente mais cr&iacute;tico: sua remo&ccedil;&atilde;o causa queda de 40,9pp. A Camada 1 (expans&atilde;o sem&acirc;ntica) contribui 25,9pp. A Camada 3 (ranking) n&atilde;o altera o hit rate total, mas melhora dramaticamente a efici&ecirc;ncia em cen&aacute;rios com budget limitado (se&ccedil;&atilde;o 6.4).</p>
+
+<div class="fig">
+<svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Estudo de abla&ccedil;&atilde;o: contribui&ccedil;&atilde;o de cada camada do CogPIE">
+  <line x1="180" y1="20" x2="180" y2="170" stroke="var(--border)" stroke-width="1"/>
+  <line x1="180" y1="170" x2="460" y2="170" stroke="var(--border)" stroke-width="1"/>
+  <g font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="middle">
+    <text x="180" y="184">0%</text><text x="250" y="184">20%</text><text x="320" y="184">40%</text><text x="390" y="184">60%</text><text x="460" y="184">80%</text>
+  </g>
+  <line x1="250" y1="20" x2="250" y2="170" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="320" y1="20" x2="320" y2="170" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="390" y1="20" x2="390" y2="170" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="460" y1="20" x2="460" y2="170" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <!-- Labels -->
+  <g font-family="Inter, sans-serif" font-size="9" fill="var(--fg)" text-anchor="end">
+    <text x="175" y="42">Completo (L1-L5)</text>
+    <text x="175" y="72">Sem L1 (expans&atilde;o)</text>
+    <text x="175" y="102">Sem L2 (transforms)</text>
+    <text x="175" y="132">Sem L3 (ranking)</text>
+    <text x="175" y="162">CUPP baseline</text>
+  </g>
+  <!-- Bars (60.9%, 35.0%, 20.0%, 60.9%, 51.7%) scale: 80%=280px => 1%=3.5px -->
+  <rect x="180" y="30" width="213" height="20" rx="3" fill="var(--chart-cogpie)"/>
+  <rect x="180" y="60" width="123" height="20" rx="3" fill="var(--chart-l3)"/>
+  <rect x="180" y="90" width="70" height="20" rx="3" fill="var(--chart-bopscrk)"/>
+  <rect x="180" y="120" width="213" height="20" rx="3" fill="var(--chart-teal)"/>
+  <rect x="180" y="150" width="181" height="20" rx="3" fill="var(--chart-cupp)"/>
+  <!-- Value labels -->
+  <g font-family="JetBrains Mono, monospace" font-size="9" font-weight="600">
+    <text x="398" y="44" fill="var(--fg)">60,9%</text>
+    <text x="308" y="74" fill="var(--fg)">35,0% (-25,9pp)</text>
+    <text x="256" y="104" fill="var(--fg)">20,0% (-40,9pp)</text>
+    <text x="398" y="134" fill="var(--fg)">60,9% (0pp)</text>
+    <text x="366" y="164" fill="var(--fg)">51,7% (-9,2pp)</text>
+  </g>
+</svg>
+<p class="fig-caption"><strong>Figura 2.</strong> Estudo de abla&ccedil;&atilde;o: impacto da remo&ccedil;&atilde;o de cada camada. L2 (transformadas cognitivas) &eacute; o componente de maior contribui&ccedil;&atilde;o marginal (-40,9pp). L3 (ranking) n&atilde;o afeta cobertura total, mas melhora a ordena&ccedil;&atilde;o.</p>
+</div>
+
+<h3 id="s6-4">6.4 Cen&aacute;rio de Ataque Online</h3>
+<div class="ox">
+<table>
+  <thead><tr><th>Budget</th><th>CogPIE</th><th>CUPP</th><th>Vantagem</th></tr></thead>
+  <tbody>
+    <tr><td>Top 10</td><td>8,0%</td><td>6,9%</td><td>+1,1pp</td></tr>
+    <tr><td>Top 100</td><td>23,0%</td><td>20,7%</td><td>+2,3pp</td></tr>
+    <tr><td>Top 1.000</td><td>40,2%</td><td>37,9%</td><td>+2,3pp</td></tr>
+    <tr><td>Top 10.000</td><td>52,9%</td><td>48,3%</td><td>+4,6pp</td></tr>
+    <tr><td>Completo</td><td>60,9%</td><td>51,7%</td><td>+9,2pp</td></tr>
+  </tbody>
+</table>
+</div>
+<p>A vantagem do CogPIE cresce com o budget dispon&iacute;vel, indicando que o ranking probabil&iacute;stico (L3) posiciona candidatos mais prov&aacute;veis no topo. Em cen&aacute;rios de ataque online (budget &le;10), a diferen&ccedil;a &eacute; modesta; j&aacute; em ataques offline (budget ilimitado), o CogPIE supera por 9,2pp.</p>
+
+<!-- ============================================================== -->
+<!-- NOVAS SE&Ccedil;&Otilde;ES COM TODOS OS BENCHMARKS -->
+<!-- ============================================================== -->
+
+<h3 id="s6-5">6.5 Valida&ccedil;&atilde;o com Corpus Real: 13.487 Credenciais de Vazamentos</h3>
+
+<p>Para validar o CogPIE al&eacute;m de dados sint&eacute;ticos, conduzimos avalia&ccedil;&atilde;o em larga escala com <strong>13.487 credenciais reais</strong> de compila&ccedil;&otilde;es p&uacute;blicas (SecLists, IntelX). De 13.546 totais, 13.487 foram v&aacute;lidas ap&oacute;s filtragem de duplicatas e entradas corrompidas.</p>
+
+<div class="ox">
+<table>
+  <thead><tr><th>Regi&atilde;o/Tipo</th><th>Quantidade</th><th>%</th></tr></thead>
+  <tbody>
+    <tr><td>Webmail global (Gmail, Yahoo, Hotmail)</td><td>9.890</td><td>73,3%</td></tr>
+    <tr><td>Outros dom&iacute;nios</td><td>3.000</td><td>22,2%</td></tr>
+    <tr><td>CN/TW/HK</td><td>517</td><td>3,8%</td></tr>
+    <tr><td>Brasil (.br)</td><td>80</td><td>0,6%</td></tr>
+    <tr class="total"><td>Total</td><td>13.487</td><td>100%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>Sete algoritmos avaliados sob condi&ccedil;&otilde;es id&ecirc;nticas:</p>
+
+<div class="ox">
+<table>
+  <thead><tr><th>Algoritmo</th><th>Reposit&oacute;rio</th><th>CS</th><th>CI</th><th>Exclusivos</th><th>Rank Med.</th></tr></thead>
+  <tbody>
+    <tr class="hl"><td>CogPIE</td><td><a href="https://pypi.org/project/cogpie/" target="_blank">PyPI</a></td><td>46,61%</td><td>51,38%</td><td>541</td><td>20</td></tr>
+    <tr><td>CUPP-WLF</td><td><a href="https://github.com/Mebus/cupp" target="_blank">GitHub</a></td><td>38,27%</td><td>38,51%</td><td>674</td><td>8</td></tr>
+    <tr><td>BopScrk</td><td><a href="https://github.com/R3nt0n/bopscrk" target="_blank">GitHub</a></td><td>35,58%</td><td>36,45%</td><td>2</td><td>-</td></tr>
+    <tr><td>ElpScrk</td><td><a href="https://github.com/D4Vinci/elpscrk" target="_blank">GitHub</a></td><td>34,49%</td><td>35,02%</td><td>3</td><td>-</td></tr>
+    <tr><td>PsudoHash</td><td><a href="https://github.com/t3l3machus/psudohash" target="_blank">GitHub</a></td><td>32,76%</td><td>33,17%</td><td>9</td><td>-</td></tr>
+    <tr><td>Pydictor SEDB</td><td><a href="https://github.com/LandGrey/pydictor" target="_blank">GitHub</a></td><td>31,64%</td><td>32,38%</td><td>2</td><td>-</td></tr>
+    <tr><td>LongTongue</td><td><a href="https://github.com/edoardottt/longtongue" target="_blank">GitHub</a></td><td>25,55%</td><td>26,29%</td><td>0</td><td>-</td></tr>
+    <tr class="total"><td>Combinado (todos)</td><td></td><td colspan="2">52,14%</td><td>-</td><td>-</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="tool-url">Todos os reposit&oacute;rios acessados em outubro de 2026.</p>
+
+<div class="fig">
+<svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gr&aacute;fico de barras horizontais: 7 algoritmos vs. credenciais reais (CI)">
+  <line x1="120" y1="20" x2="120" y2="210" stroke="var(--border)" stroke-width="1"/>
+  <line x1="120" y1="210" x2="620" y2="210" stroke="var(--border)" stroke-width="1"/>
+  <g font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="middle">
+    <text x="120" y="225">0%</text><text x="220" y="225">10%</text><text x="320" y="225">20%</text><text x="420" y="225">30%</text><text x="520" y="225">40%</text><text x="620" y="225">50%</text>
+  </g>
+  <line x1="220" y1="20" x2="220" y2="210" stroke="var(--border)" stroke-width="0.3" opacity="0.4"/>
+  <line x1="320" y1="20" x2="320" y2="210" stroke="var(--border)" stroke-width="0.3" opacity="0.4"/>
+  <line x1="420" y1="20" x2="420" y2="210" stroke="var(--border)" stroke-width="0.3" opacity="0.4"/>
+  <line x1="520" y1="20" x2="520" y2="210" stroke="var(--border)" stroke-width="0.3" opacity="0.4"/>
+  <g font-family="Inter, sans-serif" font-size="8" fill="var(--fg)" text-anchor="end">
+    <text x="115" y="38">CogPIE</text>
+    <text x="115" y="65">CUPP-WLF</text>
+    <text x="115" y="92">BopScrk</text>
+    <text x="115" y="119">ElpScrk</text>
+    <text x="115" y="146">PsudoHash</text>
+    <text x="115" y="173">Pydictor</text>
+    <text x="115" y="200">LongTongue</text>
+  </g>
+  <rect x="120" y="28" width="514" height="18" rx="2" fill="var(--chart-cogpie)"/>
+  <text x="639" y="41" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--chart-cogpie)" font-weight="700">51,38%</text>
+  <rect x="120" y="55" width="385" height="18" rx="2" fill="var(--chart-cupp)"/>
+  <text x="510" y="68" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--chart-cupp)">38,51%</text>
+  <rect x="120" y="82" width="365" height="18" rx="2" fill="var(--chart-bopscrk)"/>
+  <text x="490" y="95" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--chart-bopscrk)">36,45%</text>
+  <rect x="120" y="109" width="350" height="18" rx="2" fill="var(--chart-elpscrk)"/>
+  <text x="475" y="122" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--chart-elpscrk)">35,02%</text>
+  <rect x="120" y="136" width="332" height="18" rx="2" fill="var(--chart-psudohash)"/>
+  <text x="457" y="149" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--chart-psudohash)">33,17%</text>
+  <rect x="120" y="163" width="324" height="18" rx="2" fill="var(--chart-pydictor)"/>
+  <text x="449" y="176" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--chart-pydictor)">32,38%</text>
+  <rect x="120" y="190" width="263" height="18" rx="2" fill="var(--chart-longtongue)"/>
+  <text x="388" y="203" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--chart-longtongue)">26,29%</text>
+  <line x1="641" y1="20" x2="641" y2="210" stroke="var(--chart-combined)" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="610" y="245" font-family="Inter, sans-serif" font-size="7" fill="var(--chart-combined)">Combinado: 52,14%</text>
+</svg>
+<p class="fig-caption"><strong>Figura 3.</strong> Taxa CI (case-insensitive) de cada algoritmo contra 13.487 credenciais reais de vazamentos. Linha tracejada verde indica a cobertura do ensemble combinado (52,14%). Fontes de dados: compila&ccedil;&otilde;es p&uacute;blicas SecLists e IntelX, conforme protocolo &eacute;tico de Das et al. (2014).</p>
+</div>
+
+<div class="key-finding">
+  <div class="label">Resultado: Corpus Real</div>
+  O CogPIE atinge <strong>46,61% CS e 51,38% CI</strong> contra 13.487 credenciais reais, superando o segundo colocado (CUPP-WLF, 38,27%) por <strong>+8,34pp</strong>. Produz <strong>541 hits exclusivos</strong> que nenhuma outra ferramenta encontra. A cobertura combinada (52,14%) supera o CogPIE sozinho em apenas 0,76pp, confirmando que o CogPIE captura a vasta maioria do espa&ccedil;o acess&iacute;vel. Os 674 exclusivos do CUPP-WLF indicam que a abordagem heur&iacute;stica direta ainda gera candidatos complementares.
+</div>
+
+<h3 id="s6-6">6.6 Comparativo WLF Interno: 10 Personas</h3>
+
+<p>Benchmark com 10 personas (P01_minimal a P10_complete), budget de 50K candidatos, perfis com complexidade crescente de informa&ccedil;&atilde;o pessoal dispon&iacute;vel:</p>
+
+<div class="ox">
+<table>
+  <thead><tr><th>Persona</th><th>CogPIE</th><th>CUPP</th><th>BopScrk</th><th>Markov</th></tr></thead>
+  <tbody>
+    <tr><td>P01_minimal</td><td><strong>80,00%</strong></td><td>33,33%</td><td>26,67%</td><td>20,00%</td></tr>
+    <tr><td>P02_basic</td><td><strong>85,00%</strong></td><td>45,00%</td><td>15,00%</td><td>10,00%</td></tr>
+    <tr><td>P03_standard</td><td><strong>88,46%</strong></td><td>38,46%</td><td>23,08%</td><td>11,54%</td></tr>
+    <tr><td>P04_extended</td><td><strong>87,50%</strong></td><td>37,50%</td><td>18,75%</td><td>12,50%</td></tr>
+    <tr><td>P05_extended</td><td><strong>90,91%</strong></td><td>40,91%</td><td>22,73%</td><td>13,64%</td></tr>
+    <tr><td>P06_social</td><td><strong>91,30%</strong></td><td>43,48%</td><td>17,39%</td><td>13,04%</td></tr>
+    <tr><td>P07_cultural</td><td><strong>96,00%</strong></td><td>36,00%</td><td>24,00%</td><td>16,00%</td></tr>
+    <tr><td>P08_technical</td><td><strong>88,89%</strong></td><td>37,04%</td><td>22,22%</td><td>14,81%</td></tr>
+    <tr><td>P09_rich</td><td><strong>96,15%</strong></td><td>42,31%</td><td>19,23%</td><td>11,54%</td></tr>
+    <tr><td>P10_complete</td><td><strong>93,55%</strong></td><td>45,16%</td><td>25,81%</td><td>16,13%</td></tr>
+    <tr class="total"><td>M&eacute;dia</td><td><strong>89,7%</strong></td><td>39,97%</td><td>21,51%</td><td>13,80%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gr&aacute;fico de barras: CogPIE vs CUPP vs BopScrk vs Markov em 10 personas">
+  <line x1="55" y1="220" x2="630" y2="220" stroke="var(--border)" stroke-width="1"/>
+  <line x1="55" y1="220" x2="55" y2="20" stroke="var(--border)" stroke-width="1"/>
+  <g font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="end">
+    <text x="50" y="223">0%</text><text x="50" y="173">25%</text><text x="50" y="123">50%</text><text x="50" y="73">75%</text><text x="50" y="30">100%</text>
+  </g>
+  <line x1="55" y1="170" x2="630" y2="170" stroke="var(--border)" stroke-width="0.3" opacity="0.5"/>
+  <line x1="55" y1="120" x2="630" y2="120" stroke="var(--border)" stroke-width="0.3" opacity="0.5"/>
+  <line x1="55" y1="70" x2="630" y2="70" stroke="var(--border)" stroke-width="0.3" opacity="0.5"/>
+  <rect x="70" y="60" width="11" height="160" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="82" y="153" width="11" height="67" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="94" y="167" width="11" height="53" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="106" y="180" width="11" height="40" rx="1" fill="var(--chart-markov)"/>
+  <rect x="125" y="50" width="11" height="170" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="137" y="130" width="11" height="90" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="149" y="190" width="11" height="30" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="161" y="200" width="11" height="20" rx="1" fill="var(--chart-markov)"/>
+  <rect x="180" y="43" width="11" height="177" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="192" y="143" width="11" height="77" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="204" y="174" width="11" height="46" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="216" y="197" width="11" height="23" rx="1" fill="var(--chart-markov)"/>
+  <rect x="235" y="45" width="11" height="175" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="247" y="145" width="11" height="75" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="259" y="183" width="11" height="37" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="271" y="195" width="11" height="25" rx="1" fill="var(--chart-markov)"/>
+  <rect x="290" y="38" width="11" height="182" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="302" y="138" width="11" height="82" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="314" y="175" width="11" height="45" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="326" y="193" width="11" height="27" rx="1" fill="var(--chart-markov)"/>
+  <rect x="345" y="37" width="11" height="183" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="357" y="133" width="11" height="87" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="369" y="185" width="11" height="35" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="381" y="194" width="11" height="26" rx="1" fill="var(--chart-markov)"/>
+  <rect x="400" y="28" width="11" height="192" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="412" y="148" width="11" height="72" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="424" y="172" width="11" height="48" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="436" y="188" width="11" height="32" rx="1" fill="var(--chart-markov)"/>
+  <rect x="455" y="42" width="11" height="178" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="467" y="146" width="11" height="74" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="479" y="176" width="11" height="44" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="491" y="190" width="11" height="30" rx="1" fill="var(--chart-markov)"/>
+  <rect x="510" y="28" width="11" height="192" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="522" y="135" width="11" height="85" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="534" y="182" width="11" height="38" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="546" y="197" width="11" height="23" rx="1" fill="var(--chart-markov)"/>
+  <rect x="565" y="33" width="11" height="187" rx="1" fill="var(--chart-cogpie)"/>
+  <rect x="577" y="130" width="11" height="90" rx="1" fill="var(--chart-cupp)"/>
+  <rect x="589" y="168" width="11" height="52" rx="1" fill="var(--chart-bopscrk)"/>
+  <rect x="601" y="188" width="11" height="32" rx="1" fill="var(--chart-markov)"/>
+  <g font-family="Inter, sans-serif" font-size="7" fill="var(--fg-muted)" text-anchor="middle">
+    <text x="93" y="236">P01</text><text x="148" y="236">P02</text><text x="203" y="236">P03</text>
+    <text x="258" y="236">P04</text><text x="313" y="236">P05</text><text x="368" y="236">P06</text>
+    <text x="423" y="236">P07</text><text x="478" y="236">P08</text><text x="533" y="236">P09</text>
+    <text x="588" y="236">P10</text>
+  </g>
+  <g transform="translate(150,248)" font-family="Inter, sans-serif" font-size="8">
+    <rect x="0" y="0" width="8" height="8" rx="1" fill="var(--chart-cogpie)"/><text x="11" y="7" fill="var(--fg)">CogPIE</text>
+    <rect x="60" y="0" width="8" height="8" rx="1" fill="var(--chart-cupp)"/><text x="71" y="7" fill="var(--fg)">CUPP</text>
+    <rect x="110" y="0" width="8" height="8" rx="1" fill="var(--chart-bopscrk)"/><text x="121" y="7" fill="var(--fg)">BopScrk</text>
+    <rect x="175" y="0" width="8" height="8" rx="1" fill="var(--chart-markov)"/><text x="186" y="7" fill="var(--fg)">Markov</text>
+  </g>
+</svg>
+<p class="fig-caption"><strong>Figura 4.</strong> Comparativo WLF: CogPIE vs CUPP vs BopScrk vs Markov em 10 personas. CogPIE vence todas as 10 personas com m&eacute;dia de 89,7%.</p>
+</div>
+
+<div class="key-finding">
+  <div class="label">Resultado WLF</div>
+  CogPIE: <strong>89,7% m&eacute;dia</strong> (m&iacute;n 80%, m&aacute;x 96,15%), vencendo 10/10. Diferen&ccedil;a para CUPP: <strong>+49,73pp</strong>. Mesmo no pior cen&aacute;rio (P01_minimal, perfil com apenas nome e data de nascimento), CogPIE atinge 80%. A correla&ccedil;&atilde;o entre riqueza do perfil e cobertura &eacute; positiva (Pearson r=0,81), confirmando que mais PII produz melhor cobertura.
+</div>
+
+<h3 id="s6-7">6.7 Comparativo com Ferramentas Externas: 10 Algoritmos</h3>
+
+<p>Avalia&ccedil;&atilde;o contra 9 ferramentas externas:</p>
+
+<div class="ox">
+<table>
+  <thead><tr><th>Ferramenta</th><th>Reposit&oacute;rio</th><th>Tipo</th><th>Personas 0%</th><th>Melhor</th></tr></thead>
+  <tbody>
+    <tr class="hl"><td>CogPIE</td><td><a href="https://github.com/mrhenrike/CogPIE" target="_blank">mrhenrike/CogPIE</a> (<a href="https://pypi.org/project/cogpie/" target="_blank">PyPI</a>)</td><td>Cognitivo h&iacute;brido</td><td>0</td><td>96,15%</td></tr>
+    <tr><td>WLF Combinado</td><td><a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">mrhenrike/WordlistXPL-Forge</a></td><td>Ensemble</td><td>0</td><td>100%</td></tr>
+    <tr><td>CUPP-WLF</td><td><a href="https://github.com/Mebus/cupp" target="_blank">GitHub</a></td><td>Profiling</td><td>0</td><td>45,16%</td></tr>
+    <tr><td>ElpScrk</td><td><a href="https://github.com/D4Vinci/elpscrk" target="_blank">GitHub</a></td><td>Combinat&oacute;rio</td><td>0</td><td>~50%</td></tr>
+    <tr><td>PsudoHash</td><td><a href="https://github.com/t3l3machus/psudohash" target="_blank">GitHub</a></td><td>Pattern-based</td><td>0</td><td>~45%</td></tr>
+    <tr><td>BopScrk</td><td><a href="https://github.com/R3nt0n/bopscrk" target="_blank">GitHub</a></td><td>Combinat&oacute;rio</td><td>0</td><td>~35%</td></tr>
+    <tr><td>LongTongue</td><td><a href="https://github.com/edoardottt/longtongue" target="_blank">GitHub</a></td><td>Concatena&ccedil;&atilde;o</td><td>0</td><td>~30%</td></tr>
+    <tr><td>Pydictor SEDB</td><td><a href="https://github.com/LandGrey/pydictor" target="_blank">GitHub</a></td><td>Social eng. dict.</td><td>0</td><td>~35%</td></tr>
+    <tr><td>CUPP Original</td><td><a href="https://github.com/Mebus/cupp" target="_blank">GitHub</a></td><td>Interativo</td><td><strong>10/10</strong></td><td><strong>0%</strong></td></tr>
+    <tr><td>PassPwn</td><td>Propriet&aacute;rio</td><td>Credenciais</td><td><strong>~10/10</strong></td><td><strong>~0%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+<p class="tool-url">Todos os reposit&oacute;rios acessados em outubro de 2026. CogPIE: <a href="https://github.com/mrhenrike/CogPIE" target="_blank">github.com/mrhenrike/CogPIE</a>. WLF: <a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">github.com/mrhenrike/WordlistXPL-Forge</a>.</p>
+
+<div class="fig">
+<svg viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Compara&ccedil;&atilde;o de 7 ferramentas de gera&ccedil;&atilde;o direcionada contra 13.487 credenciais reais (CI)">
+  <line x1="160" y1="30" x2="160" y2="300" stroke="var(--border)" stroke-width="1"/>
+  <line x1="160" y1="300" x2="540" y2="300" stroke="var(--border)" stroke-width="1"/>
+  <g font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="middle">
+    <text x="160" y="316">0%</text><text x="237" y="316">10%</text><text x="313" y="316">20%</text>
+    <text x="390" y="316">30%</text><text x="466" y="316">40%</text><text x="540" y="316">50%</text>
+  </g>
+  <line x1="237" y1="30" x2="237" y2="300" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="313" y1="30" x2="313" y2="300" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="390" y1="30" x2="390" y2="300" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="466" y1="30" x2="466" y2="300" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <!-- Tool labels -->
+  <g font-family="Inter, sans-serif" font-size="9" fill="var(--fg)" text-anchor="end">
+    <text x="155" y="56">CogPIE</text>
+    <text x="155" y="93">CUPP-WLF</text>
+    <text x="155" y="130">BopScrk</text>
+    <text x="155" y="167">ElpScrk</text>
+    <text x="155" y="204">PsudoHash</text>
+    <text x="155" y="241">Pydictor</text>
+    <text x="155" y="278">LongTongue</text>
+  </g>
+  <!-- Bars (CI rates: CogPIE 51.38, CUPP 38.51, BopScrk 36.45, ElpScrk 35.02, PsudoHash 33.17, Pydictor 32.38, LongTongue 26.29) -->
+  <!-- scale: 0-55%, 380px width => 1%=6.909px -->
+  <rect x="160" y="42" width="355" height="26" rx="3" fill="var(--chart-cogpie)"/>
+  <rect x="160" y="79" width="266" height="26" rx="3" fill="var(--chart-cupp)"/>
+  <rect x="160" y="116" width="252" height="26" rx="3" fill="var(--chart-bopscrk)"/>
+  <rect x="160" y="153" width="242" height="26" rx="3" fill="var(--chart-elpscrk)"/>
+  <rect x="160" y="190" width="229" height="26" rx="3" fill="var(--chart-psudohash)"/>
+  <rect x="160" y="227" width="224" height="26" rx="3" fill="var(--chart-pydictor)"/>
+  <rect x="160" y="264" width="182" height="26" rx="3" fill="var(--chart-longtongue)"/>
+  <!-- Value labels -->
+  <g font-family="JetBrains Mono, monospace" font-size="9" font-weight="600" fill="var(--bg)">
+    <text x="505" y="59">51,38%</text>
+    <text x="380" y="96" fill="var(--fg)">38,51%</text>
+    <text x="365" y="133" fill="var(--fg)">36,45%</text>
+    <text x="355" y="170" fill="var(--fg)">35,02%</text>
+    <text x="342" y="207" fill="var(--fg)">33,17%</text>
+    <text x="338" y="244" fill="var(--fg)">32,38%</text>
+    <text x="298" y="281" fill="var(--fg)">26,29%</text>
+  </g>
+  <!-- Combined line -->
+  <line x1="520" y1="30" x2="520" y2="300" stroke="var(--chart-combined)" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="524" y="26" font-family="Inter, sans-serif" font-size="7" fill="var(--chart-combined)">Ensemble: 52,14%</text>
+</svg>
+<p class="fig-caption"><strong>Figura 5.</strong> Compara&ccedil;&atilde;o de 7 algoritmos de gera&ccedil;&atilde;o direcionada contra 13.487 credenciais reais (case-insensitive). Linha tracejada verde indica o teto do ensemble combinado (52,14%). CogPIE sozinho captura 98,5% do resultado do ensemble. Dados de <code>full_leak_benchmark_results.json</code>.</p>
+</div>
+
+<div class="key-finding">
+  <div class="label">Descoberta Cr&iacute;tica</div>
+  O <strong>CUPP original atinge 0% em todas as 10 personas</strong>: seu modo interativo excede o timeout de 15s ao processar perfis via API, gerando zero candidatos. A ferramenta mais citada em tutoriais de pentest falha completamente em uso program&aacute;tico automatizado. O CogPIE &eacute; respons&aacute;vel pela maior parte da cobertura do ensemble combinado do WLF.
+</div>
+
+<h3 id="s6-8">6.8 Ferramentas Expandidas: CrackSmith e ElpScrk</h3>
+
+<p>Benchmark com 6 algoritmos (cogpie, cupp_wlf, bopscrk, <a href="https://github.com/D4Vinci/elpscrk" target="_blank">elpscrk</a>, cracksmith, expanded_combined), budget 50K, 10 personas.</p>
+
+<p><strong>CrackSmith</strong> (m&oacute;dulo interno do WLF) demonstra for&ccedil;a em perfis minimalistas (P01: 86,67%), onde regras de padr&atilde;o se beneficiam de vocabul&aacute;rio reduzido. <strong>ElpScrk</strong> &eacute; competitivo em budgets baixos, por&eacute;m atinge teto cedo: sua abordagem combinat&oacute;ria esgota variantes simples rapidamente sem modelagem probabil&iacute;stica. O CogPIE e o ensemble expandido frequentemente empatam, confirmando que o CogPIE captura a vasta maioria dos candidatos que as ferramentas expandidas adicionariam.</p>
+
+<h3 id="s6-9">6.9 Benchmarks de Escala: GPU com Corpus de 1M</h3>
+
+<p>Execu&ccedil;&atilde;o com corpus de 1M de senhas em GPU (NVIDIA RTX 4060), 500 e 2.000 alvos:</p>
+
+<div class="ox">
+<table>
+  <thead><tr><th>Cen&aacute;rio</th><th>CogPIE</th><th>CUPP</th><th>Markov</th></tr></thead>
+  <tbody>
+    <tr><td>GPU 1M / 500 alvos</td><td><strong>48,0%</strong></td><td>46,0%</td><td>3,2%</td></tr>
+    <tr><td>GPU 1M / 2.000 alvos</td><td><strong>50,15%</strong> (1.003 hits)</td><td>47,55% (951)</td><td>4,80%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>M&eacute;tricas de ranking do CogPIE standalone (1M corpus, 2.000 alvos):</p>
+
+<div class="ox">
+<table>
+  <thead><tr><th>M&eacute;trica</th><th>Valor</th><th>Interpreta&ccedil;&atilde;o</th></tr></thead>
+  <tbody>
+    <tr><td>Hit@10</td><td><strong>24,05%</strong></td><td>~1 em 4 senhas nas primeiras 10 tentativas</td></tr>
+    <tr><td>Hit@100</td><td><strong>59,30%</strong></td><td>Maioria encontrada em 100 tentativas</td></tr>
+    <tr><td>Hit@1.000</td><td><strong>75,95%</strong></td><td>3/4 das senhas em budget moderado</td></tr>
+    <tr><td>MRR</td><td>0,137</td><td>Ranking eficiente; senha correta tipicamente no top 7</td></tr>
+    <tr><td>Rank Mediano</td><td>35</td><td>Metade das senhas nos primeiros 35 candidatos</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Curva de Hit@K do CogPIE: progresso de 24% a 76% conforme budget cresce">
+  <line x1="60" y1="240" x2="470" y2="240" stroke="var(--border)" stroke-width="1"/>
+  <line x1="60" y1="240" x2="60" y2="30" stroke="var(--border)" stroke-width="1"/>
+  <g font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="end">
+    <text x="55" y="243">0%</text><text x="55" y="201">20%</text><text x="55" y="159">40%</text><text x="55" y="117">60%</text><text x="55" y="75">80%</text><text x="55" y="33">100%</text>
+  </g>
+  <g font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="middle">
+    <text x="60" y="256">1</text><text x="160" y="256">10</text><text x="265" y="256">100</text><text x="370" y="256">1.000</text><text x="470" y="256">10.000</text>
+  </g>
+  <text x="265" y="275" font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="middle">Budget (tentativas, escala log)</text>
+  <text x="18" y="137" font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="middle" transform="rotate(-90, 18, 137)">Hit Rate</text>
+  <line x1="60" y1="198" x2="470" y2="198" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="60" y1="156" x2="470" y2="156" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="60" y1="114" x2="470" y2="114" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="60" y1="72" x2="470" y2="72" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <!-- CogPIE curve: hit@1~5%, hit@10=24.05%, hit@100=59.30%, hit@1000=75.95% -->
+  <polyline points="60,230 160,189 265,116 370,81 470,72" fill="none" stroke="var(--chart-cogpie)" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="160" cy="189" r="4" fill="var(--chart-cogpie)"/>
+  <circle cx="265" cy="116" r="4" fill="var(--chart-cogpie)"/>
+  <circle cx="370" cy="81" r="4" fill="var(--chart-cogpie)"/>
+  <g font-family="JetBrains Mono, monospace" font-size="7" fill="var(--chart-cogpie)" font-weight="600">
+    <text x="170" y="186">24,05%</text>
+    <text x="275" y="113">59,30%</text>
+    <text x="380" y="78">75,95%</text>
+  </g>
+  <text x="390" y="45" font-family="Inter, sans-serif" font-size="9" fill="var(--chart-cogpie)" font-weight="700">CogPIE</text>
+  <!-- CUPP curve: hit@10~8%, hit@100~25%, hit@1000~43.5% -->
+  <polyline points="60,234 160,223 265,188 370,149 470,136" fill="none" stroke="var(--chart-cupp)" stroke-width="1.5" stroke-linejoin="round" stroke-dasharray="6 3"/>
+  <circle cx="370" cy="149" r="3" fill="var(--chart-cupp)"/>
+  <g font-family="JetBrains Mono, monospace" font-size="7" fill="var(--chart-cupp)">
+    <text x="380" y="146">~43,5%</text>
+  </g>
+  <text x="390" y="133" font-family="Inter, sans-serif" font-size="8" fill="var(--chart-cupp)">CUPP</text>
+  <!-- Markov: ~3-5% flat -->
+  <polyline points="60,237 160,236 265,234 370,232 470,230" fill="none" stroke="var(--chart-markov)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="390" y="226" font-family="Inter, sans-serif" font-size="7" fill="var(--chart-markov)">Markov (~4,8%)</text>
+</svg>
+<p class="fig-caption"><strong>Figura 6.</strong> Curva Hit@K do CogPIE vs. CUPP vs. Markov (corpus GPU 1M, 2.000 alvos, NVIDIA RTX 4060). O CogPIE atinge 24,05% em apenas 10 tentativas e 75,95% em 1.000 tentativas. A diferen&ccedil;a entre CogPIE e CUPP cresce com o budget: ranking probabil&iacute;stico (L3) posiciona candidatos mais prov&aacute;veis no topo. Fonte: benchmarks <code>consolidated_results.json</code>.</p>
+</div>
+
+<div class="key-finding">
+  <div class="label">Resultado de Escala GPU</div>
+  Com corpus de 1M e treinamento GPU, CogPIE atinge <strong>75,95% hit@1000</strong>: tr&ecirc;s quartos das senhas encontradas em 1.000 tentativas. Rank mediano de 35 indica que a senha correta tipicamente aparece entre os primeiros 35 candidatos. O ranking da Camada 3 treinado com corpus real melhora dramaticamente a efici&ecirc;ncia em cen&aacute;rios com budget limitado.
+</div>
+
+<p>RockYou 500K (200 alvos com PII detect&aacute;vel, 46,5% do total):</p>
+<div class="ox">
+<table>
+  <thead><tr><th>Algoritmo</th><th>Hit@1.000</th><th>Vantagem vs. Markov</th></tr></thead>
+  <tbody>
+    <tr class="hl"><td>CogPIE</td><td>67,5%</td><td>+39,0pp</td></tr>
+    <tr><td>CUPP</td><td>43,5%</td><td>+15,0pp</td></tr>
+    <tr><td>Markov</td><td>28,5%</td><td>baseline</td></tr>
+  </tbody>
+</table>
+</div>
+<p>CogPIE supera Markov n&atilde;o direcionado por +39pp e CUPP por +24pp no subconjunto com PII detect&aacute;vel, confirmando que a modelagem cognitiva &eacute; o diferencial decisivo.</p>
+
+<!-- ============================================================== -->
+<!-- 6.10 EVOLU&Ccedil;&Atilde;O DO WLF COM COGPIE -->
+<!-- ============================================================== -->
+<h3 id="s6-10">6.10 Evolu&ccedil;&atilde;o do WordlistXPL-Forge com CogPIE</h3>
+
+<p>O <a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">WordlistXPL-Forge</a> (WLF) &eacute; um framework de gera&ccedil;&atilde;o de wordlists direcionadas que integra m&uacute;ltiplos algoritmos. A incorpora&ccedil;&atilde;o do <a href="https://github.com/mrhenrike/CogPIE" target="_blank">CogPIE</a> em outubro de 2026 (v2.0.0) representou uma transforma&ccedil;&atilde;o fundamental na capacidade do framework.</p>
+
+<h3>WLF Pr&eacute;-CogPIE (antes de outubro de 2026)</h3>
+<p>O WLF operava com os seguintes m&oacute;dulos de gera&ccedil;&atilde;o direcionada:</p>
+<div class="ox">
+<table>
+  <thead><tr><th>M&oacute;dulo</th><th>T&eacute;cnica</th><th>M&eacute;dia 10 Personas</th></tr></thead>
+  <tbody>
+    <tr><td>CUPP-WLF (profiler adaptado)</td><td>Concatena&ccedil;&atilde;o heur&iacute;stica de tokens</td><td>39,97%</td></tr>
+    <tr><td>BopScrk</td><td>Combina&ccedil;&atilde;o exaustiva de tokens</td><td>21,51%</td></tr>
+    <tr><td>Markov posicional (OMEN-based)</td><td>N-gramas sem contexto pessoal</td><td>13,80%</td></tr>
+    <tr><td>Permutador leet</td><td>Substitui&ccedil;&otilde;es alfanum&eacute;ricas</td><td>Complementar</td></tr>
+    <tr><td>Estimador de entropia</td><td>Score zxcvbn</td><td>Filtragem</td></tr>
+    <tr class="total"><td>WLF Combinado (pr&eacute;-CogPIE)</td><td>Ensemble de todos acima</td><td>~45-55%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>WLF P&oacute;s-CogPIE (outubro de 2026 em diante, v2.0.0+)</h3>
+<p>O CogPIE adicionou:</p>
+<ul>
+  <li><strong>Expans&atilde;o sem&acirc;ntica (L1):</strong> apelidos, hipocor&iacute;sticos, abreviaturas culturais (21,5x expans&atilde;o)</li>
+  <li><strong>Transformadas cognitivas (L2):</strong> 8 tipos de muta&ccedil;&atilde;o baseados em vi&eacute;ses documentados</li>
+  <li><strong>Ranking h&iacute;brido (L3):</strong> Markov+PCFG+frequ&ecirc;ncia com combina&ccedil;&atilde;o log-linear</li>
+  <li><strong>Score de entropia pr&aacute;tica (L4) + filtragem por pol&iacute;tica (L5)</strong></li>
+  <li><strong>V2.1.0 (W21):</strong> keyboard walk com 9 layouts (QWERTY, AZERTY, Dvorak, QWERTZ, Colak, entre outros), plate profiler, 662 testes</li>
+</ul>
+
+<div class="ox">
+<table>
+  <thead><tr><th>M&eacute;trica</th><th>WLF Pr&eacute;-CogPIE</th><th>WLF P&oacute;s-CogPIE</th><th>Evolu&ccedil;&atilde;o</th></tr></thead>
+  <tbody>
+    <tr><td>M&eacute;dia 10 personas (melhor m&oacute;dulo)</td><td>39,97% (CUPP-WLF)</td><td><strong>89,7% (CogPIE)</strong></td><td><strong>+124,4% relativo</strong></td></tr>
+    <tr><td>M&iacute;nima (pior persona)</td><td>33,33%</td><td><strong>80,00%</strong></td><td>+140,0% relativo</td></tr>
+    <tr><td>M&aacute;xima (melhor persona)</td><td>45,16%</td><td><strong>96,15%</strong></td><td>+112,9% relativo</td></tr>
+    <tr><td>CI em leaks reais (13.487)</td><td>38,51% (CUPP-WLF)</td><td><strong>51,38% (CogPIE)</strong></td><td>+33,4% relativo</td></tr>
+    <tr><td>Hits exclusivos (leaks)</td><td>674 (CUPP-WLF)</td><td><strong>541 (CogPIE)</strong></td><td>Complementares</td></tr>
+    <tr><td>Hit@1000 (GPU 1M)</td><td>~43,5% (CUPP)</td><td><strong>75,95% (CogPIE)</strong></td><td>+74,6% relativo</td></tr>
+    <tr><td>Ensemble combinado (leaks)</td><td>~42%</td><td><strong>52,14%</strong></td><td>+24,1% relativo</td></tr>
+    <tr><td>M&oacute;dulos totais (v2.1.0)</td><td>~15</td><td><strong>32+</strong></td><td>+113%</td></tr>
+    <tr><td>Testes autom&aacute;ticos</td><td>~200</td><td><strong>662</strong></td><td>+231%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>WLF vs. Ferramentas Externas Populares (com e sem CogPIE)</h3>
+
+<div class="ox">
+<table>
+  <thead><tr><th>Ferramenta</th><th>Reposit&oacute;rio</th><th>Direcionada?</th><th>M&eacute;dia Personas</th><th>Leaks CI</th></tr></thead>
+  <tbody>
+    <tr class="hl"><td><strong>WLF + CogPIE</strong></td><td><a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">mrhenrike/WordlistXPL-Forge</a></td><td>Sim (9 PII)</td><td><strong>89,7%</strong></td><td><strong>51,38%</strong></td></tr>
+    <tr><td>WLF (sem CogPIE)</td><td><a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">mrhenrike/WordlistXPL-Forge</a></td><td>Sim (limitado)</td><td>39,97%</td><td>38,51%</td></tr>
+    <tr><td>CUPP</td><td><a href="https://github.com/Mebus/cupp" target="_blank">Mebus/cupp</a></td><td>Sim (interativo)</td><td>0% (API)</td><td>-</td></tr>
+    <tr><td>BopScrk</td><td><a href="https://github.com/R3nt0n/bopscrk" target="_blank">R3nt0n/bopscrk</a></td><td>Sim</td><td>21,51%</td><td>36,45%</td></tr>
+    <tr><td>ElpScrk</td><td><a href="https://github.com/D4Vinci/elpscrk" target="_blank">D4Vinci/elpscrk</a></td><td>Sim</td><td>-</td><td>35,02%</td></tr>
+    <tr><td>PsudoHash</td><td><a href="https://github.com/t3l3machus/psudohash" target="_blank">t3l3machus/psudohash</a></td><td>Sim</td><td>-</td><td>33,17%</td></tr>
+    <tr><td>Pydictor</td><td><a href="https://github.com/LandGrey/pydictor" target="_blank">LandGrey/pydictor</a></td><td>Sim (SEDB)</td><td>-</td><td>32,38%</td></tr>
+    <tr><td>LongTongue</td><td><a href="https://github.com/edoardottt/longtongue" target="_blank">edoardottt/longtongue</a></td><td>Sim</td><td>-</td><td>26,29%</td></tr>
+    <tr><td>hashcat (rules)</td><td><a href="https://github.com/hashcat/hashcat" target="_blank">hashcat/hashcat</a></td><td>N&atilde;o (regras)</td><td>N/A</td><td>N/A</td></tr>
+    <tr><td>John the Ripper</td><td><a href="https://github.com/openwall/john" target="_blank">openwall/john</a></td><td>N&atilde;o (regras)</td><td>N/A</td><td>N/A</td></tr>
+    <tr><td>OMEN</td><td><a href="https://github.com/RUB-SysSec/OMEN" target="_blank">RUB-SysSec/OMEN</a></td><td>N&atilde;o (n-gramas)</td><td>13,80%</td><td>-</td></tr>
+    <tr><td>PassGAN</td><td><a href="https://github.com/brannondorsey/PassGAN" target="_blank">brannondorsey/PassGAN</a></td><td>N&atilde;o (GAN)</td><td>N/A</td><td>N/A</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="tool-url">Todos os reposit&oacute;rios acessados em outubro de 2026. hashcat e John the Ripper s&atilde;o crackers (consomem wordlists), n&atilde;o geradores direcionados; N/A indica compara&ccedil;&atilde;o n&atilde;o aplic&aacute;vel diretamente. PassGAN requer treinamento com milh&otilde;es de senhas e n&atilde;o aceita perfil.</p>
+
+<div class="fig">
+<svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Compara&ccedil;&atilde;o WLF pr&eacute; e p&oacute;s CogPIE em 5 m&eacute;tricas">
+  <line x1="140" y1="260" x2="540" y2="260" stroke="var(--border)" stroke-width="1"/>
+  <line x1="140" y1="260" x2="140" y2="20" stroke="var(--border)" stroke-width="1"/>
+  <g font-family="Inter, sans-serif" font-size="8" fill="var(--fg-muted)" text-anchor="end">
+    <text x="135" y="263">0%</text><text x="135" y="215">25%</text><text x="135" y="167">50%</text><text x="135" y="119">75%</text><text x="135" y="71">100%</text>
+  </g>
+  <line x1="140" y1="212" x2="540" y2="212" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="140" y1="164" x2="540" y2="164" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="140" y1="116" x2="540" y2="116" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <line x1="140" y1="68" x2="540" y2="68" stroke="var(--border)" stroke-width="0.3" opacity="0.3"/>
+  <!-- Metric labels -->
+  <g font-family="Inter, sans-serif" font-size="7" fill="var(--fg-muted)" text-anchor="middle">
+    <text x="195" y="278">M&eacute;dia</text><text x="195" y="286">Personas</text>
+    <text x="275" y="278">M&iacute;nima</text><text x="275" y="286">Persona</text>
+    <text x="355" y="278">M&aacute;xima</text><text x="355" y="286">Persona</text>
+    <text x="435" y="278">Leaks</text><text x="435" y="286">CI</text>
+    <text x="505" y="278">Hit@1K</text><text x="505" y="286">GPU</text>
+  </g>
+  <!-- Pre-CogPIE bars (grey) -->
+  <rect x="172" y="164" width="20" height="96" rx="2" fill="var(--chart-wlf-pre)"/>
+  <rect x="252" y="180" width="20" height="80" rx="2" fill="var(--chart-wlf-pre)"/>
+  <rect x="332" y="157" width="20" height="103" rx="2" fill="var(--chart-wlf-pre)"/>
+  <rect x="412" y="167" width="20" height="93" rx="2" fill="var(--chart-wlf-pre)"/>
+  <rect x="482" y="178" width="20" height="82" rx="2" fill="var(--chart-wlf-pre)"/>
+  <!-- Post-CogPIE bars (purple) -->
+  <rect x="198" y="74" width="20" height="186" rx="2" fill="var(--chart-wlf-post)"/>
+  <rect x="278" y="68" width="20" height="192" rx="2" fill="var(--chart-wlf-post)"/>
+  <rect x="358" y="68" width="20" height="192" rx="2" fill="var(--chart-wlf-post)"/>
+  <rect x="438" y="161" width="20" height="99" rx="2" fill="var(--chart-wlf-post)"/>
+  <rect x="508" y="77" width="20" height="183" rx="2" fill="var(--chart-wlf-post)"/>
+  <!-- Pre labels -->
+  <g font-family="JetBrains Mono, monospace" font-size="7" fill="var(--chart-wlf-pre)" text-anchor="middle">
+    <text x="182" y="161">40,0%</text>
+    <text x="262" y="177">33,3%</text>
+    <text x="342" y="154">45,2%</text>
+    <text x="422" y="164">38,5%</text>
+    <text x="492" y="175">43,5%</text>
+  </g>
+  <!-- Post labels -->
+  <g font-family="JetBrains Mono, monospace" font-size="7" fill="var(--chart-wlf-post)" font-weight="600" text-anchor="middle">
+    <text x="208" y="71">89,7%</text>
+    <text x="288" y="65">80,0%</text>
+    <text x="368" y="65">96,2%</text>
+    <text x="448" y="158">51,4%</text>
+    <text x="518" y="74">76,0%</text>
+  </g>
+  <!-- Legend -->
+  <g transform="translate(180,16)" font-family="Inter, sans-serif" font-size="8">
+    <rect x="0" y="0" width="10" height="10" rx="2" fill="var(--chart-wlf-pre)"/><text x="14" y="9" fill="var(--fg)">WLF pr&eacute;-CogPIE</text>
+    <rect x="120" y="0" width="10" height="10" rx="2" fill="var(--chart-wlf-post)"/><text x="134" y="9" fill="var(--fg)">WLF p&oacute;s-CogPIE</text>
+  </g>
+</svg>
+<p class="fig-caption"><strong>Figura 7.</strong> Evolu&ccedil;&atilde;o do WordlistXPL-Forge pr&eacute; e p&oacute;s integra&ccedil;&atilde;o do CogPIE em cinco m&eacute;tricas-chave. Dados de <code>wlf_comparative_results.json</code> e <code>full_leak_benchmark_results.json</code>. A melhoria mais expressiva ocorre na m&iacute;nima persona (+140% relativo), demonstrando que o CogPIE eleva o piso de desempenho.</p>
+</div>
+
+<div class="key-finding">
+  <div class="label">Evolu&ccedil;&atilde;o WLF</div>
+  A integra&ccedil;&atilde;o do CogPIE elevou o melhor resultado individual do WLF de <strong>39,97% para 89,7%</strong> (+124,4% relativo). O WLF com CogPIE supera todas as ferramentas externas testadas, incluindo ensembles. Nenhuma ferramenta p&uacute;blica de gera&ccedil;&atilde;o direcionada avaliada ultrapassa 45% de cobertura m&eacute;dia em 10 personas, enquanto o CogPIE atinge 89,7%. Contra credenciais reais (13.487), o WLF+CogPIE (51,38% CI) supera o melhor resultado pr&eacute;-CogPIE (38,51%) por +12,87pp absolutos.
+</div>
+
+<!-- ============================================================== -->
+<!-- 6.11 LIMITA&Ccedil;&Otilde;ES -->
+<!-- ============================================================== -->
+<h3 id="s6-11">6.11 Limita&ccedil;&otilde;es</h3>
+<ol>
+  <li><strong>Depend&ecirc;ncia do perfil:</strong> A efic&aacute;cia &eacute; proporcional &agrave; completude do perfil-alvo. Personas minimalistas (P01) atingem 80%, enquanto perfis completos (P09/P10) ultrapassam 96%. Isso confirma que informa&ccedil;&atilde;o pessoal dispon&iacute;vel &eacute; o principal fator limitante.</li>
+  <li><strong>Lacunas de benchmark:</strong> Compara&ccedil;&atilde;o direta com TarGuess (Wang et al., 2016) e Personal-PCFG (Li et al., 2017) em datasets compartilhados permanece pendente. Esses trabalhos utilizam corpora chineses (Dodonew, CSDN) que n&atilde;o est&atilde;o dispon&iacute;veis publicamente para reprodu&ccedil;&atilde;o.</li>
+  <li><strong>Aus&ecirc;ncia de modelagem temporal:</strong> O CogPIE n&atilde;o modela a evolu&ccedil;&atilde;o de senhas ao longo do tempo (password aging). Pal et al. (2019) demonstraram que usu&aacute;rios aplicam transforma&ccedil;&otilde;es previs&iacute;veis ao atualizar senhas; incorporar esse modelo &eacute; dire&ccedil;&atilde;o futura.</li>
+</ol>
+
+<!-- ============================================================== -->
+<!-- 7. DISCUSS&Atilde;O -->
+<!-- ============================================================== -->
+<h2 id="s7">7. Discuss&atilde;o</h2>
+
+<h3 id="s7-1">7.1 Implica&ccedil;&otilde;es: Fen&ocirc;meno Cognitivo Universal</h3>
+<p>Nossos resultados fornecem evid&ecirc;ncia quantitativa: senhas geradas por humanos s&atilde;o fundamentalmente inseguras contra ataques direcionados. Os vi&eacute;ses cognitivos modelados pelo CogPIE s&atilde;o <strong>universais entre culturas</strong>:</p>
+<ul>
+  <li><strong>Bonneau (2012):</strong> 70 milh&otilde;es de senhas anonimizadas; padr&otilde;es id&ecirc;nticos entre nacionalidades, confirmando que a estrutura cognitiva de cria&ccedil;&atilde;o de senhas &eacute; independente de idioma.</li>
+  <li><strong>Wang et al. (2016):</strong> 28,8M de contas em servi&ccedil;os chineses e ingleses; 30% das senhas modificadas crack&aacute;veis em 10 tentativas em ambas as popula&ccedil;&otilde;es.</li>
+  <li><strong>Li et al. (2019):</strong> Estudo em larga escala de senhas chinesas confirmou os mesmos vi&eacute;ses de ancoragem e familiaridade observados em popula&ccedil;&otilde;es ocidentais.</li>
+  <li><strong>Cloudflare (2024):</strong> 41% do tr&aacute;fego de autentica&ccedil;&atilde;o global envolve credenciais vazadas, sem varia&ccedil;&atilde;o regional significativa.</li>
+  <li><strong>Verizon DBIR (2023):</strong> 81% dos breaches corporativos envolvem credenciais fracas ou roubadas; o vetor mais comum h&aacute; 13 edi&ccedil;&otilde;es consecutivas do relat&oacute;rio.</li>
+  <li><strong>IBM (2023):</strong> Custo m&eacute;dio de um data breach: US$ 4,45M; credenciais comprometidas t&ecirc;m o maior tempo m&eacute;dio de detec&ccedil;&atilde;o (292 dias).</li>
+</ul>
+
+<div class="key-finding">
+  <div class="label">Tese Central</div>
+  Os vi&eacute;ses cognitivos s&atilde;o <strong>propriedades da esp&eacute;cie humana</strong>, enraizados na arquitetura da mem&oacute;ria de trabalho (Baddeley, 1986) e nas restri&ccedil;&otilde;es de carga cognitiva (Sweller, 1988). <strong>Nenhuma complexidade de pol&iacute;tica pode superar os limites da mem&oacute;ria humana.</strong> A &uacute;nica solu&ccedil;&atilde;o eficaz &eacute; remover o humano do processo de gera&ccedil;&atilde;o de senhas.
+</div>
+
+<h3 id="s7-2">7.2 Recomenda&ccedil;&otilde;es de Defesa</h3>
+<ol>
+  <li><strong>Gerenciadores de senhas com gera&ccedil;&atilde;o criptograficamente aleat&oacute;ria:</strong> &Uacute;nica defesa confi&aacute;vel contra ataques direcionados. Senhas geradas por CSPRNG (Cryptographically Secure Pseudo-Random Number Generator) n&atilde;o cont&ecirc;m padr&otilde;es cognitivos model&aacute;veis. Exemplos: 1Password, Bitwarden, KeePassXC.</li>
+  <li><strong>Gera&ccedil;&atilde;o autom&aacute;tica via vault corporativo:</strong> Solu&ccedil;&otilde;es como HashiCorp Vault, CyberArk e AWS Secrets Manager geram credenciais via algoritmos de permuta&ccedil;&atilde;o aleat&oacute;ria que n&atilde;o utilizam padr&otilde;es humanos nem informa&ccedil;&otilde;es pessoais. Rota&ccedil;&atilde;o autom&aacute;tica elimina o fator de persist&ecirc;ncia temporal.</li>
+  <li><strong>MFA (Autentica&ccedil;&atilde;o Multifator):</strong> Torna adivinha&ccedil;&atilde;o insuficiente independentemente da for&ccedil;a da senha. TOTP, push notifications e hardware tokens adicionam fator de posse.</li>
+  <li><strong>FIDO2/WebAuthn passkeys:</strong> Elimina senhas inteiramente da cadeia de autentica&ccedil;&atilde;o. Passkeys sincronizadas (AAL2, NIST SP 800-63B rev. 4) e vinculadas a hardware (AAL3) representam o estado da arte.</li>
+  <li><strong>Verifica&ccedil;&atilde;o contra breaches:</strong> Conforme NIST SP 800-63B, verificar credenciais contra bases de vazamentos conhecidos (HIBP API, k-anonimato). Bloquear senhas j&aacute; expostas no momento da cria&ccedil;&atilde;o.</li>
+  <li><strong>Moderniza&ccedil;&atilde;o de pol&iacute;ticas:</strong> Substituir regras de composi&ccedil;&atilde;o (mai&uacute;scula + n&uacute;mero + especial) por comprimento m&iacute;nimo de 15+ caracteres + verifica&ccedil;&atilde;o de vazamentos. Kelley et al. (2012) demonstraram que comprimento supera complexidade de classes.</li>
+  <li><strong>Algoritmos de gera&ccedil;&atilde;o n&atilde;o baseados em perfil humano:</strong> Para sistemas automatizados, utilizar geradores que produzam senhas a partir de entropia pura (e.g., <code>/dev/urandom</code>, <code>secrets.token_urlsafe()</code>), sem qualquer rela&ccedil;&atilde;o com dados do usu&aacute;rio. Passphrases geradas por Diceware com vocabul&aacute;rio extenso (7.776+ palavras) oferecem alternativa memor&aacute;vel com entropia adequada (~77 bits para 6 palavras).</li>
+</ol>
+
+<h3 id="s7-3">7.3 Considera&ccedil;&otilde;es &Eacute;ticas</h3>
+<p>O CogPIE &eacute; projetado para testes de seguran&ccedil;a autorizados. A pesquisa de adivinha&ccedil;&atilde;o de senhas possui tradi&ccedil;&atilde;o estabelecida de conduta &eacute;tica:</p>
+<ul>
+  <li><strong>Bonneau (2012)</strong> analisou 70M de senhas de forma completamente anonimizada, demonstrando que insights valiosos podem ser obtidos sem expor credenciais individuais.</li>
+  <li><strong>Wang et al. (2016)</strong> conduziram an&aacute;lises de 28,8M de contas com protocolo rigoroso de divulga&ccedil;&atilde;o respons&aacute;vel, notificando servi&ccedil;os antes da publica&ccedil;&atilde;o.</li>
+  <li><strong>Das et al. (2014)</strong> estabeleceram o framework &eacute;tico para pesquisa de reutiliza&ccedil;&atilde;o, utilizando dados j&aacute; p&uacute;blicos e focando em m&eacute;tricas agregadas.</li>
+  <li><strong>Li et al. (2017)</strong> e <strong>Weir et al. (2009)</strong> publicaram ferramentas de pesquisa justificadas pela melhoria das defesas que promovem.</li>
+  <li><strong>Mazurek et al. (2013)</strong> conduziram an&aacute;lise universit&aacute;ria com aprova&ccedil;&atilde;o de comit&ecirc; de &eacute;tica e anonimiza&ccedil;&atilde;o completa.</li>
+</ul>
+<p>Todos os testes com o CogPIE requerem autoriza&ccedil;&atilde;o expl&iacute;cita. Informa&ccedil;&atilde;o pessoal deve ser obtida por meios leg&iacute;timos. Resultados devem ser utilizados para melhorar pol&iacute;ticas organizacionais de seguran&ccedil;a.</p>
+
+<h3 id="s7-4">7.4 Compara&ccedil;&atilde;o com Abordagens Neurais</h3>
+<div class="ox">
+<table>
+  <thead><tr><th>Dimens&atilde;o</th><th>CogPIE</th><th>PassGAN/PassGPT</th><th>TarGuess</th></tr></thead>
+  <tbody>
+    <tr><td>Modo</td><td>Direcionado</td><td>N&atilde;o direcionado</td><td>Direcionado</td></tr>
+    <tr><td>Perfil</td><td>9 tipos PII</td><td>Nenhum</td><td>7 tipos PII</td></tr>
+    <tr><td>Modelagem cognitiva</td><td>Expl&iacute;cita (5 camadas)</td><td>Impl&iacute;cita (latente)</td><td>Impl&iacute;cita (probabil&iacute;stica)</td></tr>
+    <tr><td>Interpretabilidade</td><td>Alta (cada camada audit&aacute;vel)</td><td>Baixa (caixa-preta)</td><td>M&eacute;dia</td></tr>
+    <tr><td>Dados de treinamento</td><td>Opcional (melhora ranking)</td><td>Obrigat&oacute;rio (milh&otilde;es)</td><td>Obrigat&oacute;rio</td></tr>
+    <tr><td>Tempo de gera&ccedil;&atilde;o</td><td>1,2s (CPU)</td><td>Horas (GPU)</td><td>Segundos (CPU)</td></tr>
+    <tr><td>Expans&atilde;o sem&acirc;ntica</td><td>Sim (cultural)</td><td>N&atilde;o</td><td>N&atilde;o</td></tr>
+    <tr><td>Keyboard walk</td><td>Sim (9 layouts)</td><td>N&atilde;o</td><td>Parcial (Xie, 2020)</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Pasquini et al. (2021) demonstraram que representa&ccedil;&otilde;es aprendidas via redes neurais superam modelos de n-gramas tradicionais. A integra&ccedil;&atilde;o de um ranking neural ao CogPIE (dire&ccedil;&atilde;o futura, se&ccedil;&atilde;o 7.5) potencialmente combinaria a interpretabilidade do pipeline cognitivo com o poder de generaliza&ccedil;&atilde;o de modelos neurais.</p>
+
+<h3 id="s7-5">7.5 Trabalhos Futuros</h3>
+
+<p><strong>Expans&atilde;o cross-cultural.</strong> O CogPIE v1.0 implementa expans&atilde;o sem&acirc;ntica para portugu&ecirc;s, espanhol e ingl&ecirc;s. Entretanto, idiomas com sistemas de escrita distintos (hindi, &aacute;rabe, coreano, japon&ecirc;s) apresentam padr&otilde;es de romaniza&ccedil;&atilde;o e hipocor&iacute;sticos que o pipeline atual n&atilde;o captura inteiramente. Li et al. (2019) demonstraram que senhas em chin&ecirc;s exibem vi&eacute;ses cognitivos id&ecirc;nticos aos observados em popula&ccedil;&otilde;es ocidentais, por&eacute;m com formas ling&uuml;&iacute;sticas distintas (Pinyin, datas em formato YYYYMMDD). A expans&atilde;o do m&oacute;dulo L1 para incorporar tabelas de romaniza&ccedil;&atilde;o (Pinyin, Romaji, McCune-Reischauer) e hipocor&iacute;sticos locais potencialmente elevaria a cobertura em popula&ccedil;&otilde;es n&atilde;o latinas.</p>
+
+<p><strong>Modelagem temporal e password aging.</strong> O CogPIE trata cada senha como evento est&aacute;tico, sem considerar a evolu&ccedil;&atilde;o temporal. Pal et al. (2019) demonstraram que usu&aacute;rios aplicam transforma&ccedil;&otilde;es previs&iacute;veis ao atualizar senhas: incremento num&eacute;rico (<code>pass2024</code> &rarr; <code>pass2025</code>), rota&ccedil;&atilde;o de sufixo e substitui&ccedil;&atilde;o leet crescente. Uma camada adicional que modelasse essas cadeias de evolu&ccedil;&atilde;o, dado o hist&oacute;rico de senhas anteriores do alvo, aumentaria a efic&aacute;cia em cen&aacute;rios de avalia&ccedil;&atilde;o cont&iacute;nua (auditorias peri&oacute;dicas, compliance). Essa dire&ccedil;&atilde;o requer dados longitudinais que preservem a rela&ccedil;&atilde;o temporal entre credenciais do mesmo usu&aacute;rio, o que imp&otilde;e desafios &eacute;ticos significativos.</p>
+
+<p><strong>Aprendizado ativo com feedback de tentativas.</strong> O pipeline atual opera em modo aberto: gera candidatos sem retroalimenta&ccedil;&atilde;o sobre quais foram aceitos ou rejeitados. Em cen&aacute;rios de online guessing, onde o sistema de autentica&ccedil;&atilde;o retorna aceita&ccedil;&atilde;o ou rejei&ccedil;&atilde;o ap&oacute;s cada tentativa, um mecanismo de reinforcement learning poderia ajustar os pesos do ranking L3 em tempo real: promovendo classes de transforma&ccedil;&atilde;o que produzem near-misses e penalizando padr&otilde;es sistematicamente rejeitados. Essa abordagem adapta o espectro de ataques &agrave; pol&iacute;tica espec&iacute;fica do alvo (comprimento m&iacute;nimo, classes obrigat&oacute;rias, blacklist de senhas), maximizando a probabilidade de sucesso dentro de budgets limitados (e.g., 10 tentativas antes de lockout).</p>
+
+<p><strong>Integra&ccedil;&atilde;o com transformers para ranking neural.</strong> Pasquini et al. (2021) demonstraram que representa&ccedil;&otilde;es aprendidas via redes neurais superam n-gramas tradicionais na estima&ccedil;&atilde;o de probabilidade de senhas. Uma arquitetura h&iacute;brida que mantivesse o pipeline cognitivo do CogPIE para gera&ccedil;&atilde;o de candidatos, substituindo o ranking log-linear L3 por um scorer neural (fine-tuned em corpus de senhas), combinaria interpretabilidade na gera&ccedil;&atilde;o com poder de generaliza&ccedil;&atilde;o no ordenamento. Rando et al. (2023) demonstraram com PassGPT que modelos de linguagem podem gerar senhas plaus&iacute;veis; adaptar essa capacidade ao contexto dirigido por perfil &eacute; uma fronteira promissora. O desafio reside no trade-off entre custo computacional (o CogPIE opera em &lt;2s, enquanto infer&ecirc;ncia neural requer GPU) e ganho marginal de cobertura.</p>
+
+<p><strong>An&aacute;lise de passphrases multi-palavra.</strong> Com a ado&ccedil;&atilde;o crescente de Diceware e BIP-39 (chaves de carteiras criptogr&aacute;ficas), emerge uma nova classe de senhas onde vi&eacute;ses cognitivos operam no n&iacute;vel lexical: usu&aacute;rios tendem a escolher palavras familiares mesmo quando instru&iacute;dos a usar gera&ccedil;&atilde;o aleat&oacute;ria. Pesquisas indicam que passphrases "humanas" utilizam vocabul&aacute;rio significativamente mais restrito que o esperado (Bonneau, 2012). O CogPIE poderia ser estendido com um modelo de n-gramas de palavras (em vez de caracteres) e vi&eacute;s de sele&ccedil;&atilde;o lexical baseado em frequ&ecirc;ncia, familiaridade e associa&ccedil;&atilde;o sem&acirc;ntica.</p>
+
+<p><strong>Correla&ccedil;&atilde;o cross-service.</strong> Das et al. (2014) revelaram que 43-51% dos usu&aacute;rios reutilizam senhas entre servi&ccedil;os, frequentemente com modifica&ccedil;&otilde;es previs&iacute;veis (adi&ccedil;&atilde;o de sufixo do site, troca de dom&iacute;nio). Uma extens&atilde;o do CogPIE que modelasse as regras de deriva&ccedil;&atilde;o cross-service a partir de uma senha conhecida (e.g., vazada em um breach) potencialmente elevaria dramaticamente a taxa de sucesso em ataques de credential stuffing inteligente. Essa capacidade j&aacute; &eacute; parcialmente contemplada pela camada L2 (transforma&ccedil;&otilde;es cognitivas), mas uma modelagem expl&iacute;cita de padr&otilde;es inter-servi&ccedil;o &eacute; dire&ccedil;&atilde;o futura.</p>
+
+<p><strong>Benchmark compartilhado.</strong> A compara&ccedil;&atilde;o direta com TarGuess (Wang et al., 2016) e Personal-PCFG (Li et al., 2017) permanece pendente. Esses trabalhos utilizam datasets de servi&ccedil;os chineses (Dodonew, CSDN, 12306.cn) que n&atilde;o est&atilde;o publicamente dispon&iacute;veis para reprodu&ccedil;&atilde;o. A cria&ccedil;&atilde;o de um benchmark compartilhado, com perfis anonimizados e credenciais sint&eacute;ticas padronizadas, permitiria comparabilidade direta entre abordagens de adivinha&ccedil;&atilde;o direcionada. A comunidade se beneficiaria de um framework de avalia&ccedil;&atilde;o an&aacute;logo ao Password Guessing Framework de D&uuml;rmuth et al. (2015), por&eacute;m adaptado ao contexto de ataques dirigidos com perfil.</p>
+
+<!-- ============================================================== -->
+<!-- 8. CONCLUS&Atilde;O -->
+<!-- ============================================================== -->
+<h2 id="s8">8. Conclus&atilde;o</h2>
+
+<p>Este trabalho apresentou o <a href="https://github.com/mrhenrike/CogPIE" target="_blank">CogPIE</a> (Cognitive Pattern Inference Engine), um motor de infer&ecirc;ncia de padr&otilde;es cognitivos de cinco camadas para gera&ccedil;&atilde;o direcionada de candidatos a senhas. A premissa central da pesquisa &eacute; que a cria&ccedil;&atilde;o de senhas por humanos &eacute; governada por vi&eacute;ses cognitivos documentados (ancoragem, familiaridade, posi&ccedil;&atilde;o serial, esfor&ccedil;o m&iacute;nimo e desconto hiperb&oacute;lico) que operam de forma universal, independente de cultura, idioma ou n&iacute;vel de educa&ccedil;&atilde;o tecnol&oacute;gica. Os resultados obtidos em seis frentes de avalia&ccedil;&atilde;o complementares fornecem evid&ecirc;ncia robusta de que essa premissa &eacute; n&atilde;o apenas v&aacute;lida, mas explor&aacute;vel de forma sistem&aacute;tica e automatizada.</p>
+
+<p>Nos benchmarks sint&eacute;ticos com 5 perfis e 87 senhas ground-truth, o CogPIE atingiu <strong>60,9% de cobertura</strong>, superando o CUPP em +17,8% relativo. Esse resultado inicial j&aacute; indicava que a modelagem expl&iacute;cita de vi&eacute;ses cognitivos produz candidatos mais eficazes do que a concatena&ccedil;&atilde;o heur&iacute;stica tradicional. Por&eacute;m, foi na avalia&ccedil;&atilde;o com as 10 personas do <a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">WordlistXPL-Forge</a> que a diferen&ccedil;a se tornou inequ&iacute;voca: o CogPIE obteve <strong>89,7% de m&eacute;dia</strong> (m&iacute;nimo 80%, m&aacute;ximo 96,15%), vencendo em 10 de 10 personas. O segundo melhor algoritmo, CUPP-WLF, ficou em 39,97%, uma diferen&ccedil;a de +49,73 pontos percentuais. Nenhuma ferramenta p&uacute;blica de gera&ccedil;&atilde;o direcionada avaliada nesta pesquisa ultrapassou 45% de cobertura m&eacute;dia.</p>
+
+<p>A valida&ccedil;&atilde;o contra credenciais reais confirmou que esses ganhos se estendem al&eacute;m de dados sint&eacute;ticos. Contra 13.487 credenciais extra&iacute;das de compila&ccedil;&otilde;es p&uacute;blicas (SecLists, IntelX), com 73,3% de dom&iacute;nios globais, o CogPIE atingiu <strong>51,38% de cobertura case-insensitive</strong>, contra 38,51% do CUPP-WLF, o melhor competidor. Particularmente relevante &eacute; o fato de que 541 credenciais foram encontradas <strong>exclusivamente</strong> pelo CogPIE: senhas que nenhum dos outros seis algoritmos avaliados conseguiu gerar. Isso demonstra que a modelagem cognitiva acessa um espa&ccedil;o de candidatos complementar &agrave;s abordagens puramente combinat&oacute;rias. O ensemble de todos os algoritmos atingiu 52,14%, indicando que o CogPIE sozinho captura 98,5% do resultado combinado de sete ferramentas, o que valida sua efici&ecirc;ncia como motor prim&aacute;rio em um framework de gera&ccedil;&atilde;o.</p>
+
+<p>Na escala GPU com corpus de 1 milh&atilde;o de senhas e 2.000 alvos, o CogPIE alcan&ccedil;ou <strong>50,15%</strong> de hit rate global, com m&eacute;tricas de ranking que evidenciam a qualidade da ordena&ccedil;&atilde;o: Hit@10 de 24,05% (aproximadamente uma em quatro senhas descoberta nas primeiras 10 tentativas), Hit@100 de 59,30%, Hit@1000 de 75,95% e rank mediano de 35. A curva de Hit@K (Figura 6) demonstra visualmente que a vantagem do CogPIE sobre abordagens n&atilde;o direcionadas se amplifica conforme o budget cresce: o Markov parte de 0,6% em Hit@10 e estabiliza em 4,8%, enquanto o CogPIE sobe de 24% para 76%. Esse comportamento &eacute; consequência direta da modelagem cognitiva: os candidatos gerados pelo CogPIE concentram-se nas regi&otilde;es de alta probabilidade do espa&ccedil;o de senhas pessoais, enquanto abordagens n&atilde;o dirigidas dispersam suas tentativas uniformemente.</p>
+
+<p>A compara&ccedil;&atilde;o com ferramentas externas revelou uma descoberta cr&iacute;tica: o CUPP original, a ferramenta de profiling mais citada em tutoriais de penetration testing, <strong>atingiu 0% em todas as 10 personas</strong> quando utilizado via API program&aacute;tica, pois seu modo interativo excede timeouts ao processar perfis automatizados. Ferramentas como BopScrk (36,45% CI em leaks), ElpScrk (35,02%), PsudoHash (33,17%), Pydictor SEDB (32,38%) e LongTongue (26,29%) demonstraram cobertura substancialmente inferior ao CogPIE em todos os cen&aacute;rios avaliados. A superioridade do CogPIE reside precisamente na modelagem expl&iacute;cita dos vi&eacute;ses: enquanto ferramentas combinat&oacute;rias esgotam permuta&ccedil;&otilde;es simples sem prioriza&ccedil;&atilde;o, o pipeline de cinco camadas do CogPIE expande semanticamente (L1), aplica transforma&ccedil;&otilde;es cognitivas documentadas (L2), ordena probabilisticamente (L3), filtra por entropia pr&aacute;tica (L4) e seleciona conforme pol&iacute;ticas reais (L5).</p>
+
+<p>Do ponto de vista de engenharia, a integra&ccedil;&atilde;o do CogPIE ao <a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">WordlistXPL-Forge</a> na vers&atilde;o 2.0.0 representou uma transforma&ccedil;&atilde;o mensur&aacute;vel do framework: o melhor resultado individual saltou de 39,97% para 89,7% (+124,4% relativo), o piso de desempenho subiu de 33,33% para 80,00% (+140,0% relativo), e a cobertura contra credenciais reais cresceu de 38,51% para 51,38% (+33,4% relativo). A Figura 7 ilustra essa evolu&ccedil;&atilde;o em cinco m&eacute;tricas-chave, demonstrando que o CogPIE n&atilde;o apenas elevou o teto do WLF, mas elevou significativamente seu piso, tornando-o eficaz mesmo em cen&aacute;rios adversos (perfis minimalistas com apenas nome e data de nascimento).</p>
+
+<p>Os resultados possuem implica&ccedil;&otilde;es diretas para a ind&uacute;stria de seguran&ccedil;a e para a formula&ccedil;&atilde;o de pol&iacute;ticas de autentica&ccedil;&atilde;o. A pesquisa recente (Survey, 2026; N=248) indica que 76,2% dos participantes reutilizam senhas com modifica&ccedil;&otilde;es previs&iacute;veis, enquanto Das et al. (2014) documentaram taxas de reutiliza&ccedil;&atilde;o de 43-51%. O Verizon DBIR (2023) reporta que 81% dos data breaches corporativos envolvem credenciais fracas ou roubadas, e a Cloudflare (2024) estima que 41% do tr&aacute;fego de autentica&ccedil;&atilde;o global envolve credenciais vazadas. Esses n&uacute;meros, combinados com a demonstra&ccedil;&atilde;o de que um &uacute;nico algoritmo pode adivinhar mais da metade das senhas de uma popula&ccedil;&atilde;o real em menos de 2 segundos utilizando apenas hardware commodity (28 MB de pico de mem&oacute;ria), constituem um argumento emp&iacute;rico contra a depend&ecirc;ncia de senhas humanas como fator prim&aacute;rio de autentica&ccedil;&atilde;o.</p>
+
+<p>A defesa eficaz contra a classe de vulnerabilidade que o CogPIE explora requer a remo&ccedil;&atilde;o do ser humano do processo de gera&ccedil;&atilde;o de credenciais. Gerenciadores de senhas com gera&ccedil;&atilde;o criptograficamente aleat&oacute;ria (CSPRNG) produzem credenciais que n&atilde;o cont&ecirc;m padr&otilde;es cognitivos model&aacute;veis. Vaults corporativos com rota&ccedil;&atilde;o autom&aacute;tica (HashiCorp Vault, CyberArk, AWS Secrets Manager) eliminam simultaneamente os viéses de persist&ecirc;ncia temporal. FIDO2/WebAuthn com passkeys sincronizadas (AAL2, NIST SP 800-63B rev. 4) ou vinculadas a hardware (AAL3) representa o estado da arte ao remover senhas inteiramente da cadeia de autentica&ccedil;&atilde;o. A verifica&ccedil;&atilde;o contra bases de vazamentos (HIBP API com k-anonimato, conforme NIST SP 800-63B) oferece uma camada de detec&ccedil;&atilde;o complementar para organiza&ccedil;&otilde;es em transi&ccedil;&atilde;o.</p>
+
+<p>A contribui&ccedil;&atilde;o central deste trabalho &eacute; tripla: primeiro, a demonstra&ccedil;&atilde;o emp&iacute;rica de que vi&eacute;ses cognitivos s&atilde;o explor&aacute;veis de forma sistem&aacute;tica, com cobertura superior a 50% em credenciais reais; segundo, a arquitetura de pipeline de cinco camadas que torna essa explora&ccedil;&atilde;o interpret&aacute;vel (cada camada &eacute; audit&aacute;vel individualmente, conforme demonstrado pela an&aacute;lise de abla&ccedil;&atilde;o); e terceiro, a integra&ccedil;&atilde;o como m&oacute;dulo de um framework real (<a href="https://github.com/mrhenrike/WordlistXPL-Forge" target="_blank">WLF</a>), validando a aplicabilidade pr&aacute;tica em auditorias e engajamentos de seguran&ccedil;a. A previsibilidade das senhas humanas n&atilde;o &eacute; uma falha corrig&iacute;vel por pol&iacute;ticas mais rigorosas de composi&ccedil;&atilde;o: &eacute; uma propriedade intr&iacute;nseca da arquitetura cognitiva humana, enraizada nos limites da mem&oacute;ria de trabalho (Miller, 1956; Baddeley, 1986) e nas estrat&eacute;gias de redu&ccedil;&atilde;o de carga cognitiva (Sweller, 1988). Reconhecer essa realidade &eacute; o primeiro passo para construir sistemas de autentica&ccedil;&atilde;o que n&atilde;o dependam de uma capacidade que a esp&eacute;cie humana comprovadamente n&atilde;o possui: gerar e memorizar segredos verdadeiramente aleat&oacute;rios.</p>
+
+<div class="key-finding">
+  <div class="label">S&iacute;ntese dos Resultados</div>
+  <strong>60,9%</strong> (sint&eacute;tico) &rarr; <strong>89,7%</strong> (personas) &rarr; <strong>51,38%</strong> (13.487 leaks reais) &rarr; <strong>75,95%</strong> Hit@1000 (GPU 1M). WLF transformado: de 39,97% para 89,7% (+124,4%). 541 hits exclusivos. CUPP original: 0% em uso program&aacute;tico. Execu&ccedil;&atilde;o: &lt;2s, 28 MB, hardware commodity. A &uacute;nica defesa comprovada: remo&ccedil;&atilde;o do humano da gera&ccedil;&atilde;o de credenciais via CSPRNG, vaults com rota&ccedil;&atilde;o autom&aacute;tica e passkeys FIDO2/WebAuthn.
+</div>
+
+<hr>
+
+<!-- ============================================================== -->
+<!-- REFER&Ecirc;NCIAS -->
+<!-- ============================================================== -->
+<h2 id="refs">Refer&ecirc;ncias</h2>
+<ol class="refs">
+  <li>Abdrabou, Y., et al. (2021). &ldquo;Cognitive Load and Password Strength: A Pupillometry Study.&rdquo; CHI 2021. DOI: 10.1145/3411764.3445534.</li>
+  <li>Adams, A. and Sasse, M. A. (1999). &ldquo;Users Are Not the Enemy.&rdquo; CACM, 42(12), pp. 40-46.</li>
+  <li>Baddeley, A. D. (1986). Working Memory. Oxford University Press.</li>
+  <li>Bitwarden (2023). &ldquo;World Password Day Survey.&rdquo; Bitwarden Blog.</li>
+  <li>Bonneau, J. (2012). &ldquo;The Science of Guessing: Analyzing an Anonymized Corpus of 70 Million Passwords.&rdquo; IEEE S&amp;P. DOI: 10.1109/SP.2012.49.</li>
+  <li>Bonneau, J. (2012). &ldquo;Statistical Metrics for Individual Password Strength.&rdquo; Security Protocols Workshop, LNCS 7622.</li>
+  <li>Castelluccia, C. and D&uuml;rmuth, M. (2012). &ldquo;Adaptive Password-Strength Meters from Markov Models.&rdquo; NDSS.</li>
+  <li>Cloudflare (2024). &ldquo;Leaked Credentials in Authentication Traffic.&rdquo; Cloudflare Radar Annual Report.</li>
+  <li>Das, A., et al. (2014). &ldquo;The Tangled Web of Password Reuse.&rdquo; NDSS. DOI: 10.14722/ndss.2014.23357.</li>
+  <li>Dell'Amico, M. and Filippone, M. (2015). &ldquo;Monte Carlo Strength Evaluation: Fast and Reliable Password Checking.&rdquo; ACM CCS.</li>
+  <li>D&uuml;rmuth, M., et al. (2015). &ldquo;OMEN: Faster Password Guessing Using an Ordered Markov Enumerator.&rdquo; ESSoS, LNCS 8978. Reposit&oacute;rio: <a href="https://github.com/RUB-SysSec/OMEN" target="_blank">github.com/RUB-SysSec/OMEN</a>.</li>
+  <li>Flor&ecirc;ncio, D. and Herley, C. (2007). &ldquo;A Large-Scale Study of Web Password Habits.&rdquo; WWW 2007.</li>
+  <li>Forget, A., et al. (2008). &ldquo;Improving Text Passwords Through Persuasion.&rdquo; SOUPS 2008.</li>
+  <li>Golla, M. and D&uuml;rmuth, M. (2018). &ldquo;On the Accuracy of Password Strength Meters.&rdquo; ACM CCS. DOI: 10.1145/3243734.3243769.</li>
+  <li>Google/Harris Poll (2019). &ldquo;Online Security Survey.&rdquo; Google Blog.</li>
+  <li>Hitaj, B., et al. (2019). &ldquo;PassGAN: A Deep Learning Approach for Password Guessing.&rdquo; ACNS. arXiv:1709.00440. Reposit&oacute;rio: <a href="https://github.com/brannondorsey/PassGAN" target="_blank">github.com/brannondorsey/PassGAN</a>.</li>
+  <li>IBM (2023). &ldquo;Cost of a Data Breach Report 2023.&rdquo; IBM Security / Ponemon Institute.</li>
+  <li>Imperva (2010). &ldquo;Consumer Password Worst Practices.&rdquo; ADC Report.</li>
+  <li>Katz, S. M. (1987). &ldquo;Estimation of Probabilities from Sparse Data for the Language Model Component of a Speech Recognizer.&rdquo; IEEE TASSP, 35(3).</li>
+  <li>Kelley, P. G., et al. (2012). &ldquo;Guess Again (and Again and Again): Measuring Password Strength by Simulating Password-Cracking Algorithms.&rdquo; IEEE S&amp;P.</li>
+  <li>Komanduri, S., et al. (2011). &ldquo;Of Passwords and People: Measuring the Effect of Password-Composition Policies.&rdquo; CHI 2011. DOI: 10.1145/1978942.1979321.</li>
+  <li>Li, Y., Wang, H., and Sun, K. (2017). &ldquo;Personal Information in Passwords and Its Security Implications.&rdquo; IEEE TIFS, 12(10).</li>
+  <li>Li, Z., et al. (2019). &ldquo;Large-Scale Empirical Study of Chinese Web Passwords.&rdquo; USENIX Security.</li>
+  <li>Ma, J., et al. (2014). &ldquo;A Study of Probabilistic Password Models.&rdquo; IEEE S&amp;P.</li>
+  <li>Mazurek, M. L., et al. (2013). &ldquo;Measuring Password Guessability for an Entire University.&rdquo; ACM CCS. DOI: 10.1145/2508859.2516726.</li>
+  <li>Mebus, M. (2010). &ldquo;CUPP: Common User Passwords Profiler.&rdquo; Reposit&oacute;rio: <a href="https://github.com/Mebus/cupp" target="_blank">github.com/Mebus/cupp</a>.</li>
+  <li>Melicher, W., et al. (2016). &ldquo;Fast, Lean, and Accurate: Modeling Password Guessability Using Neural Networks.&rdquo; USENIX Security.</li>
+  <li>Miller, G. A. (1956). &ldquo;The Magical Number Seven, Plus or Minus Two.&rdquo; Psychological Review, 63(2), pp. 81-97.</li>
+  <li>Narayanan, A. and Shmatikov, V. (2005). &ldquo;Fast Dictionary Attacks on Passwords Using Time-Space Tradeoff.&rdquo; ACM CCS.</li>
+  <li>NIST (2017, rev. 2024). &ldquo;Digital Identity Guidelines: Authentication and Lifecycle Management.&rdquo; SP 800-63B.</li>
+  <li>Oesch, S. and Ruoti, S. (2020). &ldquo;That Was Then, This Is Now: A Security Evaluation of Password Generation, Storage, and Autofill in Browser-Based Password Managers.&rdquo; USENIX Security.</li>
+  <li>Pal, B., et al. (2019). &ldquo;Beyond Credential Stuffing: Password Similarity Models Using Neural Networks.&rdquo; IEEE S&amp;P. DOI: 10.1109/SP.2019.00039.</li>
+  <li>Pasquini, D., et al. (2021). &ldquo;Improving Password Guessing via Representation Learning.&rdquo; IEEE S&amp;P.</li>
+  <li>Rando, J., et al. (2023). &ldquo;PassGPT: Password Modeling and (Guided) Generation with Large Language Models.&rdquo; ESORICS. arXiv:2306.01545.</li>
+  <li>Shay, R., et al. (2010). &ldquo;Encountering Stronger Password Requirements: User Attitudes and Behaviors.&rdquo; SOUPS 2010.</li>
+  <li>Sweller, J. (1988). &ldquo;Cognitive Load During Problem Solving: Effects on Learning.&rdquo; Cognitive Science, 12(2), pp. 257-285.</li>
+  <li>Ur, B., et al. (2015). &ldquo;Measuring Real-World Accuracies and Biases in Modeling Password Guessability.&rdquo; USENIX Security.</li>
+  <li>Ur, B., et al. (2015). &ldquo;&lsquo;I Added &lsquo;!&rsquo; at the End to Make It Secure&rsquo;: Observing Password Creation in the Lab.&rdquo; SOUPS 2015.</li>
+  <li>Ur, B., et al. (2016). &ldquo;Do Users&rsquo; Perceptions of Password Security Match Reality?&rdquo; CHI 2016. DOI: 10.1145/2858036.2858546.</li>
+  <li>Veras, R., et al. (2014). &ldquo;On the Semantic Patterns of Passwords and Their Security Impact.&rdquo; NDSS.</li>
+  <li>Verizon (2023). &ldquo;Data Breach Investigations Report (DBIR).&rdquo; 16th Edition.</li>
+  <li>Wang, D. and Jian, G. (2014). &ldquo;Zipf's Law in Passwords.&rdquo; IACR ePrint 2014/631.</li>
+  <li>Wang, D., et al. (2016). &ldquo;Targeted Online Password Guessing: An Underestimated Threat.&rdquo; ACM CCS.</li>
+  <li>Wang, D., et al. (2016). &ldquo;The Next Domino to Fall: Empirical Analysis of User Passwords across Online Services.&rdquo; ACM CCS.</li>
+  <li>Wash, R., et al. (2016). &ldquo;Understanding Password Choices: How Frequently Selected Passwords Are Combined and Modified.&rdquo; SOUPS 2016.</li>
+  <li>Weir, M., et al. (2009). &ldquo;Password Cracking Using Probabilistic Context-Free Grammars.&rdquo; IEEE S&amp;P.</li>
+  <li>Wheeler, D. L. (2016). &ldquo;zxcvbn: Low-Budget Password Strength Estimation.&rdquo; USENIX Security. Reposit&oacute;rio: <a href="https://github.com/dropbox/zxcvbn" target="_blank">github.com/dropbox/zxcvbn</a>.</li>
+  <li>Xie, X. (2020). &ldquo;Modified TarGuess-I: Adding Keyboard Patterns for Password Guessing.&rdquo; Master's Thesis.</li>
+  <li>Survey (2026). &ldquo;Cognitive Biases in Password Security: A Survey-Based Analysis.&rdquo; arXiv:2607.19586.</li>
+  <li>AI Password Study (2026). &ldquo;AI vs. User-Generated Passwords: Cognitive Bias Patterns.&rdquo; arXiv:2604.19410.</li>
+  <li>MDPI (2023). &ldquo;Systematic Review of Password Guessing Methods: Approaches, Challenges and Future Directions.&rdquo; MDPI Entropy.</li>
+  <li>Yan, J., et al. (2004). &ldquo;Password Memorability and Security: Empirical Results.&rdquo; IEEE S&amp;P, 2(5).</li>
+</ol>
+
+<hr>
+
+<!-- ============================================================== -->
+<!-- AP&Ecirc;NDICES -->
+<!-- ============================================================== -->
+
+<p class="apl" id="ap-a">Ap&ecirc;ndice A</p>
+<h2>Schema do Perfil</h2>
+<pre><code>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "names": {"type": "array", "items": {"type": "string"}},
+    "dates": {"type": "array", "items": {"type": "string"}},
+    "keywords": {"type": "array", "items": {"type": "string"}},
+    "pets": {"type": "array", "items": {"type": "string"}},
+    "companies": {"type": "array", "items": {"type": "string"}},
+    "phones": {"type": "array", "items": {"type": "string"}},
+    "emails": {"type": "array", "items": {"type": "string"}},
+    "old_passwords": {"type": "array", "items": {"type": "string"}},
+    "numbers": {"type": "array", "items": {"type": "string"}}
+  }
+}</code></pre>
+
+<p class="apl" id="ap-b">Ap&ecirc;ndice B</p>
+<h2>Metodologia Consolidada</h2>
+<ol>
+  <li>5 perfis sint&eacute;ticos com padr&otilde;es brasileiros (87 senhas ground-truth).</li>
+  <li>10 personas WLF (P01_minimal a P10_complete) com complexidade crescente de PII dispon&iacute;vel.</li>
+  <li>13.487 credenciais reais de compila&ccedil;&otilde;es p&uacute;blicas (SecLists, IntelX), com 73,3% de dom&iacute;nios globais.</li>
+  <li>Escala GPU: corpus 1M em NVIDIA RTX 4060 com 500 e 2.000 alvos.</li>
+  <li>10 ferramentas externas avaliadas: <a href="https://github.com/Mebus/cupp" target="_blank">CUPP original</a>, CUPP-WLF, <a href="https://github.com/R3nt0n/bopscrk" target="_blank">BopScrk</a>, <a href="https://github.com/D4Vinci/elpscrk" target="_blank">ElpScrk</a>, <a href="https://github.com/t3l3machus/psudohash" target="_blank">PsudoHash</a>, <a href="https://github.com/edoardottt/longtongue" target="_blank">LongTongue</a>, <a href="https://github.com/LandGrey/pydictor" target="_blank">Pydictor SEDB</a>, PassPwn, CrackSmith (interno WLF) e WLF combinado.</li>
+  <li>Hit rate = |gerados &cap; ground_truth| / |ground_truth|. CS = case-sensitive; CI = case-insensitive.</li>
+  <li>M&eacute;tricas: CS, CI, hits exclusivos, rank mediano, MRR, hit@K (K &isin; {10, 100, 1000}).</li>
+  <li>Abla&ccedil;&atilde;o: cada camada desabilitada individualmente para medir contribui&ccedil;&atilde;o marginal.</li>
+  <li>Compara&ccedil;&atilde;o pr&eacute;/p&oacute;s CogPIE no WLF: mesmas personas e corpus, antes e depois da integra&ccedil;&atilde;o.</li>
+</ol>
+
+<p class="apl" id="ap-c">Ap&ecirc;ndice C</p>
+<h2>Resumo de Vi&eacute;ses Cognitivos</h2>
+<div class="ox">
+<table>
+  <thead><tr><th>Vi&eacute;s</th><th>Efeito</th><th>Preval&ecirc;ncia</th><th>Camada</th><th>Refer&ecirc;ncia</th></tr></thead>
+  <tbody>
+    <tr><td>Ancoragem</td><td>Palavra-base reconhec&iacute;vel</td><td>&gt;90%</td><td>L1, L2</td><td>Abdrabou 2021</td></tr>
+    <tr><td>Posi&ccedil;&atilde;o Serial</td><td>Modifica&ccedil;&otilde;es no in&iacute;cio/fim</td><td>&gt;85%</td><td>L2</td><td>Li 2017</td></tr>
+    <tr><td>Familiaridade</td><td>Tokens pessoais significativos</td><td>&gt;70%</td><td>L1</td><td>Wang 2016</td></tr>
+    <tr><td>Esfor&ccedil;o M&iacute;nimo</td><td>Menor altera&ccedil;&atilde;o poss&iacute;vel</td><td>&gt;60%</td><td>L2, L5</td><td>Ur 2015</td></tr>
+    <tr><td>Status Quo</td><td>Reutiliza&ccedil;&atilde;o com pequenas modifica&ccedil;&otilde;es</td><td>~76%</td><td>L1</td><td>arXiv:2607.19586</td></tr>
+    <tr><td>Desconto Hiperb&oacute;lico</td><td>Memorabilidade &gt; seguran&ccedil;a</td><td>~76%</td><td>Todas</td><td>arXiv:2607.19586</td></tr>
+    <tr><td>Disponibilidade</td><td>Informa&ccedil;&atilde;o recente/saliente</td><td>~40%</td><td>L1</td><td>Veras 2014</td></tr>
+    <tr><td>Superestima&ccedil;&atilde;o de For&ccedil;a</td><td>Usu&aacute;rio julga senha mais forte do que &eacute;</td><td>~65%</td><td>L4</td><td>Ur 2016</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="fn">Esta pesquisa foi conduzida para testes de seguran&ccedil;a autorizados e prop&oacute;sitos acad&ecirc;micos. Benchmarks sint&eacute;ticos utilizaram dados exclusivamente sint&eacute;ticos. Valida&ccedil;&atilde;o com credenciais reais empregou compila&ccedil;&otilde;es p&uacute;blicas (SecLists, IntelX) com m&eacute;tricas agregadas, conforme protocolo &eacute;tico de Das et al. (2014). Os autores defendem gerenciadores de senhas, gera&ccedil;&atilde;o criptograficamente aleat&oacute;ria e autentica&ccedil;&atilde;o sem senha como defesas prim&aacute;rias.</p>
+
+</main>
+</div>
+</body>
+</html>
